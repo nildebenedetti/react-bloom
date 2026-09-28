@@ -6,8 +6,8 @@ function useTheme() {
 
     if (context === null) {
         throw new Error(
-            'useTheme: ThemeProvider non trovato a monte del componente. ' +
-            'Verifica di aver avvolto l\'app con <ThemeProvider> in App.jsx.'
+            'useTheme: ThemeProvider not found above this component. ' +
+            'Make sure the app is wrapped in <ThemeProvider> in App.jsx.'
         );
     }
 

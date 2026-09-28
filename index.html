@@ -1,15 +1,39 @@
 <!doctype html>
-<html lang="en">
+<!--
+  data-bs-theme="light" is only a safe default: the inline script below replaces
+  it before the first paint. Keep the fallback in sync with THEME_STORAGE_KEY in
+  src/contexts/ThemeContext.jsx.
+-->
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      Runs synchronously, before the stylesheet is applied and before React
+      mounts, so the persisted (or OS) theme is already on <html> when the page
+      is first painted. Without this the browser would paint one frame of the
+      default light theme on every reload of the dark theme.
+    -->
+    <script>
+      (function () {
+        try {
+          var key = 'bloom.theme';
+          var stored = localStorage.getItem(key);
+          var theme = (stored === 'light' || stored === 'dark')
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-bs-theme', theme);
+        } catch (e) {
+          /* Private mode / storage disabled: keep the light default. */
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>react-props</title>
-    <!--- Google Fonts -->
+    <title>Bloom</title>
+    <!-- Google Fonts: Inter (UI) + JetBrains Mono (code) in a single request -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
   </head>
   <body>

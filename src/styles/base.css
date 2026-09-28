@@ -1,0 +1,38 @@
+/* =============================================================================
+ * BLOOM · BASE LAYER
+ * -----------------------------------------------------------------------------
+ * Theme-independent element defaults: the page canvas, the fixed-navbar offset,
+ * the global focus fallback and the theme cross-fade. Imported second by
+ * ../index.css — after tokens (so variables exist) and before components (so
+ * component rules, with equal or higher specificity, are free to override).
+ *
+ * Full write-up: study/dual-themes-in-react.md
+ * ========================================================================== */
+
+/* Painted on <html>, not only <body>, so overscroll and the area behind a short
+   page never flash white while dark is active. */
+html {
+  background-color: var(--bs-body-bg);
+}
+
+body {
+  font-optical-sizing: auto;  /* Inter variable axis */
+  padding-top: var(--bloom-header-height);
+}
+
+/* Fallback ring for anything that defines none. Bootstrap resets `outline: 0` on
+   its own controls and draws a box-shadow ring instead, so no double ring here. */
+:focus-visible {
+  outline: 2px solid var(--bloom-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Smooth theme switching. :where() keeps specificity at 0 so component rules
+   in components.css, which declare their own `transition`, always win. */
+:where(html, body, .navbar, .card, .dropdown-menu, .modal-content, .glass-bar, .glass-card, .surface-card) {
+  transition:
+    background-color var(--bloom-dur) var(--bloom-ease),
+    color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease);
+}

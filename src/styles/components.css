@@ -1,0 +1,288 @@
+/* =============================================================================
+ * BLOOM · COMPONENTS & UTILITIES
+ * -----------------------------------------------------------------------------
+ * LAYER 3. Consumes tokens only — never a raw hex value, never a theme
+ * condition. Because every colour here is a custom property, one rule serves
+ * both themes and a component is written exactly once.
+ *
+ * Imported after ./theme/tokens.css by ../index.css.
+ *
+ * Full write-up: study/dual-themes-in-react.md
+ * ========================================================================== */
+
+
+/* Bootstrap hardcodes its button palette per component — `.btn-primary` does
+   NOT read `--bs-primary` — so remap the variant through the same tokens. Stock
+   markup is then on-brand and theme-reactive with no wrapper component. */
+.btn-primary {
+  --bs-btn-color: var(--bloom-on-accent);
+  --bs-btn-bg: var(--bloom-accent);
+  --bs-btn-border-color: var(--bloom-accent);
+  --bs-btn-hover-color: var(--bloom-on-accent);
+  --bs-btn-hover-bg: var(--bloom-accent-hover);
+  --bs-btn-hover-border-color: var(--bloom-accent-hover);
+  --bs-btn-active-color: var(--bloom-on-accent);
+  --bs-btn-active-bg: var(--bloom-accent-active);
+  --bs-btn-active-border-color: var(--bloom-accent-active);
+  --bs-btn-disabled-color: var(--bloom-on-accent);
+  --bs-btn-disabled-bg: var(--bloom-accent);
+  --bs-btn-disabled-border-color: var(--bloom-accent);
+  --bs-btn-focus-shadow-rgb: var(--bloom-accent-rgb);
+}
+
+/* Token-driven outline that reads on both the pale and the cobalt background.
+   Plain class selectors in Bootstrap, so equal specificity + later = we win. */
+.btn-outline-secondary {
+  --bs-btn-color: var(--bloom-title);
+  --bs-btn-border-color: var(--bloom-border);
+  --bs-btn-hover-color: var(--bloom-on-accent);
+  --bs-btn-hover-bg: var(--bloom-accent);
+  --bs-btn-hover-border-color: var(--bloom-accent);
+  --bs-btn-active-color: var(--bloom-on-accent);
+  --bs-btn-active-bg: var(--bloom-accent-active);
+  --bs-btn-active-border-color: var(--bloom-accent-active);
+  --bs-btn-active-shadow: none;
+  --bs-btn-disabled-color: var(--bloom-title);
+  --bs-btn-disabled-border-color: var(--bloom-border);
+  --bs-btn-focus-shadow-rgb: var(--bloom-accent-rgb);
+}
+
+/* Form controls hardcode their focus ring too */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--bloom-accent);
+  box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+/* --- Lightblue buttons -----------------------------------------------------
+ * One definition for both themes: every colour comes from the accent ramp, so
+ * the same markup renders sky-on-white or ice-on-cobalt.
+ * ------------------------------------------------------------------------- */
+
+.btn-lightblue,
+.btn-lightblue-sm,
+.btn-lightblue-outline,
+.btn-lightblue-outline-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition:
+    background-color var(--bloom-dur) var(--bloom-ease),
+    color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease),
+    transform var(--bloom-dur-fast) var(--bloom-ease);
+  box-shadow: var(--bloom-shadow-sm);
+}
+
+/* solid */
+.btn-lightblue,
+.btn-lightblue-sm {
+  color: var(--bloom-on-accent);
+  background-color: var(--bloom-accent);
+  border: 1px solid var(--bloom-accent);
+}
+
+/* outline: quiet secondary actions, same accent */
+.btn-lightblue-outline,
+.btn-lightblue-outline-sm {
+  color: var(--bloom-accent);
+  background-color: transparent;
+  border: 1px solid var(--bloom-accent);
+  box-shadow: none;
+}
+
+/* sizes */
+.btn-lightblue,
+.btn-lightblue-outline {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.95rem;
+  border-radius: var(--bloom-radius);
+}
+
+.btn-lightblue-sm,
+.btn-lightblue-outline-sm {
+  padding: 0.3rem 0.55rem;
+  font-size: 0.825rem;
+  border-radius: var(--bloom-radius-sm);
+}
+
+/* hover: one step darker, subtle lift, accent glow */
+.btn-lightblue:hover,
+.btn-lightblue-sm:hover,
+.btn-lightblue-outline:hover,
+.btn-lightblue-outline-sm:hover {
+  color: var(--bloom-on-accent);
+  background-color: var(--bloom-accent-hover);
+  border-color: var(--bloom-accent-hover);
+  box-shadow: var(--bloom-shadow-accent);
+  transform: translateY(-1px);
+}
+
+.btn-lightblue:active,
+.btn-lightblue-sm:active,
+.btn-lightblue-outline:active,
+.btn-lightblue-outline-sm:active {
+  background-color: var(--bloom-accent-active);
+  border-color: var(--bloom-accent-active);
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--bloom-shadow-sm);
+}
+
+/* :focus-visible keeps the ring off mouse clicks */
+.btn-lightblue:focus-visible,
+.btn-lightblue-sm:focus-visible,
+.btn-lightblue-outline:focus-visible,
+.btn-lightblue-outline-sm:focus-visible {
+  outline: 2px solid var(--bloom-focus-ring);
+  outline-offset: 2px;
+}
+
+.btn-lightblue:disabled,
+.btn-lightblue.disabled,
+.btn-lightblue-sm:disabled,
+.btn-lightblue-sm.disabled,
+.btn-lightblue-outline:disabled,
+.btn-lightblue-outline.disabled,
+.btn-lightblue-outline-sm:disabled,
+.btn-lightblue-outline-sm.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- Glass bars ------------------------------------------------------------
+ * Frosted translucent surface for the fixed navbar and footer. Works over ANY
+ * background: blur + tint carry the effect, the token decides milky vs metallic.
+ *
+ * !important is deliberate — it must beat `.navbar` / `.footer` backgrounds
+ * regardless of class order in the markup. It is the only one in the codebase.
+ * ------------------------------------------------------------------------- */
+
+.glass-bar {
+  background-color: var(--bloom-glass-bg) !important;
+  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+  backdrop-filter: blur(var(--bloom-glass-blur));
+  border: 1px solid var(--bloom-glass-border);
+  box-shadow: var(--bloom-shadow-sm);
+}
+
+/* No backdrop-filter: drop the blur and raise opacity so the surface stays
+ * readable rather than see-through. Overrides the TOKEN, so `.glass-bar` itself
+ * is unchanged — enhance the token, never restate the component. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --bloom-glass-bg: rgba(255, 255, 255, 0.9); }
+  html[data-bs-theme="dark"] { --bloom-glass-bg: rgba(15, 23, 42, 0.92); }
+}
+
+/* --- Cards ----------------------------------------------------------------- */
+
+.glass-card,
+.surface-card {
+  border: 1px solid var(--bloom-border);
+  border-radius: var(--bloom-radius-lg);
+  box-shadow: var(--bloom-shadow-sm);
+  transition:
+    background-color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease),
+    transform var(--bloom-dur-fast) var(--bloom-ease);
+}
+
+.glass-card {
+  background-color: var(--bloom-glass-bg);
+  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+  backdrop-filter: blur(var(--bloom-glass-blur));
+  border-color: var(--bloom-glass-border);
+}
+
+.surface-card {
+  background-color: var(--bloom-surface);
+}
+
+.surface-card:hover,
+.glass-card:hover {
+  box-shadow: var(--bloom-shadow-md);
+  transform: translateY(-2px);
+}
+
+/* --- Patterned backgrounds -------------------------------------------------
+ * NOTE: src/images/patterns/pattern-forget-me-not.svg is not in the repo yet, so
+ * this layer is currently a no-op.
+ * ------------------------------------------------------------------------- */
+
+.flowerized {
+  background-image: url('../images/patterns/pattern-forget-me-not.svg');
+  background-repeat: repeat;
+  background-size: 150px 150px;
+}
+
+/* Printed for a pale background: on cobalt it would glare, so dim + desaturate
+   rather than recolour. */
+html[data-bs-theme="dark"] .flowerized {
+  opacity: 0.28;
+  filter: grayscale(0.35);
+}
+
+/* --- Navbar / footer ------------------------------------------------------- */
+
+.navbar-logo {
+  height: 50px;
+}
+
+/* The frosted bar sits over content, so give the navbar its own text colours
+   instead of relying on Bootstrap's, which assume a solid background. */
+.navbar .nav-link {
+  color: var(--bloom-title);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--bloom-accent);
+}
+
+.navbar .nav-link.active {
+  color: var(--bloom-accent);
+  font-weight: 600;
+}
+
+.navbar .nav-link.active::after {
+  content: "";
+  display: block;
+  height: 2px;
+  margin-top: 2px;
+  border-radius: 2px;
+  background-color: var(--bloom-accent);
+}
+
+.footer {
+  color: var(--bloom-text-muted);
+}
+
+
+/* ============================================================================
+ * UTILITIES
+ * Token-driven, so they are safe in both themes.
+ * ========================================================================== */
+
+.title-color {
+  color: var(--bloom-title);
+}
+
+.bg-light-blue {
+  background-color: var(--bloom-accent-soft);
+}
+
+.text-muted-bloom {
+  color: var(--bloom-text-muted);
+}
+
+.text-justify {
+  text-align: justify;
+}

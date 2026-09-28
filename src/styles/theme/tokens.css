@@ -1,0 +1,201 @@
+/* =============================================================================
+ * BLOOM · THEME TOKENS
+ * -----------------------------------------------------------------------------
+ * Everything that DECIDES what a theme looks like. No selectors, no component
+ * rules — only custom property declarations. Imported first by ../index.css.
+ *
+ * THREE GROUPS:
+ *   1. GLOBAL TOKENS  :root                    theme-independent metrics
+ *   2a. LIGHT         :root, html[data-bs-theme="light"]
+ *   2b. DARK          html[data-bs-theme="dark"]
+ *
+ * Light and dark are deliberately kept in ONE file, adjacent. They are two
+ * parallel token sets describing the same roles; side by side, a token missing
+ * from one block is visible at a glance. Split into separate files, that same
+ * defect becomes invisible — and a missing dark-mode token is the most common
+ * bug in a dual-theme system. Separation of *concern* is not separation by
+ * *value*.
+ *
+ * WHY BOTH A BRIDGE AND SEMANTIC TOKENS:
+ * Bootstrap variables describe what Bootstrap does; ours describe what the
+ * product looks like. Keeping both means a component is written once:
+ * `.btn-lightblue` is a single rule coloured by `--bloom-accent`, which is soft
+ * sky in light mode and ice blue in dark mode. Zero duplicated rules, zero
+ * `if (dark)` logic in JS.
+ *
+ * Full write-up: study/dual-themes-in-react.md
+ * ========================================================================== */
+
+
+/* ============================================================================
+ * LAYER 1 · GLOBAL TOKENS
+ * Theme-independent: typography, shape, motion, layout. Shared by both themes.
+ * ========================================================================== */
+
+:root {
+  --bs-font-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --bs-font-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  --bs-body-font-weight: 500;
+
+  --bloom-radius-sm: 6px;   /* chips, small buttons, inputs */
+  --bloom-radius: 8px;      /* buttons, badges             */
+  --bloom-radius-lg: 16px;  /* cards, panels, modals       */
+
+  /* Two speeds: micro-interactions stay snappy, colour cross-fades can be slow */
+  --bloom-dur-fast: 120ms;
+  --bloom-dur: 220ms;
+  --bloom-ease: ease;
+
+  --bloom-header-height: 80px;  /* keeps <body> clear of the fixed navbar */
+}
+
+
+/* ============================================================================
+ * LAYER 2a · LIGHT PALETTE
+ * Bridge: the only Bootstrap roots we touch. Every component is computed from
+ * these, so the whole framework follows the palette for free.
+ *
+ * GOTCHA: many of these have an "-rgb" twin consumed as
+ * rgba(var(--x-rgb), <alpha>) — e.g. `.text-muted`. Override each twin WITH its
+ * colour, or translucent layers silently keep the stock light value.
+ * ========================================================================== */
+
+:root,
+html[data-bs-theme="light"] {
+  color-scheme: light;  /* native widgets + scrollbars */
+
+  /* page */
+  --bs-body-bg: #eef4f8;
+  --bs-body-bg-rgb: 238, 244, 248;
+  --bs-body-color: #1e293b;
+  --bs-body-color-rgb: 30, 41, 59;
+  --bs-emphasis-color: #0f172a;
+  --bs-emphasis-color-rgb: 15, 23, 42;
+
+  /* muted / de-emphasised text */
+  --bs-secondary-color: rgba(30, 41, 59, 0.72);
+  --bs-secondary-color-rgb: 30, 41, 59;
+  --bs-tertiary-color: rgba(30, 41, 59, 0.55);
+  --bs-tertiary-color-rgb: 30, 41, 59;
+
+  /* surfaces & borders */
+  --bs-secondary-bg: #dde7f0;
+  --bs-secondary-bg-rgb: 221, 231, 240;
+  --bs-tertiary-bg: #f8fafc;
+  --bs-tertiary-bg-rgb: 248, 250, 252;
+  --bs-border-color: #cfdceb;
+  --bs-border-color-translucent: rgba(30, 41, 59, 0.12);
+
+  /* brand */
+  --bs-primary: #85b6ff;
+  --bs-primary-rgb: 133, 182, 255;
+  --bs-link-color: #2f599e;
+  --bs-link-color-rgb: 47, 89, 158;
+  --bs-link-hover-color: #1f4a8f;
+  --bs-focus-ring-color: rgba(133, 182, 255, 0.45);
+
+  /* --- semantic tokens --- */
+
+  /* --bloom-on-accent is the label colour sitting ON the accent. It is navy, not
+     white: navy on #85b6ff = 8.6:1 (AAA), white on #85b6ff = 2.2:1 (fails AA). */
+  --bloom-accent: #85b6ff;
+  --bloom-accent-hover: #72a5f3;
+  --bloom-accent-active: #729fe8;
+  --bloom-accent-soft: #93c5fd;  /* PRD "soft sky": tints, chips, patterns */
+  --bloom-accent-rgb: 133, 182, 255;
+  --bloom-on-accent: #0f172a;
+
+  --bloom-title: #2f599e;
+  --bloom-text-muted: rgba(30, 41, 59, 0.68);
+
+  --bloom-surface: #f8fafc;
+  --bloom-surface-2: #ffffff;
+  --bloom-border: #cfdceb;
+
+  /* Glass: on a pale background the frosted layer is white */
+  --bloom-glass-bg: rgba(255, 255, 255, 0.5);
+  --bloom-glass-border: rgba(255, 255, 255, 0.28);
+  --bloom-glass-blur: 12px;
+
+  --bloom-shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.06);
+  --bloom-shadow-md: 0 4px 10px rgba(15, 23, 42, 0.1);
+  --bloom-shadow-accent: 0 4px 10px rgba(114, 165, 243, 0.35);
+
+  --bloom-focus-ring: var(--bloom-accent);
+}
+
+
+/* ============================================================================
+ * LAYER 2b · DARK PALETTE
+ * Prefixed with `html` so specificity (0,1,1) always beats the light block
+ * (0,1,0) — no reliance on source order.
+ * ========================================================================== */
+
+html[data-bs-theme="dark"] {
+  color-scheme: dark;
+
+  /* page */
+  --bs-body-bg: #1e293b;              /* cobalt */
+  --bs-body-bg-rgb: 30, 41, 59;
+  --bs-body-color: #e2e8f0;           /* silver */
+  --bs-body-color-rgb: 226, 232, 240;
+  --bs-emphasis-color: #f8fafc;
+  --bs-emphasis-color-rgb: 248, 250, 252;
+
+  /* muted / de-emphasised text */
+  --bs-secondary-color: rgba(226, 232, 240, 0.75);
+  --bs-secondary-color-rgb: 226, 232, 240;
+  --bs-tertiary-color: rgba(226, 232, 240, 0.5);
+  --bs-tertiary-color-rgb: 226, 232, 240;
+
+  /* surfaces & borders */
+  --bs-secondary-bg: #334155;
+  --bs-secondary-bg-rgb: 51, 65, 85;
+  --bs-tertiary-bg: #26354b;  /* one step above body: panels, wells, hovers */
+  --bs-tertiary-bg-rgb: 38, 53, 75;
+  --bs-border-color: #3a4a61;
+  --bs-border-color-translucent: rgba(226, 232, 240, 0.14);
+
+  /* brand */
+  --bs-primary: #93c5fd;
+  --bs-primary-rgb: 147, 197, 253;
+  --bs-link-color: #9ecbff;
+  --bs-link-color-rgb: 158, 203, 255;
+  --bs-link-hover-color: #c3ddff;
+  --bs-focus-ring-color: rgba(147, 197, 253, 0.4);
+
+  /* --- semantic tokens --- */
+
+  /* Same ice blue now carries a navy label, so the button pops against cobalt
+     instead of sinking into it. */
+  --bloom-accent: #93c5fd;
+  --bloom-accent-hover: #a9d2fe;
+  --bloom-accent-active: #7fb4f7;
+  --bloom-accent-soft: #476a9e;
+  --bloom-accent-rgb: 147, 197, 253;
+  --bloom-on-accent: #0f172a;
+
+  --bloom-title: #93c5fd;
+  --bloom-text-muted: rgba(226, 232, 240, 0.68);
+
+  /* lighter than the body, so cards read as raised */
+  --bloom-surface: #26354b;
+  --bloom-surface-2: #334155;
+  --bloom-border: #3a4a61;
+
+  /* Glass: the metal counterpart of the white frosted bar. The near-black
+     translucent layer keeps the cobalt page visible through the blur; the
+     silver-tinted border is what actually draws the edge in dark mode. */
+  --bloom-glass-bg: rgba(15, 23, 42, 0.55);
+  --bloom-glass-border: rgba(226, 232, 240, 0.16);
+  --bloom-glass-blur: 12px;
+
+  /* deeper than light, because light-mode shadows disappear on dark */
+  --bloom-shadow-sm: 0 2px 4px rgba(2, 6, 16, 0.4);
+  --bloom-shadow-md: 0 4px 12px rgba(2, 6, 16, 0.5);
+  --bloom-shadow-accent: 0 4px 12px rgba(147, 197, 253, 0.28);
+
+  --bloom-focus-ring: var(--bloom-accent);
+}

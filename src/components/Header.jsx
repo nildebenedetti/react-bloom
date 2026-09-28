@@ -81,7 +81,11 @@ export default function Header() {
                                     onClick={toggleTheme}
                                     aria-label="Cambia tema"
                                 >
-                                    {theme === 'light' ? '🌙' : '☀️'}
+                                    {theme === 'light' ? (
+                                        <i className="bi bi-moon-stars-fill"></i>
+                                    ) : (
+                                        <i className="bi bi-sun-fill"></i>
+                                    )}
                                 </button>
                             </li>
                         </ul>
