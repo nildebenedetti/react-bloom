@@ -1,60 +1,45 @@
 import { useState, useEffect } from "react";
+import { fetchData, ENDPOINTS } from "../utils/api.js";
+
 
 function HomePage() {
 
-  const API_URL = import.meta.env.VITE_API_URL;
   const [records, setRecords] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
+    
+    const loadRecords = async () => {
+        try {
 
-  const fetchData = async () => {
+          const response = await fetchData(ENDPOINTS.public.bloomingMeadow);
 
-    try {
-      
-      const response = await fetch(`${API_URL}/blooming-meadow`);
-      console.log('siamo nella prima promise');
+          setRecords(response.data)
 
-      if (!response.ok) {
+        } catch (error) {
 
-        throw new Error(`HTTP Error: ${response.status}`)
-      }
+            setErrorMsg(error.message);
 
-      const { data } = await response.json();
-      console.log('dati ricevuti', data);
-      
-
-      console.log('siamo nella seconda promise');
-
-      setRecords(data);
-      console.log(records);
-
-    } catch (error) {
-
-        setErrorMsg(error.message);
-
-        console.error("error while fetching records data", error);
+            console.error("error while fetching records data", error);
+        }
     }
 
-  }
-
-
-    fetchData();
-
-
-
+    loadRecords();
+    
   }, []);
 
   return <>
     <main>
-      <div className="container">
+
+      <div className="container-fluid py-5">
         <h1>The Blooming Meadow</h1>
         <h3>Celebrate our Community Bloom</h3>
       </div>
-      <div className="container cards container">
+      <div className="container cards-container">
+        {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
+        Apologies for the inconvenience. <br/> {errorMsg}</h5>}
         {records.map((record) => {
           return <div key={record.id}>
-            {console.log(record)}
             <h4>{record.attributes.title}</h4>
             <p>{record.attributes.description}</p>
           </div>
