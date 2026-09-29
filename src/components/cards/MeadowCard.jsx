@@ -1,9 +1,5 @@
 import { useMemo } from 'react';
-// Nota: l'import del CSS module è commentato perché MeadowCard.module.css è
-// vuoto (0 byte) e "styles" non veniva usato → rompeva `npm run lint` con
-// no-unused-vars. Riattiva `import styles from './MeadowCard.module.css'`
-// quando scriverai le regole della card nel CSS module.
-import './MeadowCard.module.css';
+import styles from './MeadowCard.module.css';
 
 // placeholders
 const PLACEHOLDER_IMAGES = [
@@ -27,27 +23,43 @@ function MeadowCard({ record }) {
     );
 
     return <>
-        <div className="container">
-            <div className="tier-badge badge">
-                {record.attributes.tier.name}
-            </div>
-            <div className="img-container">
-                <img
-                    src={imageSrc}
-                    alt={record.attributes.image_alt ?? record.attributes.title}
-                    className="img-fluid"
-                />
-            </div>
+        <div className={` ${styles.glassCard} card h-100 p-3`}>
+            {/* flex-grow-1 on .card-top, absorbing slack */}
+            <div className="card-top d-flex flex-column flex-grow-1">
 
-            <h3>{record.attributes.title}</h3>
-
-            <div className="emotions">
-                {record.attributes.emotions.map((emotion) => {
-                    return <div key={emotion.id} className="badge rounded-pill" style={{ backgroundColor: emotion.color }}>
-                        {emotion.name}
-                    </div>;
-                })}
+                <div className="d-flex justify-content-between">
+                    <h3>{record.attributes.title}</h3>
+                    <div className="tier-badge badge">
+                        {record.attributes.tier.name}
+                    </div>
+                </div>
+                <div className="img-container mt-auto">
+                    <img
+                        src={imageSrc}
+                        alt={record.attributes.image_alt ?? record.attributes.title}
+                        className={`${styles.cardImg} w-100 object-fit-cover`}
+                    />
+                </div>
             </div>
+            <div className="card-body d-flex flex-column">
+                <div className="emotions">
+                    {record.attributes.emotions.map((emotion) => {
+                        return <div key={emotion.id} className="badge rounded-pill" style={{ backgroundColor: emotion.color }}>
+                            {emotion.name}
+                        </div>;
+                    })}
+                </div>
+                <div className={`${styles.description}`}>
+                    {record.attributes.description}
+                </div>
+                <div className="btn-wrapper">
+                    <button type="button" className="btn-lightblue">
+                        Open
+                    </button>
+                </div>
+                
+            </div>
+            
         </div>
     </>
 }

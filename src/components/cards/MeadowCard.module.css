@@ -1,0 +1,29 @@
+/* Sovrascrive lo sfondo di Bootstrap con i tuoi token di tema */
+.glassCard {
+    background-color: var(--bloom-glass-bg) !important;
+    border: 1px solid var(--bloom-glass-border);
+    border-radius: var(--bloom-radius-lg);
+    box-shadow: var(--bloom-shadow-md);
+}
+
+/* Colori del testo dai tuoi token */
+.glassCard .card-title {
+    color: var(--bloom-title);
+}
+
+.glassCard .card-text {
+    color: var(--bloom-text-muted);
+}
+
+.description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-top: 8px;
+    font-family: var(--bs-font-monospace);
+}
+
+.cardImg {
+    height: 230px;
+}
