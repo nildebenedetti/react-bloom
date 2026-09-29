@@ -19,8 +19,8 @@
  * WHY BOTH A BRIDGE AND SEMANTIC TOKENS:
  * Bootstrap variables describe what Bootstrap does; ours describe what the
  * product looks like. Keeping both means a component is written once:
- * `.btn-lightblue` is a single rule coloured by `--bloom-accent`, which is soft
- * sky in light mode and ice blue in dark mode. Zero duplicated rules, zero
+ * `.btn-action` is a single rule coloured by `--bloom-action`, which is deep
+ * blue in light mode and ice blue in dark mode. Zero duplicated rules, zero
  * `if (dark)` logic in JS.
  *
  * Full write-up: study/dual-themes-in-react.md
@@ -108,6 +108,37 @@ html[data-bs-theme="light"] {
   --bloom-accent-rgb: 133, 182, 255;
   --bloom-on-accent: #0f172a;
 
+  /* --- ACTION RAMP --------------------------------------------------------
+   * Why a second ramp, when --bloom-accent already exists? Because a tint and a
+   * filled control have opposite requirements. The accent is a TINT on pale
+   * surfaces: it carries links, focus rings, icons and the navbar, where a soft
+   * blue is right and a dark one would shout. A filled control instead has to
+   * carry a LABEL, and pale sky only reaches 2.2:1 with white / 8.6:1 with navy —
+   * navy on pale reads as an unfinished placeholder, not as a button.
+   *
+   * So the action is a deeper step of the SAME blue family (the title blue's
+   * saturated sibling): white on #2f6fd0 = 4.9:1 (AA), and a saturated fill with
+   * a clean white label is the pairing that looks deliberate. The ramps flip
+   * independently — see the dark block, where the action goes back to ice. */
+  --bloom-action: #2f6fd0;
+  --bloom-action-hover: #2860b8;   /* white on it = 6.1:1 */
+  --bloom-action-active: #21519a;  /* white on it = 7.8:1 */
+  --bloom-action-rgb: 47, 111, 208;
+  --bloom-on-action: #ffffff;
+  /* White overlay across the top of the fill: the one cue that turns a flat
+     rectangle into a lit, pressed surface. */
+  --bloom-action-sheen: rgba(255, 255, 255, 0.22);
+
+  /* The QUIET action (outline). Its label, its edge and its surface all sit on
+     the card rather than on a fill, so none of them can borrow the fill's
+     contrast — measured against the glass card in this theme:
+       label  #2f599e → 6.5:1
+       edge   #5b8ed6 → 3.2:1 (WCAG 1.4.11, the boundary that identifies a
+              control; the pale accent managed only 2:1 here) */
+  --bloom-action-quiet: #2f599e;
+  --bloom-action-quiet-border: #5b8ed6;
+  --bloom-action-quiet-bg: rgba(47, 89, 158, 0.07);
+
   --bloom-title: #2f599e;
   --bloom-text-muted: rgba(30, 41, 59, 0.68);
 
@@ -178,6 +209,31 @@ html[data-bs-theme="dark"] {
   --bloom-accent-soft: #476a9e;
   --bloom-accent-rgb: 147, 197, 253;
   --bloom-on-accent: #0f172a;
+
+  /* --- ACTION RAMP --------------------------------------------------------
+   * The light theme's deep-blue fill is impossible here: on cobalt, #2f6fd0
+   * would sink into the page. So the action flips back to the ice accent, kept
+   * one step BRIGHTER than --bloom-accent on hover so the control still separates
+   * from the surface it sits on. Same tokens, same markup, opposite decision —
+   * which is the whole point of keeping the decision in the token block.
+   * Measured against the dark glass card:
+   *   navy on #93c5fd = 8.6:1 · label #93c5fd = 9.1:1 · edge #52789f = 3.6:1 */
+  --bloom-action: #93c5fd;
+  --bloom-action-hover: #a9d2fe;
+  --bloom-action-active: #7fb4f7;
+  --bloom-action-rgb: 147, 197, 253;
+  --bloom-on-action: #0f172a;
+  /* A white sheen reads as glare on an already-bright ice fill, so here it is
+     half the strength of the light theme's. */
+  --bloom-action-sheen: rgba(255, 255, 255, 0.12);
+
+  /* The quiet action: the label is the same ice the accents use (it must be —
+     anything dimmer stops separating from cobalt), and the edge is a desaturated
+     ice that clears 3:1 on every dark surface it can land on (4.9:1 on the glass
+     card, 3.7:1 on --bloom-surface) without glowing like a focus ring. */
+  --bloom-action-quiet: #93c5fd;
+  --bloom-action-quiet-border: #6690bc;
+  --bloom-action-quiet-bg: rgba(147, 197, 253, 0.08);
 
   --bloom-title: #93c5fd;
   --bloom-text-muted: rgba(226, 232, 240, 0.68);

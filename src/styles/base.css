@@ -13,6 +13,8 @@
    page never flash white while dark is active. */
 html {
   background-color: var(--bs-body-bg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 body {

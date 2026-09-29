@@ -12,39 +12,42 @@
 
 
 /* Bootstrap hardcodes its button palette per component — `.btn-primary` does
-   NOT read `--bs-primary` — so remap the variant through the same tokens. Stock
-   markup is then on-brand and theme-reactive with no wrapper component. */
+   NOT read `--bs-primary` — so remap the variant through the same action ramp
+   the custom buttons use. Stock markup is then on-brand, theme-reactive and
+   pixel-identical to `.btn-action` with no wrapper component. */
 .btn-primary {
-  --bs-btn-color: var(--bloom-on-accent);
-  --bs-btn-bg: var(--bloom-accent);
-  --bs-btn-border-color: var(--bloom-accent);
-  --bs-btn-hover-color: var(--bloom-on-accent);
-  --bs-btn-hover-bg: var(--bloom-accent-hover);
-  --bs-btn-hover-border-color: var(--bloom-accent-hover);
-  --bs-btn-active-color: var(--bloom-on-accent);
-  --bs-btn-active-bg: var(--bloom-accent-active);
-  --bs-btn-active-border-color: var(--bloom-accent-active);
-  --bs-btn-disabled-color: var(--bloom-on-accent);
-  --bs-btn-disabled-bg: var(--bloom-accent);
-  --bs-btn-disabled-border-color: var(--bloom-accent);
-  --bs-btn-focus-shadow-rgb: var(--bloom-accent-rgb);
+  --bs-btn-color: var(--bloom-on-action);
+  --bs-btn-bg: var(--bloom-action);
+  --bs-btn-border-color: var(--bloom-action);
+  --bs-btn-hover-color: var(--bloom-on-action);
+  --bs-btn-hover-bg: var(--bloom-action-hover);
+  --bs-btn-hover-border-color: var(--bloom-action-hover);
+  --bs-btn-active-color: var(--bloom-on-action);
+  --bs-btn-active-bg: var(--bloom-action-active);
+  --bs-btn-active-border-color: var(--bloom-action-active);
+  --bs-btn-disabled-color: var(--bloom-on-action);
+  --bs-btn-disabled-bg: var(--bloom-action);
+  --bs-btn-disabled-border-color: var(--bloom-action);
+  --bs-btn-focus-shadow-rgb: var(--bloom-action-rgb);
 }
 
-/* Token-driven outline that reads on both the pale and the cobalt background.
-   Plain class selectors in Bootstrap, so equal specificity + later = we win. */
+/* The Bootstrap outline maps to the same quiet-action tokens as
+   `.btn-action-outline`, for the same reason: a border in --bloom-border is a
+   container edge, not a control edge, and reads as disabled. Plain class
+   selectors in Bootstrap, so equal specificity + later = we win. */
 .btn-outline-secondary {
-  --bs-btn-color: var(--bloom-title);
-  --bs-btn-border-color: var(--bloom-border);
-  --bs-btn-hover-color: var(--bloom-on-accent);
-  --bs-btn-hover-bg: var(--bloom-accent);
-  --bs-btn-hover-border-color: var(--bloom-accent);
-  --bs-btn-active-color: var(--bloom-on-accent);
-  --bs-btn-active-bg: var(--bloom-accent-active);
-  --bs-btn-active-border-color: var(--bloom-accent-active);
+  --bs-btn-color: var(--bloom-action-quiet);
+  --bs-btn-border-color: var(--bloom-action-quiet-border);
+  --bs-btn-hover-color: var(--bloom-on-action);
+  --bs-btn-hover-bg: var(--bloom-action);
+  --bs-btn-hover-border-color: var(--bloom-action);
+  --bs-btn-active-color: var(--bloom-on-action);
+  --bs-btn-active-bg: var(--bloom-action-active);
+  --bs-btn-active-border-color: var(--bloom-action-active);
   --bs-btn-active-shadow: none;
-  --bs-btn-disabled-color: var(--bloom-title);
-  --bs-btn-disabled-border-color: var(--bloom-border);
-  --bs-btn-focus-shadow-rgb: var(--bloom-accent-rgb);
+  --bs-btn-disabled-color: var(--bloom-action-quiet);
+  --bs-btn-disabled-border-color: var(--bloom-action-quiet-border);
+  --bs-btn-focus-shadow-rgb: var(--bloom-action-rgb);
 }
 
 /* Form controls hardcode their focus ring too */
@@ -54,15 +57,24 @@
   box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
 }
 
-/* --- Lightblue buttons -----------------------------------------------------
- * One definition for both themes: every colour comes from the accent ramp, so
- * the same markup renders sky-on-white or ice-on-cobalt.
- * ------------------------------------------------------------------------- */
+/* --- Buttons ----------------------------------------------------------------
+ * Two roles, one ramp. Names are the ROLE the button plays, not the colour it
+ * happens to be — `lightblue` was wrong twice over: it described the palette
+ * (which changes per theme) rather than the intent, and it invited the two
+ * variants to share a colour that only suits one of them.
+ *
+ *   .btn-action          the primary action: filled, saturated, carries a label
+ *   .btn-action-outline  the quiet action: label + edge on the surface it sits on
+ *
+ * Both are painted by the --bloom-action* tokens, so the same markup renders
+ * deep-blue-on-ice-white or ice-on-cobalt, and neither rule knows a theme
+ * exists. Every colour below is a token; no hex value appears in this section.
+ * -------------------------------------------------------------------------- */
 
-.btn-lightblue,
-.btn-lightblue-sm,
-.btn-lightblue-outline,
-.btn-lightblue-outline-sm {
+.btn-action,
+.btn-action-sm,
+.btn-action-outline,
+.btn-action-outline-sm {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -80,78 +92,90 @@
   box-shadow: var(--bloom-shadow-sm);
 }
 
-/* solid */
-.btn-lightblue,
-.btn-lightblue-sm {
-  color: var(--bloom-on-accent);
-  background-color: var(--bloom-accent);
-  border: 1px solid var(--bloom-accent);
+/* filled — the sheen is a background-image, not a colour, so it survives the
+   hover/active recolours below without being restated on each of them. */
+.btn-action,
+.btn-action-sm {
+  color: var(--bloom-on-action);
+  background-color: var(--bloom-action);
+  background-image: linear-gradient(
+    180deg,
+    var(--bloom-action-sheen) 0%,
+    transparent 62%
+  );
+  border: 1px solid var(--bloom-action);
 }
 
-/* outline: quiet secondary actions, same accent */
-.btn-lightblue-outline,
-.btn-lightblue-outline-sm {
-  color: var(--bloom-accent);
-  background-color: transparent;
-  border: 1px solid var(--bloom-accent);
+/* outline — label and edge get their own tokens instead of inheriting the fill,
+   which is what used to leave it at 2:1 on the light card. The faint tint is the
+   surface the label and edge are measured against. */
+.btn-action-outline,
+.btn-action-outline-sm {
+  color: var(--bloom-action-quiet);
+  background-color: var(--bloom-action-quiet-bg);
+  border: 1px solid var(--bloom-action-quiet-border);
   box-shadow: none;
 }
 
 /* sizes */
-.btn-lightblue,
-.btn-lightblue-outline {
+.btn-action,
+.btn-action-outline {
   padding: 0.625rem 1.25rem;
   font-size: 0.95rem;
   border-radius: var(--bloom-radius);
 }
 
-.btn-lightblue-sm,
-.btn-lightblue-outline-sm {
+.btn-action-sm,
+.btn-action-outline-sm {
   padding: 0.3rem 0.55rem;
   font-size: 0.825rem;
   border-radius: var(--bloom-radius-sm);
 }
 
-/* hover: one step darker, subtle lift, accent glow */
-.btn-lightblue:hover,
-.btn-lightblue-sm:hover,
-.btn-lightblue-outline:hover,
-.btn-lightblue-outline-sm:hover {
-  color: var(--bloom-on-accent);
-  background-color: var(--bloom-accent-hover);
-  border-color: var(--bloom-accent-hover);
+/* hover — the outline becomes a filled action, which is what makes the quiet
+   variant read as the same control in a different weight rather than a link. */
+.btn-action:hover,
+.btn-action-sm:hover,
+.btn-action-outline:hover,
+.btn-action-outline-sm:hover {
+  color: var(--bloom-on-action);
+  background-color: var(--bloom-action-hover);
+  border-color: var(--bloom-action-hover);
   box-shadow: var(--bloom-shadow-accent);
   transform: translateY(-1px);
 }
 
-.btn-lightblue:active,
-.btn-lightblue-sm:active,
-.btn-lightblue-outline:active,
-.btn-lightblue-outline-sm:active {
-  background-color: var(--bloom-accent-active);
-  border-color: var(--bloom-accent-active);
+.btn-action:active,
+.btn-action-sm:active,
+.btn-action-outline:active,
+.btn-action-outline-sm:active {
+  background-color: var(--bloom-action-active);
+  border-color: var(--bloom-action-active);
   transform: translateY(0) scale(0.98);
   box-shadow: var(--bloom-shadow-sm);
 }
 
-/* :focus-visible keeps the ring off mouse clicks */
-.btn-lightblue:focus-visible,
-.btn-lightblue-sm:focus-visible,
-.btn-lightblue-outline:focus-visible,
-.btn-lightblue-outline-sm:focus-visible {
-  outline: 2px solid var(--bloom-focus-ring);
+/* :focus-visible keeps the ring off mouse clicks. It deliberately reuses the
+   ACTION colour rather than --bloom-focus-ring: the pale accent ring managed
+   2:1 against the light card, i.e. invisible, and outline-offset puts this ring
+   on the card instead of against its own fill. */
+.btn-action:focus-visible,
+.btn-action-sm:focus-visible,
+.btn-action-outline:focus-visible,
+.btn-action-outline-sm:focus-visible {
+  outline: 2px solid var(--bloom-action);
   outline-offset: 2px;
 }
 
-.btn-lightblue:disabled,
-.btn-lightblue.disabled,
-.btn-lightblue-sm:disabled,
-.btn-lightblue-sm.disabled,
-.btn-lightblue-outline:disabled,
-.btn-lightblue-outline.disabled,
-.btn-lightblue-outline-sm:disabled,
-.btn-lightblue-outline-sm.disabled {
-  opacity: 0.6;
+.btn-action:disabled,
+.btn-action.disabled,
+.btn-action-sm:disabled,
+.btn-action-sm.disabled,
+.btn-action-outline:disabled,
+.btn-action-outline.disabled,
+.btn-action-outline-sm:disabled,
+.btn-action-outline-sm.disabled {
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
