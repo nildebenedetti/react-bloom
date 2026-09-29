@@ -90,6 +90,10 @@ in the source. The base URL of the API is the only one required for now:
 VITE_API_URL=http://localhost:8000/api
 ```
 
+That one variable also locates uploaded images, which are **not** served under `/api` but
+from the site root under `/storage` — always build media URLs with `mediaUrl()` rather
+than by hand. See [`docs/notes/api-media-urls.md`](./docs/notes/api-media-urls.md).
+
 ### Working against the API
 
 Run the two processes side by side:
@@ -182,3 +186,4 @@ src/
 | [`docs/notes/PRD.md`](./docs/notes/PRD.md) | what the product is and why, plus the full functional spec |
 | [`docs/notes/project-planning.md`](./docs/notes/project-planning.md) | how it gets built: phases, tasks, API contract |
 | [`docs/notes/laravel-bloom-readme.md`](./docs/notes/laravel-bloom-readme.md) | the backend: data model, endpoints, setup |
+| [`docs/notes/api-media-urls.md`](./docs/notes/api-media-urls.md) | why an `image_path` needs `/storage` and the API **origin**, and the `mediaUrl()` contract |
