@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
-
+import MeadowCard from "../components/cards/MeadowCard.jsx";
 
 function HomePage() {
 
@@ -40,8 +40,7 @@ function HomePage() {
         Apologies for the inconvenience. <br/> {errorMsg}</h5>}
         {records.map((record) => {
           return <div key={record.id}>
-            <h4>{record.attributes.title}</h4>
-            <p>{record.attributes.description}</p>
+              <MeadowCard record={record} />
           </div>
         })}
       </div>
