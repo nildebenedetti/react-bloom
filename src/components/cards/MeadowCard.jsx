@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import styles from './MeadowCard.module.css';
+import { mediaUrl } from '../../utils/api.js';
+import { LeafFill, AwardFill, TrophyFill, Stars, Heart } from 'react-bootstrap-icons';
 
 // placeholders
 const PLACEHOLDER_IMAGES = [
@@ -9,17 +11,34 @@ const PLACEHOLDER_IMAGES = [
     '/images/placeholders/placeholder-4.png',
 ];
 
+// Tier iconography. `size` is passed explicitly because the SVG no longer sizes
+// itself from an inherited font-size the way a `bi` glyph did — 28px is what
+// `fs-3` used to give it.
+const tiers = {
+    'small win' : <LeafFill size={20} />,
+    'solid step' : <AwardFill size={20} />,
+    'major milestone' : <TrophyFill size={20} />,
+    'epic breakthrough' : <Stars size={20} />
+};
+
 // picker function
 const pickPlaceholder = () =>
     PLACEHOLDER_IMAGES[Math.floor(Math.random() * PLACEHOLDER_IMAGES.length)];
 
 function MeadowCard({ record }) {
 
-    // Memoizes the image URL or fallback placeholder to ensure visual stability across re-renders.
-    // Prevents re-running `pickPlaceholder()` unless `record.attributes.image_path` changes or a new component mounts.
+    /* `image_path` is not a URL: the API returns a path on Laravel's public disk
+     * ("records/oamQx0K….jpg"), so it only resolves once the storage base is
+     * prepended — see `mediaUrl`. That helper returns null when the record simply
+     * has no image, which is the cue to keep the placeholder.
+     *
+     * Memoized, as before, and that matters more now than it did: the fallback is
+     * random, so without this the placeholder would reshuffle the card on every
+     * re-render of the parent grid. It only re-runs when `image_path` changes or
+     * the card mounts. */
     const imageSrc = useMemo(
-        () => record.attributes.image_path || pickPlaceholder(), // attribute this value
-        [record.attributes.image_path], //dependencies array: do it everytime this changes (as useEffect)
+        () => mediaUrl(record.attributes.image_path) ?? pickPlaceholder(),
+        [record.attributes.image_path],
     );
 
     return <>
@@ -27,21 +46,30 @@ function MeadowCard({ record }) {
             {/* flex-grow-1 on .card-top, absorbing slack */}
             <div className="card-top d-flex flex-column flex-grow-1">
 
-                <div className="d-flex justify-content-between">
-                    <h3>{record.attributes.title}</h3>
-                    <div className="tier-badge badge">
-                        {record.attributes.tier.name}
+                {/* align-items-center, not baseline: a font glyph aligns on the
+                    text baseline, an inline SVG aligns on its bottom edge, so
+                    keeping `baseline` here leaves the icon floating a descender
+                    too high. The pb-3 went with it — that padding was the
+                    descender space the glyph needed. */}
+                <div className="d-flex justify-content-between align-items-start pb-2">
+                    <div>
+                        <h3 className={styles.cardTitle}>{record.attributes.title}</h3>
+                        <small clasName="author text-muted">by {record.relationships.user?.user_name}</small>
+                    </div>
+                    
+                    <div className="tier-icon">
+                        {tiers[record.attributes.tier?.name]}
                     </div>
                 </div>
                 <div className="img-container mt-auto">
                     <img
                         src={imageSrc}
                         alt={record.attributes.image_alt ?? record.attributes.title}
-                        className={`${styles.cardImg} w-100 object-fit-cover`}
+                        className={`${styles.cardImg} w-100 object-fit-cover rounded`}
                     />
                 </div>
             </div>
-            <div className="card-body d-flex flex-column">
+            <div className={`${styles.cardText} card-body d-flex flex-column justify-content-end`}>
                 <div className="emotions">
                     {record.attributes.emotions.map((emotion) => {
                         return <div key={emotion.id} className="badge rounded-pill" style={{ backgroundColor: emotion.color }}>
@@ -52,9 +80,9 @@ function MeadowCard({ record }) {
                 <div className={`${styles.description}`}>
                     {record.attributes.description}
                 </div>
-                <div className="btn-wrapper">
-                    <button type="button" className="btn-lightblue">
-                        Open
+                <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
+                    <button type="button" className="btn-action-outline">
+                        <Heart size={20} />
                     </button>
                 </div>
                 

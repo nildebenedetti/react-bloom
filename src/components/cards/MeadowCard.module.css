@@ -6,12 +6,13 @@
     box-shadow: var(--bloom-shadow-md);
 }
 
-/* Colori del testo dai tuoi token */
-.glassCard .card-title {
+.glassCard .cardTitle {
     color: var(--bloom-title);
+    text-transform: capitalize;
+    padding-right: 4px;;
 }
 
-.glassCard .card-text {
+.glassCard .cardText {
     color: var(--bloom-text-muted);
 }
 
