@@ -28,3 +28,7 @@ dist-ssr
 
 notes/
 study/
+
+.env
+.env.local
+.env.*.local
