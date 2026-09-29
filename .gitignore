@@ -26,8 +26,8 @@ dist-ssr
 # Claude
 .claude/
 
-notes/
-study/
+/notes/
+/study/
 
 .env
 .env.local
