@@ -29,23 +29,23 @@ function HomePage() {
   }, []);
 
   return <>
-    <main>
-
-      <div className="container-fluid py-5">
-        <h1>The Blooming Meadow</h1>
-        <h3>Celebrate our Community Bloom</h3>
-      </div>
-      <div className="container cards-container">
-        {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
-        Apologies for the inconvenience. <br/> {errorMsg}</h5>}
-        {records.map((record) => {
-          return <div key={record.id}>
-              <MeadowCard record={record} />
-          </div>
-        })}
-      </div>
-    </main>
-    
+      <section className="feed">
+        <div className="container-fluid py-3">
+          <h1>The Blooming Meadow</h1>
+          <h3>Celebrate our Community Bloom</h3>
+        </div>
+        <div className="feed-meadow-container">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-5">
+              {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
+              Apologies for the inconvenience. <br/> {errorMsg}</h5>}
+              {records.map((record) => {
+                return <div key={record.id} className="col">
+                    <MeadowCard record={record} />
+                </div>
+              })}
+            </div>
+        </div>
+      </section>
   </>;
 }
 export default HomePage;

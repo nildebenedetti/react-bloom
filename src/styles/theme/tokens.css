@@ -49,6 +49,7 @@
   --bloom-ease: ease;
 
   --bloom-header-height: 80px;  /* keeps <body> clear of the fixed navbar */
+
 }
 
 
@@ -124,6 +125,7 @@ html[data-bs-theme="light"] {
   --bloom-shadow-accent: 0 4px 10px rgba(114, 165, 243, 0.35);
 
   --bloom-focus-ring: var(--bloom-accent);
+
 }
 
 
@@ -198,4 +200,5 @@ html[data-bs-theme="dark"] {
   --bloom-shadow-accent: 0 4px 12px rgba(147, 197, 253, 0.28);
 
   --bloom-focus-ring: var(--bloom-accent);
+
 }

@@ -20,6 +20,26 @@ body {
   padding-top: var(--bloom-header-height);
 }
 
+/* LIGHT MODE - background meadow feed */
+:root,
+html[data-bs-theme="light"] .feed-meadow-container {
+  background-image: url('/images/backgrounds/meadow-bg-light.png');
+}
+
+/* DARK MODE - background meadow feed */
+html[data-bs-theme="dark"] .feed-meadow-container {
+  background-image: url('/images/backgrounds/meadow-bg-dark.png');
+}
+
+.feed-meadow-container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-top: var(--bloom-header-height);
+
+}
+
 /* Fallback ring for anything that defines none. Bootstrap resets `outline: 0` on
    its own controls and draws a box-shadow ring instead, so no double ring here. */
 :focus-visible {
