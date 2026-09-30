@@ -4,29 +4,49 @@ import MeadowCard from "../components/cards/MeadowCard.jsx";
 
 function HomePage() {
 
-  const [records, setRecords] = useState([]);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [ records, setRecords ] = useState([]);
+  const [ errorMsg, setErrorMsg ] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ page, setPage ] = useState(1);
+  const [ hasMore, setHasMore ] = useState(true);
 
-  useEffect(() => {
-    
-    const loadRecords = async () => {
+      const loadRecords = async (pageToFetch) => {
+        setIsLoading(true);
         try {
 
-          const response = await fetchData(ENDPOINTS.public.bloomingMeadow);
+          const response = await fetchData(ENDPOINTS.public.bloomingMeadow, { params: { page: pageToFetch }
+            }
+          );
 
-          setRecords(response.data)
+          // if pageToFetch is 1 get data, otherwise spread former data + fresh fetch
+          setRecords(prev => pageToFetch === 1 ? response.data : [...prev, ...response.data ]);
+          
+          // check if we have more pages to load
+          setHasMore(response.links.next !== null);
+
 
         } catch (error) {
 
             setErrorMsg(error.message);
 
             console.error("error while fetching records data", error);
+        } finally {
+          setIsLoading(false);
         }
     }
 
-    loadRecords();
+  useEffect(() => {
     
+    loadRecords(1);
+
   }, []);
+
+      // onClick fot show more btn
+    const handleShowMore = () => {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      loadRecords(nextPage);
+    }
 
   return <>
       <section className="feed">
@@ -44,6 +64,14 @@ function HomePage() {
                 </div>
               })}
             </div>
+            { hasMore &&  
+            <div className="d-flex justify-content-center btn-wrapper py-3">
+              <button type="button"
+                    className="btn-action"
+                    onClick={handleShowMore}
+                    disabled={isLoading}
+              >{isLoading ? 'Loading...' : 'Show More'} </button>
+            </div>}
         </div>
       </section>
   </>;

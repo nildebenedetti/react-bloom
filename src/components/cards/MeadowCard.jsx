@@ -15,7 +15,7 @@ const PLACEHOLDER_IMAGES = [
 // itself from an inherited font-size the way a `bi` glyph did — 28px is what
 // `fs-3` used to give it.
 const tiers = {
-    'small win' : <LeafFill size={20} />,
+    'small win' : <LeafFill size={20} /> ,
     'solid step' : <AwardFill size={20} />,
     'major milestone' : <TrophyFill size={20} />,
     'epic breakthrough' : <Stars size={20} />
@@ -27,13 +27,9 @@ const pickPlaceholder = () =>
 
 function MeadowCard({ record }) {
 
-    /* `image_path` is not a URL: the API returns a path on Laravel's public disk
-     * ("records/oamQx0K….jpg"), so it only resolves once the storage base is
-     * prepended — see `mediaUrl`. That helper returns null when the record simply
-     * has no image, which is the cue to keep the placeholder.
-     *
-     * Memoized, as before, and that matters more now than it did: the fallback is
-     * random, so without this the placeholder would reshuffle the card on every
+
+     /*
+     * Memoized: the fallback is random, so without this the placeholder would reshuffle the card on every
      * re-render of the parent grid. It only re-runs when `image_path` changes or
      * the card mounts. */
     const imageSrc = useMemo(
@@ -46,15 +42,10 @@ function MeadowCard({ record }) {
             {/* flex-grow-1 on .card-top, absorbing slack */}
             <div className="card-top d-flex flex-column flex-grow-1">
 
-                {/* align-items-center, not baseline: a font glyph aligns on the
-                    text baseline, an inline SVG aligns on its bottom edge, so
-                    keeping `baseline` here leaves the icon floating a descender
-                    too high. The pb-3 went with it — that padding was the
-                    descender space the glyph needed. */}
                 <div className="d-flex justify-content-between align-items-start pb-2">
                     <div>
                         <h3 className={styles.cardTitle}>{record.attributes.title}</h3>
-                        <small clasName="author text-muted">by {record.relationships.user?.user_name}</small>
+                        <small className="author text-muted">by {record.relationships.user?.user_name}</small>
                     </div>
                     
                     <div className="tier-icon">
@@ -72,7 +63,7 @@ function MeadowCard({ record }) {
             <div className={`${styles.cardText} card-body d-flex flex-column justify-content-end`}>
                 <div className="emotions">
                     {record.attributes.emotions.map((emotion) => {
-                        return <div key={emotion.id} className="badge rounded-pill" style={{ backgroundColor: emotion.color }}>
+                        return <div key={emotion.id} className="badge rounded-pill me-2" style={{ backgroundColor: emotion.color }}>
                             {emotion.name}
                         </div>;
                     })}
