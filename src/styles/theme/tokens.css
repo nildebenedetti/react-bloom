@@ -139,6 +139,27 @@ html[data-bs-theme="light"] {
   --bloom-action-quiet-border: #5b8ed6;
   --bloom-action-quiet-bg: rgba(47, 89, 158, 0.07);
 
+  /* --- FLOATING CONTROL SURFACE ----------------------------------------------
+   * For a control that floats permanently over the page — the scroll-to-top
+   * button. It cannot reuse --bloom-action-quiet-bg: a 7% wash is legible
+   * sitting ON a card and effectively invisible sitting ON the hero artwork,
+   * where it has to hold against a photograph and not just a flat surface. So
+   * it gets its own, and it is nearly opaque.
+   *
+   * The alpha is the whole point of it being a token and not a component value:
+   * light mode wants a near-opaque WHITE plate to sit on top of anything, dark
+   * mode wants a near-opaque DARK one — see the mirror below.
+   *
+   * Measured in this theme:
+   *   edge  #4f83cc → 3.8:1 on its own surface, 3.5:1 on the #eef4f8 page
+   *   label #2f599e → 6.8:1 on its own surface, 6.2:1 on the page
+   * (The 3:1 edge clears WCAG 1.4.11, the non-text threshold that matters here:
+   * the glyph is a graphic, not body copy.)                            */
+  --bloom-float-surface: rgba(255, 255, 255, 0.92);
+  --bloom-float-surface-hover: rgba(226, 240, 253, 0.96);
+  --bloom-float-border: #4f83cc;
+  --bloom-float-border-hover: #2f599e;
+
   --bloom-title: #2f599e;
   --bloom-text-muted: rgba(30, 41, 59, 0.68);
 
@@ -249,6 +270,20 @@ html[data-bs-theme="dark"] {
   --bloom-action-quiet: #93c5fd;
   --bloom-action-quiet-border: #6690bc;
   --bloom-action-quiet-bg: rgba(147, 197, 253, 0.08);
+
+  /* The mirror of the light float, and the reason the surface is a token at
+     all: the near-opaque plate here is DARK, not white. A white plate this
+     opaque would be a searchlight on cobalt — it would out-shout the hero
+     artwork it is meant to sit quietly on top of, which is the exact problem
+     the light float was introduced to solve. Tinted toward --bloom-surface-2
+     so it still reads as a lit surface rather than a hole punched in the page.
+     Measured in this theme:
+     *   edge  #6690bc → 3.8:1 on its own surface, 4.4:1 on the #1e293b page
+     *   label #93c5fd → 7.0:1 on its own surface, 8.1:1 on the page           */
+  --bloom-float-surface: rgba(38, 53, 75, 0.94);
+  --bloom-float-surface-hover: rgba(51, 65, 85, 0.97);
+  --bloom-float-border: #6690bc;
+  --bloom-float-border-hover: #93c5fd;
 
   --bloom-title: #93c5fd;
   --bloom-text-muted: rgba(226, 232, 240, 0.68);
