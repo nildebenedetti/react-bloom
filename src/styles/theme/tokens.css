@@ -163,6 +163,15 @@ html[data-bs-theme="light"] {
   --bloom-hero-image: url('/images/banners/banner-home-light.png');
   --bloom-meadow-image: url('/images/backgrounds/meadow-bg-light.png');
 
+  /* Text sitting directly on the meadow artwork. --bloom-title is tuned for flat
+     surfaces; over a photo its navy drops below 4.5:1 wherever the image goes
+     pale. These two are paired with the artwork instead: the colour is near-
+     black for maximum contrast on the light photo, and the halo is a light glow
+     that separates the glyphs from whatever is behind them. */
+  --bloom-on-artwork: #0f172a;
+  --bloom-on-artwork-halo: rgba(255, 255, 255, 0.9);
+  --bloom-on-artwork-muted: rgba(15, 23, 42, 0.78);
+
 }
 
 
@@ -265,5 +274,11 @@ html[data-bs-theme="dark"] {
 
   --bloom-hero-image: url('/images/banners/banner-home-dark.png');
   --bloom-meadow-image: url('/images/backgrounds/meadow-bg-dark.png');
+
+  /* The mirror image of the light pair: near-white text, dark halo. Same rule,
+     opposite decision — which is the point of keeping it in the token block. */
+  --bloom-on-artwork: #f8fafc;
+  --bloom-on-artwork-halo: rgba(2, 6, 23, 0.9);
+  --bloom-on-artwork-muted: rgba(226, 232, 240, 0.8);
 
 }

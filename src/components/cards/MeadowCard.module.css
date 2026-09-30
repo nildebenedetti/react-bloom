@@ -5,7 +5,18 @@
     border-radius: var(--bloom-radius-lg);
     box-shadow: var(--bloom-shadow-md);
     backdrop-filter: blur(var(--bloom-glass-blur));
-  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+    -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+    transition:
+        background-color var(--bloom-dur) var(--bloom-ease),
+        box-shadow var(--bloom-dur) var(--bloom-ease),
+        transform var(--bloom-dur-fast) var(--bloom-ease);
+}
+
+/* Same lift as the global .glass-card, declared here because a CSS module
+   class is a different selector: .glass-card:hover never matches this element. */
+.glassCard:hover {
+    box-shadow: var(--bloom-shadow-accent);
+    transform: translateY(-2px);
 }
 
 .glassCard .cardTitle {
@@ -29,4 +40,17 @@
 
 .cardImg {
     height: 230px;
+}
+
+/* The global reduced-motion block in index.css only names the unhashed classes,
+so it cannot reach a module class. Without this the lift still fires for
+   users who asked for it to stop. */
+@media (prefers-reduced-motion: reduce) {
+    .glassCard {
+        transition: none;
+    }
+
+    .glassCard:hover {
+        transform: none;
+    }
 }

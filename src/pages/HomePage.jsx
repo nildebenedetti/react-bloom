@@ -59,8 +59,8 @@ function HomePage() {
       <section className="feed mt-4">
         <div className="feed-meadow-container px-4 pb-5 pt-3">
           <div className="container-fluid py-3 mb-3">
-            <h1>The Blooming Meadow</h1>
-            <h4>Celebrate our Community</h4>
+            <h2 className="feed-title">The Blooming Meadow</h2>
+            <p className="feed-subtitle">Celebrate our Community</p>
           </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
               {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
@@ -83,7 +83,7 @@ function HomePage() {
             <section className="cta-register">
               <div className="banner w-100 d-flex justify-content-center pt-5">
                 <div className="cta-register__card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
-                    <h1 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h1>
+                    <h2 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h2>
                     <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
                     <button type="button" className="btn-action mt-3">Register</button>
                 </div>

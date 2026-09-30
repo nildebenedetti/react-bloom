@@ -257,6 +257,31 @@
   max-width: 34rem;
 }
 
+/* --- Feed section title --------------------------------------------------- */
+.feed-title {
+  color: var(--bloom-on-artwork);
+  letter-spacing: -0.02em;
+  text-shadow:
+    0 0 0.4rem var(--bloom-on-artwork-halo),
+    0 0 1rem var(--bloom-on-artwork-halo);
+}
+
+.feed-title::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  background-color: var(--bloom-on-artwork-halo);
+  box-shadow: 0 0 0.5rem var(--bloom-on-artwork-halo);
+}
+
+.feed-subtitle {
+  color: var(--bloom-on-artwork-muted);
+  text-shadow: 0 0 0.6rem var(--bloom-on-artwork-halo);
+}
+
 /* --- Register CTA ----------------------------------------------------------
  * The card sits on the meadow artwork and would otherwise shrink-wrap its own
  * text. max-width gives it a deliberate measure; paired with w-100 in the markup
