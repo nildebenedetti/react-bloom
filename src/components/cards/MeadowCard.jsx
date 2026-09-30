@@ -65,19 +65,19 @@ function MeadowCard({ record }) {
                 </div>
             </div>
             <div className={`${styles.cardText} card-body d-flex flex-column justify-content-end`}>
-                <div className="emotions">
+                { record.attributes.emotions && <div className="emotions">
                     {record.attributes.emotions.map((emotion) => {
                         return <div key={emotion.id} className="badge rounded-pill me-2" style={{ backgroundColor: emotion.color }}>
                             {emotion.name}
                         </div>;
                     })}
-                </div>
+                </div>}
                 <div className={`${styles.description}`}>
                     {record.attributes.description}
                 </div>
                 <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
                     <button type="button" className="btn-action-outline" onClick={heartClickHandler}>
-                       { love ? < HeartFill size={20}/> : <Heart size={20} />}
+                        { love ? < HeartFill size={20}/> : <Heart size={20} />}
                     </button>
                 </div>
                 
