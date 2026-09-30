@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './MeadowCard.module.css';
 import { mediaUrl } from '../../utils/api.js';
-import { LeafFill, AwardFill, TrophyFill, Stars, Heart } from 'react-bootstrap-icons';
+import { LeafFill, AwardFill, TrophyFill, Stars, Heart, HeartFill } from 'react-bootstrap-icons';
 
 // placeholders
 const PLACEHOLDER_IMAGES = [
@@ -26,7 +26,11 @@ const pickPlaceholder = () =>
     PLACEHOLDER_IMAGES[Math.floor(Math.random() * PLACEHOLDER_IMAGES.length)];
 
 function MeadowCard({ record }) {
+    const [ love, setLove ] = useState(false);
 
+    const heartClickHandler = () => {
+        love === true ? setLove(false) : setLove(true);
+    }
 
      /*
      * Memoized: the fallback is random, so without this the placeholder would reshuffle the card on every
@@ -72,8 +76,8 @@ function MeadowCard({ record }) {
                     {record.attributes.description}
                 </div>
                 <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
-                    <button type="button" className="btn-action-outline">
-                        <Heart size={20} />
+                    <button type="button" className="btn-action-outline" onClick={heartClickHandler}>
+                       { love ? < HeartFill size={20}/> : <Heart size={20} />}
                     </button>
                 </div>
                 
