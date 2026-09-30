@@ -1,0 +1,56 @@
+/* Sovrascrive lo sfondo di Bootstrap con i tuoi token di tema */
+.glassCard {
+    background-color: var(--bloom-glass-bg) !important;
+    border: 1px solid var(--bloom-glass-border);
+    border-radius: var(--bloom-radius-lg);
+    box-shadow: var(--bloom-shadow-md);
+    backdrop-filter: blur(var(--bloom-glass-blur));
+    -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+    transition:
+        background-color var(--bloom-dur) var(--bloom-ease),
+        box-shadow var(--bloom-dur) var(--bloom-ease),
+        transform var(--bloom-dur-fast) var(--bloom-ease);
+}
+
+/* Same lift as the global .glass-card, declared here because a CSS module
+   class is a different selector: .glass-card:hover never matches this element. */
+.glassCard:hover {
+    box-shadow: var(--bloom-shadow-accent);
+    transform: translateY(-2px);
+}
+
+.glassCard .cardTitle {
+    color: var(--bloom-title);
+    text-transform: capitalize;
+    padding-right: 4px;;
+}
+
+.glassCard .cardText {
+    color: var(--bloom-text-muted);
+}
+
+.description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-top: 8px;
+    font-family: var(--bs-font-monospace);
+}
+
+.cardImg {
+    height: 230px;
+}
+
+/* The global reduced-motion block in index.css only names the unhashed classes,
+so it cannot reach a module class. Without this the lift still fires for
+   users who asked for it to stop. */
+@media (prefers-reduced-motion: reduce) {
+    .glassCard {
+        transition: none;
+    }
+
+    .glassCard:hover {
+        transform: none;
+    }
+}

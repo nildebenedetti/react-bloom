@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { MoonStarsFill, SunFill } from "react-bootstrap-icons";
 import useTheme from "../hooks/useTheme";
 
 export default function Header() {
@@ -82,9 +83,9 @@ export default function Header() {
                                     aria-label="Cambia tema"
                                 >
                                     {theme === 'light' ? (
-                                        <i className="bi bi-moon-stars-fill"></i>
+                                        <MoonStarsFill />
                                     ) : (
-                                        <i className="bi bi-sun-fill"></i>
+                                        <SunFill />
                                     )}
                                 </button>
                             </li>
