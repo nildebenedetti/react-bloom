@@ -80,13 +80,15 @@ function HomePage() {
               >{isLoading ? 'Loading...' : 'Show More'} </button>
             </div>}
             {/* CTA Register Banner */}
-                  <div className="banner w-100 d-flex justify-content-center pt-5">
-                    <div className="glass-card text-center m-3 m-md-0 px-3 p-md-4">
-                        <h1 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h1>
-                        <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
-                        <button type="button" className="btn-action mt-3">Register</button>
-                    </div>
-                  </div>
+            <section className="cta-register">
+              <div className="banner w-100 d-flex justify-content-center pt-5">
+                <div className="cta-register__card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
+                    <h1 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h1>
+                    <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
+                    <button type="button" className="btn-action mt-3">Register</button>
+                </div>
+              </div>
+            </section>
         </div>
       </section>
   </>;

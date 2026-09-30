@@ -257,6 +257,14 @@
   max-width: 34rem;
 }
 
+/* --- Register CTA ----------------------------------------------------------
+ * The card sits on the meadow artwork and would otherwise shrink-wrap its own
+ * text. max-width gives it a deliberate measure; paired with w-100 in the markup
+ * it fills the phone and centres at a fixed width everywhere else. */
+.cta-register__card {
+  max-width: 32rem;
+}
+
 /* --- Patterned backgrounds ---------------------------------------------- */
 
 .flowerized {
