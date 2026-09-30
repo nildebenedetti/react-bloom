@@ -49,12 +49,19 @@ function HomePage() {
     }
 
   return <>
-      <section className="feed">
-        <div className="container-fluid py-3">
-          <h1>The Blooming Meadow</h1>
-          <h3>Celebrate our Community Bloom</h3>
+      <section className="home-hero-banner w-100 d-flex align-items-end p-3 p-md-4">
+        <div className="home-hero-banner__copy glass-card m-3 m-md-0 p-3 p-md-4">
+            <h1 className="mb-2">Welcome in <span className="fst-italic fs-1">Bloom</span></h1>
+            <p className="fs-5 mb-2">A place to remember how far you've bloomed.</p>
+            <p className="fst-italic mb-0">A space to pause and linger: the paths walked, the lessons gathered, and the soft shimmer that remains.</p>
         </div>
-        <div className="feed-meadow-container px-4 pb-5">
+      </section>
+      <section className="feed mt-4">
+        <div className="feed-meadow-container px-4 pb-5 pt-3">
+          <div className="container-fluid py-3 mb-3">
+            <h1>The Blooming Meadow</h1>
+            <h4>Celebrate our Community</h4>
+          </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
               {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
               Apologies for the inconvenience. <br/> {errorMsg}</h5>}
@@ -72,6 +79,14 @@ function HomePage() {
                     disabled={isLoading}
               >{isLoading ? 'Loading...' : 'Show More'} </button>
             </div>}
+            {/* CTA Register Banner */}
+                  <div className="banner w-100 d-flex justify-content-center pt-5">
+                    <div className="glass-card text-center m-3 m-md-0 px-3 p-md-4">
+                        <h1 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h1>
+                        <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
+                        <button type="button" className="btn-action mt-3">Register</button>
+                    </div>
+                  </div>
         </div>
       </section>
   </>;

@@ -236,10 +236,28 @@
   transform: translateY(-2px);
 }
 
-/* --- Patterned backgrounds -------------------------------------------------
- * NOTE: src/images/patterns/pattern-forget-me-not.svg is not in the repo yet, so
- * this layer is currently a no-op.
- * ------------------------------------------------------------------------- */
+/* --- Home hero -------------------------------------------------------------
+ * min-height only. `height` would clip the text; this grows instead.
+ * vh is the fallback, svh wins where supported (vh is the tallest viewport, so
+ * it overflows the screen when the mobile URL bar reappears).
+ *
+ * NO aspect-ratio here: <main> is a flex column with align-items:center, so a
+ * ratio + max-height made the banner derive its WIDTH from its height, leaving
+ * the page background exposed at both sides. The banner is fluid by width and
+ * gets its height from the viewport instead. */
+.home-hero-banner {
+  min-height: 65vh;
+  min-height: 65svh;
+
+  background-image: var(--bloom-hero-image);
+  color: var(--bloom-title);
+}
+
+.home-hero-banner__copy {
+  max-width: 34rem;
+}
+
+/* --- Patterned backgrounds ---------------------------------------------- */
 
 .flowerized {
   background-image: url('../images/patterns/pattern-forget-me-not.svg');

@@ -4,6 +4,8 @@
     border: 1px solid var(--bloom-glass-border);
     border-radius: var(--bloom-radius-lg);
     box-shadow: var(--bloom-shadow-md);
+    backdrop-filter: blur(var(--bloom-glass-blur));
+  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
 }
 
 .glassCard .cardTitle {

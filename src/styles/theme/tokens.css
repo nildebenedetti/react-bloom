@@ -149,13 +149,19 @@ html[data-bs-theme="light"] {
   /* Glass: on a pale background the frosted layer is white */
   --bloom-glass-bg: rgba(255, 255, 255, 0.5);
   --bloom-glass-border: rgba(255, 255, 255, 0.28);
-  --bloom-glass-blur: 12px;
+  --bloom-glass-blur: 2px;
 
   --bloom-shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.06);
   --bloom-shadow-md: 0 4px 10px rgba(15, 23, 42, 0.1);
   --bloom-shadow-accent: 0 4px 10px rgba(114, 165, 243, 0.35);
 
   --bloom-focus-ring: var(--bloom-accent);
+
+  /* The hero artwork is a THEME decision, not a component one. Declaring it here
+     lets `.home-hero-banner` stay a single rule that knows nothing about
+     themes — the same contract --bloom-action already honours for buttons. */
+  --bloom-hero-image: url('/images/banners/banner-home-light.png');
+  --bloom-meadow-image: url('/images/backgrounds/meadow-bg-light.png');
 
 }
 
@@ -256,5 +262,8 @@ html[data-bs-theme="dark"] {
   --bloom-shadow-accent: 0 4px 12px rgba(147, 197, 253, 0.28);
 
   --bloom-focus-ring: var(--bloom-accent);
+
+  --bloom-hero-image: url('/images/banners/banner-home-dark.png');
+  --bloom-meadow-image: url('/images/backgrounds/meadow-bg-dark.png');
 
 }

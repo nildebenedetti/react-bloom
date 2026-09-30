@@ -23,7 +23,6 @@ body {
 }
 
 /* LIGHT MODE - background meadow feed */
-:root,
 html[data-bs-theme="light"] .feed-meadow-container {
   background-image: url('/images/backgrounds/meadow-bg-light.png');
 }
@@ -40,6 +39,15 @@ html[data-bs-theme="dark"] .feed-meadow-container {
   background-attachment: fixed;
   padding-top: var(--bloom-header-height);
 
+}
+
+/* The hero banner: same painting rules, but NOT fixed — `fixed` is what makes
+   the feed background sit still while the page scrolls, and it does nothing on
+   a hero that is already at the top of the page. */
+.home-hero-banner {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Fallback ring for anything that defines none. Bootstrap resets `outline: 0` on
