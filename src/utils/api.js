@@ -61,12 +61,24 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
             throw new Error('VITE_API_URL not set in .env');
         }
 
-        const response = await fetch(`${API_URL}${endpoint}`, {
-            ...options,
+        // extract params if present
+        const { params, ...fetchOptions } = options;
+        // base fethc url
+        let url = `${API_URL}${endpoint}`;
+
+        // if params,convert into querystring
+        if (params && Object.keys(params).length > 0) {
+            // using native JS object for building urls (!!!!!!! to cool for school!!!!)
+            const queryString = new URLSearchParams(params).toString();
+            url += `?${queryString}`;
+        }
+
+        const response = await fetch(url, {
+            ...fetchOptions,
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                ...options.headers,
+                ...fetchOptions.headers,
             },
         });
 
