@@ -31,17 +31,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   :where(html, body, .navbar, .card, .dropdown-menu, .modal-content, .glass-bar, .glass-card, .surface-card),
-  .btn-lightblue,
-  .btn-lightblue-sm,
-  .btn-lightblue-outline,
-  .btn-lightblue-outline-sm {
+  .btn-action,
+  .btn-action-sm,
+  .btn-action-outline,
+  .btn-action-outline-sm,
+  .auth-panel .form-control {
     transition: none;
   }
 
-  .btn-lightblue:hover,
-  .btn-lightblue-sm:hover,
-  .btn-lightblue-outline:hover,
-  .btn-lightblue-outline-sm:hover,
+  .btn-action:hover,
+  .btn-action-sm:hover,
+  .btn-action-outline:hover,
+  .btn-action-outline-sm:hover,
   .surface-card:hover,
   .glass-card:hover {
     transform: none;

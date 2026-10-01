@@ -16,6 +16,7 @@ function HomePage() {
 
           const response = await fetchData(ENDPOINTS.public.bloomingMeadow, { params: { page: pageToFetch }
             }
+            
           );
 
           // if pageToFetch is 1 get data, otherwise spread former data + fresh fetch
