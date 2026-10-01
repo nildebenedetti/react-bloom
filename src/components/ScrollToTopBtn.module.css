@@ -1,0 +1,159 @@
+.scrollUpBtn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  /* Above Bootstrap's .navbar (z-index 1030) so the button is never swallowed
+     by the fixed bar it is floating over. */
+  z-index: 1040;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  color: var(--bloom-action-quiet);
+  background-color: var(--bloom-float-surface);
+  border: 1px solid var(--bloom-float-border);
+  border-radius: 50%;
+  /* Frosted, like the glass bars */
+  backdrop-filter: blur(var(--bloom-glass-blur));
+  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Two speeds, matching the tokens' own split: movement is micro and snappy,
+     light is allowed to swell. Transitioning both at the slow speed makes the
+     button feel like it is dragging. */
+  transition:
+    background-color var(--bloom-dur) var(--bloom-ease),
+    color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease),
+    transform var(--bloom-dur-fast) var(--bloom-ease);
+
+  /* Contact shadow only. */
+  box-shadow: var(--bloom-shadow-md);
+  /* The component mounts fresh each time the threshold is crossed. */
+  animation: btn-bloom-in var(--bloom-dur) var(--bloom-ease) backwards;
+}
+
+@keyframes btn-bloom-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- The glow, as its own layer --------------------------------------------
+ * A blurred radial behind the orb rather than extra box-shadow layers on the
+ * orb itself. Two reasons:
+ *   1. It can breathe indefinitely. Animating box-shadow on the orb would
+ *      override the hover box-shadow outright for as long as the animation
+ *      ran, so the hover glow could never apply.
+ *   2. Blur produces genuinely soft light. box-shadow spread reads as a hard
+ *      ring no matter how far it is spread, which is what made the earlier
+ *      version look like a lamp rather than a bloom.
+ * z-index -1 keeps it behind the orb's own background while still inside the
+ * orb's stacking context (it is position:fixed), so it can never slip behind
+ * the page. */
+.scrollUpBtn::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(var(--bloom-accent-rgb), 0.7) 0%,
+    rgba(var(--bloom-accent-rgb), 0.24) 45%,
+    transparent 72%
+  );
+  filter: blur(9px);
+  pointer-events: none;
+
+  /* Base opacity below 1 is what gives the hover transition something to do.
+     Left at the default of 1, the `opacity: 1` on hover is a no-op and the
+     glow sits at full strength at rest — the opposite of the intent. The
+     keyframe deliberately animates only transform, leaving opacity free to be
+     transitioned here. */
+  opacity: 0.7;
+
+  /* Slow, shallow, endless: a lamp left on in a quiet room. --bloom-dur is a
+     transition speed and would strobe here, so this one duration stays a
+     literal — a repeating cycle is not a transition. */
+  animation: btn-breathe 5s ease-in-out infinite;
+}
+
+@keyframes btn-breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* The glyph rises slightly further than the orb. The orb lifting is the "this is
+   a real control" cue; the extra rise on the arrow is what makes it read as
+   pointing at the top of the page it is about to take you to. */
+.scrollUpBtn svg {
+  transition: transform var(--bloom-dur) var(--bloom-ease);
+}
+
+.scrollUpBtn:hover {
+  color: var(--bloom-action);
+  border-color: var(--bloom-float-border-hover);
+  /* Warmer and a touch more opaque rather than a colour flip to solid: still
+     calm, still clearly a surface, but unmistakably "this one is live". The
+     alpha step is small on purpose — the orb was already readable at rest,
+     so hover only has to confirm it, not rescue it. */
+  background-color: var(--bloom-float-surface-hover);
+  transform: translateY(-3px);
+
+  /* The edge firms up and the contact shadow deepens. The wide halo is the
+     ::before layer's job — here it just takes a touch more. */
+  box-shadow:
+    var(--bloom-shadow-md),
+    0 0 0 1px rgba(var(--bloom-accent-rgb), 0.35);
+}
+
+/* Only opacity transitions here, never transform — the keyframe owns scale,
+   and a transition on a property an animation is driving is dead code. */
+.scrollUpBtn::before {
+  transition: opacity var(--bloom-dur) var(--bloom-ease);
+}
+
+.scrollUpBtn:hover::before {
+  opacity: 1;
+}
+
+.scrollUpBtn:hover svg {
+  transform: translateY(-2px);
+}
+
+/* Press: settle back down, shrink a little, and the glow contracts — light being
+   pushed under the surface. */
+.scrollUpBtn:active {
+  color: var(--bloom-action-active);
+  background-color: var(--bloom-float-surface);
+  transform: translateY(-1px) scale(0.95);
+  box-shadow: var(--bloom-shadow-sm);
+}
+
+.scrollUpBtn:active svg {
+  transform: translateY(0);
+}
+
+/* Reuses the ACTION colour for the same reason `.btn-action` does: the pale
+   accent ring managed ~2:1 against the light surfaces, i.e. invisible. */
+.scrollUpBtn:focus-visible {
+  outline: 2px solid var(--bloom-action);
+  outline-offset: 3px;
+}
