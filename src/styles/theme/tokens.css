@@ -163,10 +163,7 @@ html[data-bs-theme="light"] {
   --bloom-title: #2f599e;
   --bloom-text-muted: rgba(30, 41, 59, 0.68);
 
-  /* Feedback. Bootstrap hardcodes `.alert-danger` per variant, so the stock
-     alert is a pale red slab that ignores the palette entirely. These two carry
-     the same role for the theme: a wash to sit in, and a label to read on it.
-       label #9f1239 on wash #fde8ec → 7.4:1 (AAA) */
+  /* .alert-danger is hardcoded in Bootstrap — label on wash, per theme */
   --bloom-danger: #9f1239;
   --bloom-danger-bg: #fde8ec;
 
@@ -174,12 +171,10 @@ html[data-bs-theme="light"] {
   --bloom-surface-2: #ffffff;
   --bloom-border: #cfdceb;
 
-  /* Inputs sit ON --bloom-surface, so they take the next step up rather than
-     --bloom-surface itself: at the same value the field would have no edge
-     against the card and read as a hole punched in it. */
+  /* one step up from the card; edge dark enough to read as a control (3.3:1) */
   --bloom-input-bg: #ffffff;
-  --bloom-input-border: #b9cde0;
-  --bloom-input-placeholder: rgba(30, 41, 59, 0.45);
+  --bloom-input-border: #728cab;
+  --bloom-input-placeholder: rgba(30, 41, 59, 0.55);
 
   /* Glass: on a pale background the frosted layer is white */
   --bloom-glass-bg: rgba(255, 255, 255, 0.5);
@@ -302,10 +297,19 @@ html[data-bs-theme="dark"] {
   --bloom-title: #93c5fd;
   --bloom-text-muted: rgba(226, 232, 240, 0.68);
 
+  /* the mirror pair: light label on a dark wash, not a pale slab on cobalt */
+  --bloom-danger: #fecdd3;
+  --bloom-danger-bg: #4a1d26;
+
   /* lighter than the body, so cards read as raised */
   --bloom-surface: #26354b;
   --bloom-surface-2: #334155;
   --bloom-border: #3a4a61;
+
+  /* dark mirror of the light input tokens, not a flip of --bloom-border (2.4:1) */
+  --bloom-input-bg: #334155;
+  --bloom-input-border: #6b89a9;
+  --bloom-input-placeholder: rgba(226, 232, 240, 0.62);
 
   /* Glass: the metal counterpart of the white frosted bar. The near-black
      translucent layer keeps the cobalt page visible through the blur; the

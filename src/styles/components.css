@@ -290,6 +290,80 @@
   max-width: 32rem;
 }
 
+/* --- Login -----------------------------------------------------------------
+ * .surface-card, not .glass-card: the meadow's frost exists to sit on the
+ * artwork, and buys nothing behind a text field. */
+.auth-panel {
+  max-width: 26rem;
+}
+
+.auth-panel__title {
+  color: var(--bloom-title);
+  letter-spacing: -0.02em;
+}
+
+/* the meadow's one recurring ornament, from .feed-title::after */
+.auth-panel__title::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+  background-color: var(--bloom-accent);
+}
+
+.auth-panel__subtitle {
+  color: var(--bloom-text-muted);
+}
+
+/* .form-control resolves to the PAGE tokens, so a field would sit at the same
+   tone as the body; the input tokens lift it off the card */
+.auth-panel .form-control {
+  background-color: var(--bloom-input-bg);
+  border-color: var(--bloom-input-border);
+  color: var(--bs-body-color);
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--bloom-radius);
+  transition:
+    background-color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease);
+}
+
+.auth-panel .form-control::placeholder {
+  color: var(--bloom-input-placeholder);
+}
+
+/* --bs-focus-ring-color is the accent as an alpha, tuned per theme; the bare
+   --bloom-accent is a tint and manages ~2:1 on the light card */
+.auth-panel .form-control:focus {
+  background-color: var(--bloom-input-bg);
+  border-color: var(--bloom-accent);
+  box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.auth-panel .form-label {
+  color: var(--bloom-text-muted);
+  font-weight: 500;
+  margin-bottom: 0.375rem;
+}
+
+/* per-field errors, on the same danger pair as the form-wide alert */
+.auth-panel .form-control.is-invalid {
+  border-color: var(--bloom-danger);
+}
+
+.auth-panel .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 0.25rem var(--bloom-danger-bg);
+}
+
+.auth-panel .alert-danger {
+  --bs-alert-color: var(--bloom-danger);
+  --bs-alert-bg: var(--bloom-danger-bg);
+  --bs-alert-border-color: var(--bloom-danger-bg);
+}
+
 /* --- Patterned backgrounds ---------------------------------------------- */
 
 .flowerized {
@@ -360,4 +434,9 @@ html[data-bs-theme="dark"] .flowerized {
 
 .text-justify {
   text-align: justify;
+}
+
+/* <main> has no justify-content, so a short child needs this to centre */
+.page-fill {
+  flex-grow: 1;
 }
