@@ -106,7 +106,11 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
 
         if (!response.ok) {
 
-            throw new Error( data?.message || `HTTP Error: ${response.status}`); // checks in first place if data is present, otherwise response
+            const error = data?.message || `HTTP Error: ${response.status}`; // checks in first place if data is present, otherwise response.status
+            error.status = response.status;
+            error.data = data; // laravel error details - if !error = null
+            throw error;
+
         }
 
         return await response.json();
