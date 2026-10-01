@@ -1,3 +1,5 @@
+import { browser } from "react-dom";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Where the public disk is mounted. A constant rather than a literal baked into
@@ -48,6 +50,7 @@ export const ENDPOINTS = {
         register: '/register',
     },
     private: {
+        user: '/user', // automatically set by laravel when sanctum is installed -> send token, get user data
         logout: '/logout',
         records: '/records',
         dashboardStats: '/dashboard/stats',
@@ -61,6 +64,9 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
             throw new Error('VITE_API_URL not set in .env');
         }
 
+        // get token from browser
+        const token = localStorage.getItem('auth_token');
+
         // extract params if present
         const { params, ...fetchOptions } = options;
         // base fethc url
@@ -73,19 +79,34 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
             url += `?${queryString}`;
         }
 
-        const response = await fetch(url, {
-            ...fetchOptions,
-            headers: {
+        const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 ...fetchOptions.headers,
-            },
+        };
+
+        // if token, we need to add a section with auth token
+        if (token) {
+            // creare auth key, and init value
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(url, {
+            ...fetchOptions,
+            headers,
         });
+
+        if (response.status === 401) { // unauthorized => this means token is p[resent but has expired
+            localStorage.removeItem('auth_token'); // need a cleanup
+            window.dispatchEvent(new Event('auth:unauthorized')); // launching an event (we need to listen and set consequences)
+        }
+
+        const data = await response.json().catch(() => null); // in case of error, return null and prevent app crash <3
 
 
         if (!response.ok) {
 
-            throw new Error(`HTTP Error: ${response.status}`)
+            throw new Error( data?.message || `HTTP Error: ${response.status}`); // checks in first place if data is present, otherwise response
         }
 
         return await response.json();
