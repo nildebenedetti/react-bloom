@@ -163,9 +163,23 @@ html[data-bs-theme="light"] {
   --bloom-title: #2f599e;
   --bloom-text-muted: rgba(30, 41, 59, 0.68);
 
+  /* Feedback. Bootstrap hardcodes `.alert-danger` per variant, so the stock
+     alert is a pale red slab that ignores the palette entirely. These two carry
+     the same role for the theme: a wash to sit in, and a label to read on it.
+       label #9f1239 on wash #fde8ec → 7.4:1 (AAA) */
+  --bloom-danger: #9f1239;
+  --bloom-danger-bg: #fde8ec;
+
   --bloom-surface: #f8fafc;
   --bloom-surface-2: #ffffff;
   --bloom-border: #cfdceb;
+
+  /* Inputs sit ON --bloom-surface, so they take the next step up rather than
+     --bloom-surface itself: at the same value the field would have no edge
+     against the card and read as a hole punched in it. */
+  --bloom-input-bg: #ffffff;
+  --bloom-input-border: #b9cde0;
+  --bloom-input-placeholder: rgba(30, 41, 59, 0.45);
 
   /* Glass: on a pale background the frosted layer is white */
   --bloom-glass-bg: rgba(255, 255, 255, 0.5);
