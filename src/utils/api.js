@@ -113,7 +113,7 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
 
         }
 
-        return await response.json();
+        return data;
 
 
 
