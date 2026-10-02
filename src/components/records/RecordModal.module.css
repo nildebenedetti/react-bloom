@@ -17,12 +17,12 @@
    No rule turns it into a bar: a titled chrome strip above a title inside the
    body would say the same thing twice. */
 .header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.75rem 0.75rem 0;
+   display: flex;
+   justify-content: flex-end;
+   padding: 0.75rem 0.75rem 0;
 }
 
 .body {
-    padding: 0.75rem 1.5rem 1.5rem;
-    overflow-y: auto;
+   padding: 0.75rem 1.5rem 1.5rem;
+   overflow-y: auto;
 }
