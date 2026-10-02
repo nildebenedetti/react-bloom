@@ -1,36 +1,20 @@
 import { useMemo, useState } from 'react';
 import styles from './MeadowCard.module.css';
 import { mediaUrl } from '../../utils/api.js';
-import { LeafFill, AwardFill, TrophyFill, Stars, Heart, HeartFill } from 'react-bootstrap-icons';
+import { pickPlaceholder } from '../utils/images.js';
+import { TIERS } from '../utils/tier.js';
+import { Heart, HeartFill } from 'react-bootstrap-icons';
 
-// placeholders
-const PLACEHOLDER_IMAGES = [
-    '/images/placeholders/placeholder-1.png',
-    '/images/placeholders/placeholder-2.png',
-    '/images/placeholders/placeholder-3.png',
-    '/images/placeholders/placeholder-4.png',
-];
-
-// Tier iconography. `size` is passed explicitly because the SVG no longer sizes
-// itself from an inherited font-size the way a `bi` glyph did — 28px is what
-// `fs-3` used to give it.
-const tiers = {
-    'small win' : <LeafFill size={20} /> ,
-    'solid step' : <AwardFill size={20} />,
-    'major milestone' : <TrophyFill size={20} />,
-    'epic breakthrough' : <Stars size={20} />
-};
-
-// picker function
-const pickPlaceholder = () =>
-    PLACEHOLDER_IMAGES[Math.floor(Math.random() * PLACEHOLDER_IMAGES.length)];
-
-function MeadowCard({ record }) {
+function MeadowCard({ record, onOpen }) {
     const [ love, setLove ] = useState(false);
 
     const heartClickHandler = () => {
         love === true ? setLove(false) : setLove(true);
     }
+
+    /* Shared with the detail view, so the icon a card shows and the name the
+     * modal spells out cannot drift apart. */
+    const tier = TIERS[record.attributes.tier?.id];
 
      /*
      * Memoized: the fallback is random, so without this the placeholder would reshuffle the card on every
@@ -51,9 +35,13 @@ function MeadowCard({ record }) {
                         <h3 className={styles.cardTitle}>{record.attributes.title}</h3>
                         <small className="author text-muted">by {record.relationships.user?.user_name}</small>
                     </div>
-                    
-                    <div className="tier-icon">
-                        {tiers[record.attributes.tier?.name]}
+
+                     <div className="tier-icon">
+                        {tier && <tier.Icon size={20} />}
+                        {/* The icon alone is unreadable to anyone who does not
+                            already know the scale; the name it stands for is
+                            one hover/AT away without widening the card. */}
+                        {tier && <span className="visually-hidden">{tier.label}</span>}
                     </div>
                 </div>
                 <div className="img-container mt-auto">
@@ -75,14 +63,26 @@ function MeadowCard({ record }) {
                 <div className={`${styles.description}`}>
                     {record.attributes.description}
                 </div>
-                {/* <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
+                <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
+                    {/*KEPT BUT LEFT FOR FUTURE IMPLEMENTATIONS--
                     <button type="button" className="btn-action-outline" onClick={heartClickHandler}>
                         { love ? < HeartFill size={20}/> : <Heart size={20} />}
-                    </button>
-                </div> */}
-                
+                    </button> */}
+                    {/* Opens the single feed-level modal, not a dialog owned by
+                        this card. Bootstrap needs `record` in state before the
+                        dialog opens, and the click is the only moment that
+                        record is identified — so `onOpen` and the data-bs
+                        attributes travel together. */}
+                    <button
+                        type="button"
+                        className="btn-action-outline-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#record-modal"
+                        aria-haspopup="dialog"
+                        onClick={() => onOpen(record)}
+                    >See</button>
+                </div>
             </div>
-            
         </div>
     </>
 }
