@@ -75,11 +75,11 @@ function MeadowCard({ record }) {
                 <div className={`${styles.description}`}>
                     {record.attributes.description}
                 </div>
-                <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
+                {/* <div className="btn-wrapper pt-3 d-flex justify-content-end align-items-end g-2">
                     <button type="button" className="btn-action-outline" onClick={heartClickHandler}>
                         { love ? < HeartFill size={20}/> : <Heart size={20} />}
                     </button>
-                </div>
+                </div> */}
                 
             </div>
             
