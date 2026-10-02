@@ -10,6 +10,7 @@
         background-color var(--bloom-dur) var(--bloom-ease),
         box-shadow var(--bloom-dur) var(--bloom-ease),
         transform var(--bloom-dur-fast) var(--bloom-ease);
+    cursor: pointer;
 }
 
 /* Same lift as the global .glass-card, declared here because a CSS module

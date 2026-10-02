@@ -8,9 +8,10 @@ import { Heart, HeartFill } from 'react-bootstrap-icons';
 function MeadowCard({ record, onOpen }) {
     const [ love, setLove ] = useState(false);
 
-    const heartClickHandler = () => {
-        love === true ? setLove(false) : setLove(true);
-    }
+    // KEPT FOR FUTURE IMPLEMENTATION
+    // const heartClickHandler = () => {
+    //     love === true ? setLove(false) : setLove(true);
+    // }
 
     /* Shared with the detail view, so the icon a card shows and the name the
      * modal spells out cannot drift apart. */
@@ -26,7 +27,10 @@ function MeadowCard({ record, onOpen }) {
     );
 
     return <>
-        <div className={` ${styles.glassCard} card h-100 p-3`}>
+        <div className={` ${styles.glassCard} card h-100 p-3`}
+            onClick={() => onOpen(record)}
+            data-bs-toggle="modal"
+            data-bs-target="#record-modal">
             {/* flex-grow-1 on .card-top, absorbing slack */}
             <div className="card-top d-flex flex-column flex-grow-1">
 
@@ -36,7 +40,7 @@ function MeadowCard({ record, onOpen }) {
                         <small className="author text-muted">by {record.relationships.user?.user_name}</small>
                     </div>
 
-                     <div className="tier-icon">
+                    <div className="tier-icon">
                         {tier && <tier.Icon size={20} />}
                         {/* The icon alone is unreadable to anyone who does not
                             already know the scale; the name it stands for is
