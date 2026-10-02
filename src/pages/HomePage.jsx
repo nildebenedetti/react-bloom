@@ -76,7 +76,7 @@ function HomePage() {
               Apologies for the inconvenience. <br/> {errorMsg}</h5>}
               {records.map((record) => {
                 return <div key={record.id} className="col">
-                    <MeadowCard record={record} onOpen={setOpenRecord} />
+                    <MeadowCard record={record} onOpen={ () =>setOpenRecord(record)} />
                 </div>
               })}
             </div>
