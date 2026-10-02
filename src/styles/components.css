@@ -290,11 +290,10 @@
   max-width: 32rem;
 }
 
-/* --- Login -----------------------------------------------------------------
- * .surface-card, not .glass-card: the meadow's frost exists to sit on the
- * artwork, and buys nothing behind a text field. */
+/* --- Login / Register --- */
+
 .auth-panel {
-  max-width: 26rem;
+  width: 100%;
 }
 
 .auth-panel__title {
@@ -302,7 +301,6 @@
   letter-spacing: -0.02em;
 }
 
-/* the meadow's one recurring ornament, from .feed-title::after */
 .auth-panel__title::after {
   content: "";
   display: block;
@@ -362,21 +360,6 @@
   --bs-alert-color: var(--bloom-danger);
   --bs-alert-bg: var(--bloom-danger-bg);
   --bs-alert-border-color: var(--bloom-danger-bg);
-}
-
-/* --- Patterned backgrounds ---------------------------------------------- */
-
-.flowerized {
-  background-image: url('../images/patterns/pattern-forget-me-not.svg');
-  background-repeat: repeat;
-  background-size: 150px 150px;
-}
-
-/* Printed for a pale background: on cobalt it would glare, so dim + desaturate
-   rather than recolour. */
-html[data-bs-theme="dark"] .flowerized {
-  opacity: 0.28;
-  filter: grayscale(0.35);
 }
 
 /* --- Navbar / footer ------------------------------------------------------- */
