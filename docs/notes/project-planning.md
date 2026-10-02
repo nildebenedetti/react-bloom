@@ -122,8 +122,8 @@ these first; several are one-line backend fixes that unblock whole phases.
       misspelled (`"Request was successfull"`) and `message` is the literal
       `"$message"`. Trust the HTTP status code instead.
 - [ ] **F9. MSW handlers + fixtures** mirroring every endpoint, including the
-      `attributes["category "]` trailing-space key, ISO-timestamp `date` and the
-      `{tier_1, tier_2, …}` area keys. This is what makes B2–B5 testable today.
+      the `YYYY-MM-DD` vs ISO-timestamp `date` split and the `{tier_1, tier_2, …}`
+      area keys. This is what makes B2–B5 testable today.
 - [ ] **F10. `src/api/records.js`, `meadow.js`, `prism.js`, `dashboard.js`, `auth.js`** —
       one function per endpoint, no component ever calls `fetch` directly
 - [ ] **F11. Serialize array query params** as repeated keys — `emotions[]=1&emotions[]=3`,
@@ -366,8 +366,8 @@ re-aggregate in the browser** (ADR-0014).
       and the error branches — these are the tests that make the B2–B5 flows verifiable
       before the backend is fixed
 - [ ] **F84. Contract tests against MSW fixtures** asserting the *quirks* stay handled:
-      the `attributes["category "]` trailing space, ISO-timestamp `date`, string vs number
-      ids, absent `emotions`
+      `YYYY-MM-DD` vs ISO-timestamp `date`, string vs number ids, absent `emotions`,
+      absent `image_path`
 - [ ] **F85. `pnpm lint` clean** (ESLint 10 + `eslint-plugin-react-hooks` v7 — the new
       rules will flag effect dependency problems, which is where the double-fetch bugs
       will come from)
@@ -421,15 +421,17 @@ Each is small; together they remove most of the SPA's defensive code.
 | `GET /dashboard/stats` | token | `time_range` | — |
 
 **Envelope** — `{ data, links, meta }`; each record is
-`{ id: string, attributes: {...}, relationships: { user: { id, "user name", "user email" } } }`.
+`{ id: string, attributes: {...}, relationships: { user: { id, user_name, user email } } }`.
+Keys are underscored: the `"user name"` / `"category "` spacings this API used to
+return were fixed upstream — see the table below.
 
 **Quirks the client must absorb**
 
 | Quirk | Handling |
 | --- | --- |
-| `attributes["category "]` has a **trailing space** | bracket access, never `.category` |
-| `category` / `tier` are **names, no ids** | keep an id→name map (resolved by B1) |
-| `date` is a full ISO timestamp, column is `date` | slice to `YYYY-MM-DD`; the timezone is undeclared |
+| ~~`attributes["category "]` has a trailing space~~ | **fixed upstream** — `category` is clean; access it as `.category` |
+| `category` is a **name**, `tier` is `{ id, name }` | keep an id→label map for tiers (resolved by B1) |
+| `date` is `YYYY-MM-DD` on the meadow, a full ISO timestamp elsewhere | slice to `YYYY-MM-DD`; never `new Date()` it (see `src/utils/date.js`) |
 | Record `id` is a **string**, `emotions[].id` is a **number** | compare with `String()` |
 | `visibility` is a plain `"public"` / `"private"` | the valid set is not discoverable from the response |
 | `emotions` only present when eager-loaded | always optional-chained |
