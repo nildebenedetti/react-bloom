@@ -280,14 +280,14 @@ data arrives ready to plot, with no client-side aggregation.
   "id": "1",
   "attributes": {
     "title": "Finished my thesis",
-    "date": "2026-07-14T00:00:00.000000Z",
-    "category ": "Studies",
-    "tier": "epic breakthrough",
+    "date": "2026-07-14",
+    "category": "Studies",
+    "tier": { "id": 4, "name": "epic breakthrough" },
     "visibility": "private",
     "emotions": [{ "id": 1, "name": "Proud", "color": "#4a90d9" }]
   },
   "relationships": {
-    "user": { "id": "3", "user name": "Ophelia", "user email": "ophelia@example.com" }
+    "user": { "id": "3", "user_name": "Ophelia", "user email": "ophelia@example.com" }
   }
 }
 ```

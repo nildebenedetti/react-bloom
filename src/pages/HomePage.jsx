@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
+import RecordModal from "../components/records/RecordModal.jsx";
 
 function HomePage() {
 
   const [ records, setRecords ] = useState([]);
+
+  /* The record currently on show in the detail modal. Lifted here rather than
+     held per card so exactly ONE modal exists for the whole feed, and one
+     record is ever rendered inside it. Kept after close instead of cleared:
+     the hidden dialog keeps its content, so the next open has something to
+     show immediately rather than a frame that fills in a tick later. */
+  const [ openRecord, setOpenRecord ] = useState(null);
   const [ errorMsg, setErrorMsg ] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
   const [ page, setPage ] = useState(1);
@@ -68,7 +76,7 @@ function HomePage() {
               Apologies for the inconvenience. <br/> {errorMsg}</h5>}
               {records.map((record) => {
                 return <div key={record.id} className="col">
-                    <MeadowCard record={record} />
+                    <MeadowCard record={record} onOpen={setOpenRecord} />
                 </div>
               })}
             </div>
@@ -92,6 +100,12 @@ function HomePage() {
             </section>
         </div>
       </section>
+
+      {/* One modal for every card. It has to sit above the feed rather than
+          inside a card, because Bootstrap resolves `data-bs-target` against
+          the whole document — a modal nested in a single card would work, but
+          only by being duplicated into every other card. */}
+      <RecordModal record={openRecord} />
   </>;
 }
 export default HomePage;

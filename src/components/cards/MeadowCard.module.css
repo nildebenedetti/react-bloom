@@ -21,8 +21,7 @@
 
 .glassCard .cardTitle {
     color: var(--bloom-title);
-    text-transform: capitalize;
-    padding-right: 4px;;
+    padding-right: 4px;
 }
 
 .glassCard .cardText {

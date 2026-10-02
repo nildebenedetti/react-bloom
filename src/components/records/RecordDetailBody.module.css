@@ -1,0 +1,78 @@
+
+
+.detail {
+    max-width: 44rem;
+}
+
+.tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.7rem;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.5;
+    font-family: var(--bs-font-sans-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    color: var(--bloom-action-quiet);
+    background-color: var(--bloom-action-quiet-bg);
+    border: 1px solid var(--bloom-action-quiet-border);
+    border-radius: 999px;
+}
+
+
+.title {
+    color: var(--bloom-title);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* --- Meta line (author · date · category) ----------------------------------- */
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: 0.9rem;
+    color: var(--bloom-text-muted);
+}
+
+.metaItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.metaItem + .metaItem::before {
+    content: "·";
+    opacity: 0.55;
+}
+
+/* --- Image ---- */
+.figure {
+    margin-bottom: 1rem;
+}
+
+.image {
+    max-height: 26rem;
+    object-fit: cover;
+}
+
+/* --- Emotions --- */
+.emotions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- Description ---- */
+.description {
+    color: var(--bs-body-color);
+    line-height: 1.65;
+}

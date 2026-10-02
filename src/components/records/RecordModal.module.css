@@ -1,0 +1,28 @@
+
+.dialog {
+   --bs-modal-width: 56rem;
+}
+.content {
+      --bs-modal-bg: var(--bloom-surface-2);
+      --bs-modal-border-color: var(--bloom-border);
+      --bs-modal-border-radius: var(--bloom-radius-lg);
+      --bs-modal-box-shadow: var(--bloom-shadow-md);
+
+      /* Long descriptions must not grow the dialog off the screen. The body
+      below is the scroll container, so a record of any length stays inside letting the meadow be seen. */
+    max-height: calc(100dvh - 2rem); /* dvh => dynamic viewport height */
+}
+
+/* The header exists to hold the close button and the dialog's accessible name.
+   No rule turns it into a bar: a titled chrome strip above a title inside the
+   body would say the same thing twice. */
+.header {
+   display: flex;
+   justify-content: flex-end;
+   padding: 0.75rem 0.75rem 0;
+}
+
+.body {
+   padding: 0.75rem 1.5rem 1.5rem;
+   overflow-y: auto;
+}
