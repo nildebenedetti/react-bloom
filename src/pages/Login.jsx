@@ -35,8 +35,8 @@ function Login() {
                         <div className="surface-card auth-panel p-4 p-md-5">
                             <form onSubmit={handleSubmit} noValidate>
                                 <div className="text-center mb-4">
-                                    <h1 className="h3 auth-panel__title mb-2">Log in</h1>
-                                    <p className="auth-panel__subtitle mb-0">Welcome back to <span className="fst-italic">Bloom</span>.</p>
+                                    <h1 className="h3 auth-panel-title mb-2">Log in</h1>
+                                    <p className="auth-panel-subtitle mb-0">Welcome back to <span className="fst-italic">Bloom</span>.</p>
                                 </div>
 
                                 {errorMsg && (
