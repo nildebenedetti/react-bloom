@@ -1,9 +1,26 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { MoonStarsFill, SunFill } from "react-bootstrap-icons";
-import useTheme from "../hooks/useTheme";
+import  useTheme  from "../hooks/useTheme.js";
+import { useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
+    const { logout } = useAuthContext();
+    const navigate = useNavigate();
+    const [ isLoggingOut, setIsLoggingOut ] = useState(false);
+
+    const handleLogout = async () => {
+        if (isLoggingOut) return;
+
+        setIsLoggingOut(true);
+        // logout() never rejects: it clears the token and the user state in its
+        // own finally, so once this resolves the local session is really gone.
+        // Awaiting it also guarantees the token is out of storage before we
+        // navigate, otherwise a refresh would restore the session.
+        await logout();
+        navigate('/logout');
+    };
 
     return (
         <header>
@@ -29,7 +46,7 @@ export default function Header() {
                     </button>
 
                     <div className="collapse navbar-collapse" id="mainNav">
-                        {/* Navigazione Principale (Sinistra) */}
+                        {/* main navigation - LEFT */}
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/">Home</NavLink>
@@ -39,9 +56,9 @@ export default function Header() {
                             </li>
                         </ul>
 
-                        {/* Autenticazione e Cambio Tema (Destra) */}
+                        {/* Auth & them toggle - RIGHT  */}
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-                            {/* Link per Ospiti */}
+                            {/* GUEST */}
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/login">Login</NavLink>
                             </li>
@@ -49,7 +66,7 @@ export default function Header() {
                                 <NavLink className="nav-link" to="/register">Register</NavLink>
                             </li>
 
-                            {/* Dropdown Utente Autenticato */}
+                            {/* Dropdown AUTH USER */}
                             <li className="nav-item dropdown">
                                 <a
                                     id="navbarDropdown"
@@ -65,17 +82,22 @@ export default function Header() {
 
                                 <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink>
+                                    <NavLink className="dropdown-item" to="/my-records">My Records</NavLink>
                                     <NavLink className="dropdown-item" to="/profile">Profile</NavLink>
                                     
                                     <hr className="dropdown-divider" />
                                     
-                                    <button type="button" className="dropdown-item">
-                                        Logout
+                                    <button
+                                        type="button"
+                                        className="dropdown-item"
+                                        onClick={handleLogout}
+                                        disabled={isLoggingOut}>
+                                        {isLoggingOut ? 'Logging out...' : 'Logout'}
                                     </button>
                                 </div>
                             </li>
 
-                            {/* Bottone Toggle Tema */}
+                            {/* toggle Theme */}
                             <li className="nav-item ms-lg-2">
                                 <button
                                     className="btn btn-outline-secondary btn-sm"

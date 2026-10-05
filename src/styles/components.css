@@ -299,7 +299,7 @@
   color: var(--bloom-title);
 }
 
-.home-hero-banner__copy {
+.home-hero-banner-copy {
   max-width: 34rem;
 }
 
@@ -332,7 +332,7 @@
  * The card sits on the meadow artwork and would otherwise shrink-wrap its own
  * text. max-width gives it a deliberate measure; paired with w-100 in the markup
  * it fills the phone and centres at a fixed width everywhere else. */
-.cta-register__card {
+.cta-register-card {
   max-width: 32rem;
 }
 
@@ -342,12 +342,12 @@
   width: 100%;
 }
 
-.auth-panel__title {
+.auth-panel-title {
   color: var(--bloom-title);
   letter-spacing: -0.02em;
 }
 
-.auth-panel__title::after {
+.auth-panel-title::after {
   content: "";
   display: block;
   width: 3rem;
@@ -357,7 +357,7 @@
   background-color: var(--bloom-accent);
 }
 
-.auth-panel__subtitle {
+.auth-panel-subtitle {
   color: var(--bloom-text-muted);
 }
 

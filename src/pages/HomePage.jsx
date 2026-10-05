@@ -59,7 +59,7 @@ function HomePage() {
 
   return <>
       <section className="home-hero-banner w-100 d-flex align-items-end p-3 p-md-4">
-        <div className="home-hero-banner__copy glass-card m-3 m-md-0 p-3 p-md-4">
+        <div className="home-hero-banner-copy glass-card m-3 m-md-0 p-3 p-md-4">
             <h1 className="mb-2">Welcome in <span className="fst-italic fs-1">Bloom</span></h1>
             <p className="fs-5 mb-2">A place to remember how far you've bloomed.</p>
             <p className="fst-italic mb-0">A space to pause and linger: the paths walked, the lessons gathered, and the soft shimmer that remains.</p>
@@ -94,7 +94,7 @@ function HomePage() {
             {/* CTA Register Banner */}
             <section className="cta-register">
               <div className="banner w-100 d-flex justify-content-center pt-5">
-                <div className="cta-register__card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
+                <div className="cta-register-card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
                     <h2 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h2>
                     <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
                     <button type="button" className="btn-action mt-3">Register</button>
