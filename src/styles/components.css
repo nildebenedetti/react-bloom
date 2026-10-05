@@ -205,6 +205,52 @@
   html[data-bs-theme="dark"] { --bloom-glass-bg: rgba(15, 23, 42, 0.92); }
 }
 
+/* --- Glass buttons --------------------------- */
+
+.glass-bg {
+  background-color: var(--bloom-glass-bg);
+  -webkit-backdrop-filter: blur(var(--bloom-glass-blur));
+  backdrop-filter: blur(var(--bloom-glass-blur));
+  border: 1px solid var(--bloom-glass-border);
+  /* --bloom-action-quiet is the label token for a surface this light; it is
+   * measured against the glass, not against an action fill. */
+  color: var(--bloom-action-quiet);
+  box-shadow: var(--bloom-shadow-sm);
+  transition:
+    color var(--bloom-dur) var(--bloom-ease),
+    background-color var(--bloom-dur) var(--bloom-ease),
+    border-color var(--bloom-dur) var(--bloom-ease),
+    box-shadow var(--bloom-dur) var(--bloom-ease),
+    transform var(--bloom-dur-fast) var(--bloom-ease);
+}
+
+.glass-bg:hover {
+  /* Label and fill move together — the pair --bloom-on-action on
+   * --bloom-action-hover is the combination the action buttons already rely on,
+   * so the contrast is the one already documented in tokens.css (6.1:1 light). */
+  color: var(--bloom-on-action);
+  background-color: var(--bloom-action-hover);
+  border-color: var(--bloom-action-hover);
+  box-shadow: var(--bloom-shadow-accent);
+  transform: translateY(-1px);
+}
+
+.glass-bg:active {
+  color: var(--bloom-on-action);
+  background-color: var(--bloom-action-active);
+  border-color: var(--bloom-action-active);
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--bloom-shadow-sm);
+}
+
+/* :focus-visible keeps the ring off mouse clicks, and reuses the action colour
+ * for the same reason .btn-action does — a pale accent ring on this surface is
+ * too faint to see. */
+.glass-bg:focus-visible {
+  outline: 2px solid var(--bloom-action);
+  outline-offset: 2px;
+}
+
 /* --- Cards ----------------------------------------------------------------- */
 
 .glass-card,

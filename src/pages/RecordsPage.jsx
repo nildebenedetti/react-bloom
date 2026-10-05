@@ -15,6 +15,10 @@ function RecordsPage() {
     const [ hasMore, setHasMore ] = useState(true);
     const [ selectedCategories, setSelectedCategories ] = useState([]);
     const [ selectedTiers, setSelectedTiers ] = useState([]);
+    /* Two states on purpose: what is typed, and what has been applied. The fetch
+     * depends on the second, so typing does not refetch until submitted. */
+    const [ searchInput, setSearchInput ] = useState('');
+    const [ searchTerm, setSearchTerm ] = useState('');
 
     /* ==== categories & tiers ======================= */
    
@@ -79,6 +83,7 @@ function RecordsPage() {
                          * special-case as an empty value. */
                         category_ids: selectedCategories.length > 0 ? selectedCategories : undefined,
                         tier_ids: selectedTiers.length > 0 ? selectedTiers : undefined,
+                        search: searchTerm.length > 0 ? searchTerm : undefined,
                     },
                 });
 
@@ -111,13 +116,26 @@ function RecordsPage() {
         // gone cannot set state on a component that no longer exists.
         return () => { cancelled = true; };
 
-    }, [page, selectedCategories, selectedTiers]);
+    }, [page, selectedCategories, selectedTiers, searchTerm]);
 
     // show more btn clickHandler
     const handleShowMore = () => {
         // Advancing the page is the whole handler: the effect above sees the new
         // value and fetches, appending because page !== 1.
         setPage(prevPage => prevPage + 1);
+    }
+
+    /* Search is committed, not live
+     * `preventDefault` is what stops the form doing a full page reload */
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+
+        // Trimmed, so a stray space is not searched for literally. 
+        // Submitting an empty box clears the search.
+        setSearchTerm(searchInput.trim());
+
+        // A new query invalidates the pages already loaded.
+        setPage(1);
     }
 
     const hasActiveFilters = selectedCategories.length > 0 || selectedTiers.length > 0;
@@ -139,7 +157,13 @@ function RecordsPage() {
                         return <button
                                     key={category.id}
                                     type="button"
-                                    className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bar'}`}
+                                    /* Off = the frosted surface, on = the filled
+                                     * action button. `glass-bg` instead of
+                                     * `glass-bar`: glass-bar pins its background
+                                     * with !important to beat .navbar, which on a
+                                     * button also outranked :hover — so the label
+                                     * went white while the fill stayed glass. */
+                                    className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
                                     onClick={ () => toggleCategory(category.id) }
                         >
                             {category.name}
@@ -156,8 +180,8 @@ function RecordsPage() {
                         return <button
                                     key={tier.id}
                                     type="button"
-                                    aria-pressed={isSelected}
-                                    className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bar'}`}
+                                    /* Same off/on split as the category chips. */
+                                    className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
                                     onClick={ () => toggleTier(tier.id) }
                         >
                             {tier.name}
@@ -165,25 +189,25 @@ function RecordsPage() {
                     }
                     )}
                 </div>
-
                 {/* searchbar */}
-                <div className='d-flex py-4'>
+                <form className='d-flex py-4' onSubmit={handleSearchSubmit}>
                             <div>
                                 <input
-                                    type="text"
+                                    type="search"
                                     className="form-control rounded-pill mx-2"
                                     placeholder="Search..."
+                                    value={searchInput}
+                                    onChange={ e => setSearchInput(e.target.value) }
                                 />
-
                             </div>
                             <button
-                                className="btn-action-outline ms-3 rounded-4"
-                                type="button"
-                                // onClick={}
+                                className="btn-action-outline glass-bg ms-3 rounded-4"
+                                type="submit"
+                                disabled={isLoading}
                             >
                             < Search />
                             </button>
-                        </div>
+                        </form>
 
                 </div>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
@@ -191,8 +215,8 @@ function RecordsPage() {
                     { errorMsg && <h5>Something went wrong while fetching data from the database. <br/> Apologies for the inconvenience. <br/> {errorMsg}</h5>}
                     {/* Empty state. */}
                     { !errorMsg && !isLoading && records.length === 0 &&
-                        <h5 className="feed-subtitle">{ hasActiveFilters
-                            ? 'No records match these filters.'
+                        <h5 className="feed-subtitle">{ hasActiveFilters || searchTerm
+                            ? 'No records match this search and these filters.'
                             : 'No records yet.' }</h5>
                     }
                     {/* cards */}
