@@ -46,7 +46,7 @@ function HomePage() {
 
   useEffect(() => {
     
-    loadRecords(1);
+    loadRecords(page);
 
   }, []);
 
