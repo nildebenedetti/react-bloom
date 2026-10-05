@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import RecordsPage from "./pages/RecordsPage.jsx";
 
 
 
@@ -29,6 +30,7 @@ function App() {
               {/* private routes */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/my-records" element={<RecordsPage />} />
               </Route>
 
               {/* fallback */}
