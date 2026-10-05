@@ -18,7 +18,7 @@ function HomePage() {
   const [ page, setPage ] = useState(1);
   const [ hasMore, setHasMore ] = useState(true);
 
-      const loadRecords = async (pageToFetch) => {
+      const loadPagedRecords = async (pageToFetch) => {
         setIsLoading(true);
         try {
 
@@ -46,7 +46,7 @@ function HomePage() {
 
   useEffect(() => {
     
-    loadRecords(1);
+    loadPagedRecords(page);
 
   }, []);
 
@@ -54,7 +54,7 @@ function HomePage() {
     const handleShowMore = () => {
       const nextPage = page + 1;
       setPage(nextPage);
-      loadRecords(nextPage);
+      loadPagedRecords(nextPage);
     }
 
   return <>
@@ -72,7 +72,9 @@ function HomePage() {
             <p className="feed-subtitle">Celebrate our Community</p>
           </div>
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
+              {/* fetch error */}
               {errorMsg && <h5>Something went wrong while fetching data from the database. <br/>
+              {/* cards */}
               Apologies for the inconvenience. <br/> {errorMsg}</h5>}
               {records.map((record) => {
                 return <div key={record.id} className="col">
@@ -80,6 +82,7 @@ function HomePage() {
                 </div>
               })}
             </div>
+            {/* show more cards */}
             { hasMore &&  
             <div className="d-flex justify-content-center btn-wrapper py-3">
               <button type="button"
