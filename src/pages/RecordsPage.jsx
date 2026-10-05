@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
-import { Search } from "react-bootstrap-icons";
+import { Search, SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
 import RecordModal from "../components/records/RecordModal.jsx";
 import { TIERS } from "../components/utils/tier.js";
@@ -19,6 +19,9 @@ function RecordsPage() {
      * depends on the second, so typing does not refetch until submitted. */
     const [ searchInput, setSearchInput ] = useState('');
     const [ searchTerm, setSearchTerm ] = useState('');
+    // sort 
+    const [ sortOrder, setSortOrder ] = useState('desc');
+
 
     /* ==== categories & tiers ======================= */
    
@@ -64,6 +67,12 @@ function RecordsPage() {
         setPage(1);
     };
 
+    /* ========= sort toggle ======================== */
+    const handleSortToggle = () => {
+        setSortOrder( prev => prev === 'desc' ? 'asc' : 'desc');
+        setPage(1);
+    }
+
     /* `cancelled` is set by the cleanup, so a response arriving after a newer request started is dropped instead of writing to state: a stale page cannot append onto a freshly filtered list. */
     useEffect( () => {
         let cancelled = false;
@@ -84,6 +93,11 @@ function RecordsPage() {
                         category_ids: selectedCategories.length > 0 ? selectedCategories : undefined,
                         tier_ids: selectedTiers.length > 0 ? selectedTiers : undefined,
                         search: searchTerm.length > 0 ? searchTerm : undefined,
+                        /* Unlike the filters this one is always sent: the server
+                         * sorts by `date` and falls back to `desc` for anything it
+                         * does not recognise, so sending it explicitly is what
+                         * actually makes the toggle do anything. */
+                        order: sortOrder,
                     },
                 });
 
@@ -116,7 +130,7 @@ function RecordsPage() {
         // gone cannot set state on a component that no longer exists.
         return () => { cancelled = true; };
 
-    }, [page, selectedCategories, selectedTiers, searchTerm]);
+    }, [page, selectedCategories, selectedTiers, searchTerm, sortOrder]);
 
     // show more btn clickHandler
     const handleShowMore = () => {
@@ -189,31 +203,45 @@ function RecordsPage() {
                     }
                     )}
                 </div>
-                {/* searchbar */}
-                <form className='d-flex py-4' onSubmit={handleSearchSubmit}>
-                            <div>
-                                <input
-                                    type="search"
-                                    className="form-control rounded-pill mx-2"
-                                    placeholder="Search..."
-                                    value={searchInput}
-                                    onChange={ e => setSearchInput(e.target.value) }
-                                />
-                            </div>
-                            <button
-                                className="btn-action-outline glass-bg ms-3 rounded-4"
-                                type="submit"
-                                disabled={isLoading}
-                            >
-                            < Search />
-                            </button>
-                        </form>
-
+                {/* searchbar & sort flex section */}
+                <div className="advanced-filter-wrapper d-flex align-items-baseline justify-content-between">
+                    {/* searchbar */}
+                    <form className='d-flex py-4' onSubmit={handleSearchSubmit}>
+                                <div>
+                                    <input
+                                        type="search"
+                                        className="form-control rounded-pill mx-2"
+                                        placeholder="Search..."
+                                        value={searchInput}
+                                        onChange={ e => setSearchInput(e.target.value) }
+                                    />
+                                </div>
+                                <button
+                                    className="btn-action-outline glass-bg ms-3 rounded-4"
+                                    type="submit"
+                                    disabled={isLoading}
+                                >
+                                < Search />
+                                </button>
+                            </form>
+                    {/* order */}
+                    <div>
+                        <button
+                                    type="button"
+                                    className="btn-action-outline glass-bg rounded-pill px-3 py-2 d-flex mb-2 align-items-center gap-2"
+                                    onClick={handleSortToggle}
+                                >
+                                    <span className="small fw-bold">
+                                        {sortOrder === 'desc' ? 'Latest' : 'Oldest'}
+                                    </span>
+                                    {sortOrder === 'desc' ? <SortNumericDown /> : <SortNumericUp />}
+                        </button>
+                    </div>
                 </div>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
                     {/* fetch error */}
                     { errorMsg && <h5>Something went wrong while fetching data from the database. <br/> Apologies for the inconvenience. <br/> {errorMsg}</h5>}
-                    {/* Empty state. */}
+                    {/* Empty state */}
                     { !errorMsg && !isLoading && records.length === 0 &&
                         <h5 className="feed-subtitle">{ hasActiveFilters || searchTerm
                             ? 'No records match this search and these filters.'
@@ -234,6 +262,7 @@ function RecordsPage() {
                                 disabled={isLoading}
                         >{isLoading ? 'Loading...' : 'Show More'} </button>
                 </div>}
+            </div>
             </div>
         </section>
 
