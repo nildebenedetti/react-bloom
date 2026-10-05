@@ -6,7 +6,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
-    const { logout } = useAuthContext();
+    const { logout, user, token } = useAuthContext();
     const navigate = useNavigate();
     const [ isLoggingOut, setIsLoggingOut ] = useState(false);
 
@@ -19,7 +19,10 @@ export default function Header() {
         // Awaiting it also guarantees the token is out of storage before we
         // navigate, otherwise a refresh would restore the session.
         await logout();
-        navigate('/logout');
+        // Straight to /login, no goodbye page: ProtectedRoute already sends
+        // token-less visitors to /login, so aiming anywhere else means two
+        // redirects racing over the router, and the declarative one wins.
+        navigate('/login', { replace: true }); // even when hitting back in the browser, we are sent there.
     };
 
     return (
@@ -59,15 +62,17 @@ export default function Header() {
                         {/* Auth & them toggle - RIGHT  */}
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                             {/* GUEST */}
+                            { !token && <>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/login">Login</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/register">Register</NavLink>
-                            </li>
+                            </li> 
+                            </> }
 
                             {/* Dropdown AUTH USER */}
-                            <li className="nav-item dropdown">
+                            {token && <li className="nav-item dropdown">
                                 <a
                                     id="navbarDropdown"
                                     className="nav-link dropdown-toggle"
@@ -77,13 +82,16 @@ export default function Header() {
                                     aria-haspopup="true"
                                     aria-expanded="false"
                                 >
-                                    User Name
+                                    {user?.name }
                                 </a>
-
-                                <div className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                
+                                <div className="dropdown-menu dropdown-menu-end" 
+                                aria-labelledby="navbarDropdown">
+                                    { user && <>
                                     <NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink>
                                     <NavLink className="dropdown-item" to="/my-records">My Records</NavLink>
                                     <NavLink className="dropdown-item" to="/profile">Profile</NavLink>
+                                    
                                     
                                     <hr className="dropdown-divider" />
                                     
@@ -93,10 +101,12 @@ export default function Header() {
                                         onClick={handleLogout}
                                         disabled={isLoggingOut}>
                                         {isLoggingOut ? 'Logging out...' : 'Logout'}
-                                    </button>
-                                </div>
+                                    </button> 
+                                    </>
+                                }
+                                </div> 
                             </li>
-
+                            }
                             {/* toggle Theme */}
                             <li className="nav-item ms-lg-2">
                                 <button
