@@ -6,8 +6,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
-    const { logout } = useAuthContext();
-    const { user, token } = useAuthContext();
+    const { logout, user, token } = useAuthContext();
     const navigate = useNavigate();
     const [ isLoggingOut, setIsLoggingOut ] = useState(false);
 
@@ -20,9 +19,10 @@ export default function Header() {
         // Awaiting it also guarantees the token is out of storage before we
         // navigate, otherwise a refresh would restore the session.
         await logout();
-        setIsLoggingOut(false);
-        navigate('/logout');
-
+        // Straight to /login, no goodbye page: ProtectedRoute already sends
+        // token-less visitors to /login, so aiming anywhere else means two
+        // redirects racing over the router, and the declarative one wins.
+        navigate('/login', { replace: true }); // even when hitting back in the browser, we are sent there.
     };
 
     return (

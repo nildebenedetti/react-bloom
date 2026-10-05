@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 
 function Login() {
@@ -81,6 +81,13 @@ function Login() {
                                 >
                                     {isSubmitting ? 'Signing in...' : 'Sign in'}
                                 </button>
+
+                                <p className="text-center auth-panel__subtitle small mb-0 mt-4">
+                                    Just browsing?{' '}
+                                    <Link className="text-decoration-none" to="/">
+                                        Visit as Guest
+                                    </Link>
+                                </p>
                             </form>
                         </div>
                     </div>
