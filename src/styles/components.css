@@ -415,18 +415,31 @@
 }
 
 /* The frosted bar sits over content, so give the navbar its own text colours
-   instead of relying on Bootstrap's, which assume a solid background. */
+   instead of relying on Bootstrap's, which assume a solid background.
+   The resting label is the brand blue; "you are here" is deliberately NOT blue.
+   Every blue tried here failed for a different reason:
+     --bloom-accent #85b6ff → 1.97:1  a TINT, unusable as text, and it washed
+                                     out to weaker than resting
+     --bloom-action #2f6fd0 → 4.6:1  readable, but still read as "a blue link"
+                                     rather than as a location
+   So active and hover go neutral, to the theme's strongest text tone — which is
+   also what Bootstrap uses for its own active nav link. Measured on the glass
+   (#f6fafc = white .5 over the #eef4f8 page, #18222f for the dark one):
+     light  --bloom-title #2f599e 6.6:1  →  emphasis #0f172a 17.0:1
+     dark   --bloom-title #93c5fd 8.9:1  →  emphasis #f8fafc 15.3:1
+   Hover and active are the same colour on purpose; the underline and the weight
+   are what say "here". */
 .navbar .nav-link {
-  color: var(--bloom-title);
+  color: var(--bloom-title) !important;
 }
 
 .navbar .nav-link:hover,
 .navbar .nav-link:focus {
-  color: var(--bloom-accent);
+  color: var(--bs-emphasis-color);
 }
 
 .navbar .nav-link.active {
-  color: var(--bloom-accent);
+  color: var(--bs-emphasis-color);
   font-weight: 600;
 }
 
@@ -436,9 +449,15 @@
   height: 2px;
   margin-top: 2px;
   border-radius: 2px;
-  background-color: var(--bloom-accent);
+  background-color: var(--bs-emphasis-color);
 }
 
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active {
+  background-color: rgba(0, 0, 0, 0.08) !important; /* Oppure 'transparent' */
+  color: var(--bs-emphasis-color) !important;
+  font-weight: 600;
+}
 .footer {
   color: var(--bloom-text-muted);
 }
