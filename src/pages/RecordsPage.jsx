@@ -3,6 +3,7 @@ import { fetchData, ENDPOINTS } from "../utils/api.js";
 import { Search } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
 import RecordModal from "../components/records/RecordModal.jsx";
+import { TIERS } from "../components/utils/tier.js";
 
 function RecordsPage() {
     const  [ records, setRecords ] = useState([]);
@@ -15,8 +16,8 @@ function RecordsPage() {
     const [ selectedCategories, setSelectedCategories ] = useState([]);
     const [ selectedTiers, setSelectedTiers ] = useState([]);
 
-    // ==== categories & tiers =======================
-
+    /* ==== categories & tiers ======================= */
+   
     const CATEGORIES = [
         { id: 1, name: 'Career' },
         { id: 2, name: 'Studies' },
@@ -32,76 +33,94 @@ function RecordsPage() {
         { id: 12, name: 'Promises' },
     ];
 
-    const TIERS = [
-        { id: 1, name: 'small win' },
-        { id: 2, name: 'solid step' },
-        { id: 3, name: 'major milestone' },
-        { id: 4, name: 'epic breakthrough' },
-    ];
+    /* Tiers are NOT duplicated here: they are derived from the shared map that
+     * MeadowCard renders its icons from. */
+    const TIER_CHIPS = Object.entries(TIERS).map(([ id, { label } ]) => ({
+        id: Number(id),
+        name: label,
+    }));
 
     // ========= toggle Cateories & Tiers =================
 
+    /* A new selection invalidates every page already loaded, so the page is
+     * reset in the same handler that changes the filter. */
     const toggleCategory = (id) => {
         setSelectedCategories(prev =>
             // if included, filter current array. and remove, else, add at the end of curr array values
             prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
         );
+        setPage(1);
     };
 
     const toggleTier = (id) => {
         setSelectedTiers(prev =>
+            // same shape as toggleCategory: remove if present, else append
             prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id]
         );
+        setPage(1);
     };
 
-    // ====== main fetch function =========================
-    // param resetList needed to reset page in case of query after show more btn has been used
-    const loadPagedRecords = async (pageToFetch, resetList = false) => {
-        setIsLoading(true);
-
-        try {
-            // fetch records
-            const response = await fetchData(ENDPOINTS.private.records,
-                {
-                    params: { page: pageToFetch },
-                    categories: selectedCategories.length > 0 ? selectedCategories : undefined, // undefined is handled in fetch data
-                    tiers: selectedTiers.length > 0 ? selectedTiers : undefined,
-                }
-            );
-            // if page to fetch is 1 or search filters have been activated, get data, otherwise spread former data and add fresh fetched
-            setRecords( prev => ( pageToFetch === 1 || resetList ) ? response.data : [...prev, ...response.data ]);
-
-            // check if we have more pages to load
-            setHasMore(response.links.next !== null); // bool
-
-        } catch (error) {
-
-            setErrorMsg(error.message);
-
-            console.error("error while fetching records data", error);
-
-        } finally {
-            setIsLoading(false);
-        }
-    }
-    // ================================================
-
-    // is launched when mounting and each filter toggle
+    /* `cancelled` is set by the cleanup, so a response arriving after a newer request started is dropped instead of writing to state: a stale page cannot append onto a freshly filtered list. */
     useEffect( () => {
+        let cancelled = false;
 
-        setPage(1); // as it is handled by filter toggle
-        loadPagedRecords(page, true); // overriding second parameter resetList
+        const loadRecords = async () => {
+            setIsLoading(true);
+            setErrorMsg('');
 
-    }, [selectedCategories, selectedTiers]);
+            try {
+                const response = await fetchData(ENDPOINTS.private.records, {
+                    params: {
+                        page,
+                        /* An empty selection is sent as `undefined`, which
+                         * fetchData drops entirely — so "nothing selected"
+                         * produces a clean unfiltered URL rather than
+                         * `category_ids[]=`, which the server would have to
+                         * special-case as an empty value. */
+                        category_ids: selectedCategories.length > 0 ? selectedCategories : undefined,
+                        tier_ids: selectedTiers.length > 0 ? selectedTiers : undefined,
+                    },
+                });
+
+                // drop this if cancelled.
+                if (cancelled) return;
+
+                // Page 1 REPLACES the list ( useEffect is triggered by any filter change)
+                setRecords(prev => (page === 1 ? response.data : [...prev, ...response.data]));
+
+                // check if we have more pages to load
+                setHasMore(response.links.next !== null); // bool
+
+            } catch (error) {
+
+                if (cancelled) return;
+
+                setErrorMsg(error.message);
+
+                console.error("error while fetching records data", error);
+
+            } finally {
+
+                if (!cancelled) setIsLoading(false);
+            }
+        };
+
+        loadRecords();
+
+        // Runs on unmount too, so a request that resolves after the page is
+        // gone cannot set state on a component that no longer exists.
+        return () => { cancelled = true; };
+
+    }, [page, selectedCategories, selectedTiers]);
 
     // show more btn clickHandler
     const handleShowMore = () => {
-        const nextPage = page + 1;
-        setPage(nextPage);
-        loadPagedRecords(nextPage); // resetList is left as default === false and does not 
-
+        // Advancing the page is the whole handler: the effect above sees the new
+        // value and fetches, appending because page !== 1.
+        setPage(prevPage => prevPage + 1);
     }
 
+    const hasActiveFilters = selectedCategories.length > 0 || selectedTiers.length > 0;
 
     return <>
         <section className="feed w-100">
@@ -129,15 +148,15 @@ function RecordsPage() {
                     )}
                 </div>
                 {/* All tiers chips */}
-                
                 <div className="tiers-chips mb-3 d-flex flex-wrap gap-2">
                     <span className="feed-subtitle text-muted fw-bold w-100">Tiers:</span>
-                    {TIERS.map( (tier) => {
+                    {TIER_CHIPS.map( (tier) => {
                         const isSelected = selectedTiers.includes(tier.id);
 
                         return <button
                                     key={tier.id}
                                     type="button"
+                                    aria-pressed={isSelected}
                                     className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bar'}`}
                                     onClick={ () => toggleTier(tier.id) }
                         >
@@ -149,14 +168,13 @@ function RecordsPage() {
 
                 {/* searchbar */}
                 <div className='d-flex py-4'>
-                            
                             <div>
                                 <input
                                     type="text"
                                     className="form-control rounded-pill mx-2"
                                     placeholder="Search..."
                                 />
-                            
+
                             </div>
                             <button
                                 className="btn-action-outline ms-3 rounded-4"
@@ -171,6 +189,12 @@ function RecordsPage() {
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 cards-container h-100 g-4">
                     {/* fetch error */}
                     { errorMsg && <h5>Something went wrong while fetching data from the database. <br/> Apologies for the inconvenience. <br/> {errorMsg}</h5>}
+                    {/* Empty state. */}
+                    { !errorMsg && !isLoading && records.length === 0 &&
+                        <h5 className="feed-subtitle">{ hasActiveFilters
+                            ? 'No records match these filters.'
+                            : 'No records yet.' }</h5>
+                    }
                     {/* cards */}
                     {records.map( (record) => {
                         return <div key={record.id} className="col">
@@ -179,7 +203,7 @@ function RecordsPage() {
                     })}
                 </div>
                 {/* show more cards */}
-                { hasMore && <div className="d-flex justify-content-center btn-wrapper py-3">
+                { hasMore && records.length > 0 && <div className="d-flex justify-content-center btn-wrapper py-3">
                         <button type="button"
                                 className="btn-action"
                                 onClick={handleShowMore}
