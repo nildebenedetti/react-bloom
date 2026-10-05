@@ -62,12 +62,14 @@ export default function Header() {
                         {/* Auth & them toggle - RIGHT  */}
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                             {/* GUEST */}
+                            { !token && <>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/login">Login</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/register">Register</NavLink>
-                            </li>
+                            </li> 
+                            </> }
 
                             {/* Dropdown AUTH USER */}
                             {token && <li className="nav-item dropdown">
