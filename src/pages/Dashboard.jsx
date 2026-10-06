@@ -56,17 +56,17 @@ function Dashboard() {
 
     return <>
 
-    <div className="page-container flex-grow-1 w-100  px-4 feed-meadow-container">
+    <div className=" flex-grow-1 w-100  px-4 feed-meadow-container">
             {/* Welcome section with cockpit
      */}
-        <section className="welcome-section  d-flex justify-content-between align-items-start">
+        <section className="welcome-section d-flex justify-content-between align-items-start">
             <div className="welcome-par">
                 <h2 className="feed-title">Hi, {user.name}</h2>
                 <h5 className="feed-subtitle">
                     May your bloom cherish your Soul. <br /> Enjoy your stay!
                 </h5>
             </div>
-            <div className="profile-overview text-end d-flex flex-column">
+            <div className="profile-overview text-end d-flex   flex-column glass-card p-3">
                 <div className="title">
                     <h5>{user.name}</h5>
                 </div>
@@ -105,15 +105,13 @@ function Dashboard() {
 
                 </div>
                 
-                <div className="charts-container glass-card p-4">
+                <div className="charts-container glass-card p-4 mt-2 mb-4">
                     <div className="row row-cols row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
                         {/* Spider Chart - EMOTION DISTRIBUTION ACROSS RECORDS */}
 
                         {/* Pie Chart - RECORDS DISTRIBUTION ACROSS CATEGORIES */}
-                            <h3 className="chart-title text-center">
-                                Categories Distribution
-                            </h3>
-                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={chartsData?.charts?.pie} /> )}
+                            
+                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
 
                         {/* Area Chart - VELOCITY VS. IMPACT */}
                     </div>

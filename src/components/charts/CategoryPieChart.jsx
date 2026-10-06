@@ -2,7 +2,7 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
 import { getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
 import useTheme from '../../hooks/useTheme.js';
 
-function CategoriesPieChart( { rawData = [] }) {
+function CategoriesPieChart( { rawData = [], title = "Categories Distribution" }) {
 
     /* The slices are SVG fills, so they cannot read the CSS tokens — this is
      * the reason the palette is exported as JS (PRD §3.1). The set is picked
@@ -36,6 +36,7 @@ function CategoriesPieChart( { rawData = [] }) {
     }
 
     return <div style={{ width: '100%', height: 240 }}>
+        {title && <h4 className="text-center">{title}</h4>}
         <ResponsiveContainer className="w-100 h-100">
             <PieChart>
                 <Pie 

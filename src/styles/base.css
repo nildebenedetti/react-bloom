@@ -37,7 +37,7 @@ html[data-bs-theme="dark"] .feed-meadow-container {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding-top: var(--bloom-header-height);
+  padding-top: 2.5rem;
 
 }
 
