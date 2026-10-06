@@ -1,7 +1,9 @@
 import { NavLink } from "react-router";
+import { useAuthContext } from "../contexts/AuthContext.jsx";
 
 function Footer() {
     const currentYear = new Date().getFullYear();
+    const { token } = useAuthContext();
 
     return <>
         <footer className="footer mt-auto py-4 glass-bar border-top">
@@ -25,14 +27,13 @@ function Footer() {
                                 <NavLink className="nav-link d-inline" to="/">Home</NavLink>
                             </li>
                             <li className="list-inline-item mx-2">
-                                <NavLink className="nav-link d-inline" to="/#">About</NavLink>
+                                <NavLink className="nav-link d-inline" to="/about">About</NavLink>
                             </li>
-                            <li className="list-inline-item mx-2">
-                                <NavLink className="nav-link d-inline" to="/#">Records</NavLink>
-                            </li>
-                            <li className="list-inline-item mx-2">
-                                <NavLink className="nav-link d-inline" to="/#">Dashboard</NavLink>
-                            </li>
+                            { token && <>
+                                <li className="list-inline-item mx-2">
+                                    <NavLink className="nav-link d-inline" to="/dashboard">Dashboard</NavLink>
+                                </li>                            
+                            </> }
                         </ul>
                     </div>
 

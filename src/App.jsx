@@ -10,6 +10,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import RecordsPage from "./pages/RecordsPage.jsx";
+import EmotionPrism from "./pages/EmotionPrism.jsx";
 
 
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/my-records" element={<RecordsPage />} />
               </Route>
+              <Route path="/emotion-prism" element={<EmotionPrism />} />
 
               {/* fallback */}
               <Route path="*" element={<NotFound />} />
