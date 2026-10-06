@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
+import CategoriesPieChart from "../components/charts/CategoryPieChart.jsx";
 
 
 function Dashboard() {
@@ -10,6 +11,7 @@ function Dashboard() {
     const [ chartsData, setChartsData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ errorMsg, setErrorMsg ] = useState('');
+
 
     // fetch
     useEffect( () => {
@@ -103,12 +105,15 @@ function Dashboard() {
 
                 </div>
                 
-                <div className="charts-container">
+                <div className="charts-container bg-primary bg-opacity-75">
                     <div className="row row-cols row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
-                        {JSON.stringify(chartsData)}
                         {/* Spider Chart - EMOTION DISTRIBUTION ACROSS RECORDS */}
 
                         {/* Pie Chart - RECORDS DISTRIBUTION ACROSS CATEGORIES */}
+                            <h3 className="chart-title text-center">
+                                Categories Distribution
+                            </h3>
+                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={chartsData?.charts?.pie} /> )}
 
                         {/* Area Chart - VELOCITY VS. IMPACT */}
                     </div>
