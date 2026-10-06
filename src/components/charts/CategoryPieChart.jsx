@@ -1,5 +1,5 @@
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
-import { getCategoryColors, UNKNOWN_CATEGORY_COLOR } from '../utils/categories.js';
+import { getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
 import useTheme from '../../hooks/useTheme.js';
 
 function CategoriesPieChart( { rawData = [] }) {
@@ -9,6 +9,7 @@ function CategoriesPieChart( { rawData = [] }) {
      * from the live theme so the chart is tuned for this theme's surfaces. */
     const { theme } = useTheme();
     const categoryColors = getCategoryColors(theme);
+    const unknownColor = getUnknownCategoryColor(theme);
 
     const pieData = rawData.map (item => {
         // lookup if I can find the map 
@@ -18,7 +19,7 @@ function CategoriesPieChart( { rawData = [] }) {
         return {
             name: item.category,
             value: Number(item.count) || 0,
-            fill: foundCat ? foundCat.color : UNKNOWN_CATEGORY_COLOR
+            fill: foundCat ? foundCat.color : unknownColor
         }
 
     }).filter( item => item.value > 0); // filter only if count > 0

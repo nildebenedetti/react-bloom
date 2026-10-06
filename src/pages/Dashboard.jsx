@@ -105,7 +105,7 @@ function Dashboard() {
 
                 </div>
                 
-                <div className="charts-container bg-primary bg-opacity-75">
+                <div className="charts-container glass-card p-4">
                     <div className="row row-cols row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
                         {/* Spider Chart - EMOTION DISTRIBUTION ACROSS RECORDS */}
 
