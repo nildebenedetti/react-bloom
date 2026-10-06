@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router";
 import { MoonStarsFill, SunFill } from "react-bootstrap-icons";
 import  useTheme  from "../hooks/useTheme.js";
 import { useState } from "react";
-import { useAuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext.jsx";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();

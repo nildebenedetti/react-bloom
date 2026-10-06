@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
+import { useAuthContext } from "../contexts/AuthContext.jsx";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
 import RecordModal from "../components/records/RecordModal.jsx";
 
@@ -17,6 +19,8 @@ function HomePage() {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ page, setPage ] = useState(1);
   const [ hasMore, setHasMore ] = useState(true);
+
+  const { token } = useAuthContext();
 
       const loadPagedRecords = async (pageToFetch) => {
         setIsLoading(true);
@@ -92,6 +96,7 @@ function HomePage() {
               >{isLoading ? 'Loading...' : 'Show More'} </button>
             </div>}
             {/* CTA Register Banner */}
+            { !token && 
             <section className="cta-register">
               <div className="banner w-100 d-flex justify-content-center pt-5">
                 <div className="cta-register-card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
@@ -101,6 +106,21 @@ function HomePage() {
                 </div>
               </div>
             </section>
+            }
+            {/* CTA Register Banner */}
+            { token && 
+            <section className="cta-register">
+              <div className="banner w-100 d-flex justify-content-center pt-5">
+                <div className="cta-register-card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
+                    <h2 className="mb-2">Go to Dashboard</h2>
+                    <p className="fs-5 mb-2">See how your journey has bloomed.</p>
+                    <Link to="/dashboard" className="btn-action mt-3">
+                        Explore
+                    </Link>
+                </div>
+              </div>
+            </section>
+            }
         </div>
       </section>
 
