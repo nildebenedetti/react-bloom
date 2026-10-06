@@ -155,8 +155,8 @@ function RecordsPage() {
     const hasActiveFilters = selectedCategories.length > 0 || selectedTiers.length > 0;
 
     return <>
-        <section className="feed w-100">
-            <div className="feed-meadow-container px-4 pb-5 pt-3">
+        <section className="feed feed-meadow-container flex-grow-1">
+            <div className=" px-4 pb-5 pt-3">
                 <div className="container-fluid py-3 mb-3">
                     <h2 className="feed-title">Your Records</h2>
                     <p className="feed-subtitle">Here are your happy memories. <br/> Enjoy your stay!</p>
