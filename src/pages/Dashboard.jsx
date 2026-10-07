@@ -118,10 +118,14 @@ function Dashboard() {
                         {/* Pie Chart - RECORDS DISTRIBUTION ACROSS CATEGORIES */}
                             
                         <div className="top-wrapper d-flex flex-column flex-lg-row mb-5 gap-2 mt-lg-2">
-                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
+                            {/* w-100 + flex-lg-fill: both columns get the same flex base,
+                                so the row splits 50/50 instead of following content width */}
+                            <div className="w-100 flex-lg-fill">
+                                { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
+                            </div>
                         
                         
-                        <div className="bottom-wrapper mt-sm-5 mt-md-2">
+                        <div className="bottom-wrapper w-100 flex-lg-fill">
                             {/* Area Chart - VELOCITY VS. IMPACT */}
                             { isLoading ? ( <div><p>Chart is loading...</p></div> ) : <VelocityImpactAreaChart rawData={chartsData?.charts?.area} /> }
                         </div>
