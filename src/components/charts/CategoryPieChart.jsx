@@ -1,5 +1,5 @@
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
-import { getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
+import { CATEGORY_COLORS, CATEGORY_PALETTE, getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
 import useTheme from '../../hooks/useTheme.js';
 
 function CategoriesPieChart( { rawData = [], title = "Categories Distribution" }) {
@@ -12,7 +12,7 @@ function CategoriesPieChart( { rawData = [], title = "Categories Distribution" }
     const unknownColor = getUnknownCategoryColor(theme);
 
     const pieData = rawData.map (item => {
-        // lookup if I can find the map 
+        // lookup category name in category colors map
         const foundCat = categoryColors.find( cat => cat.name.toLocaleLowerCase() === item.category?.toLocaleLowerCase()
         );
         // prepare data: if found use those otherwise insert fallback 0 count and neutral color

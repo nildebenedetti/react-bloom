@@ -3,6 +3,7 @@ import { NavLink } from "react-router";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import CategoriesPieChart from "../components/charts/CategoryPieChart.jsx";
+import VelocityImpactAreaChart from "../components/charts/VelocityImpactAreaChart.jsx";
 
 
 function Dashboard() {
@@ -114,10 +115,12 @@ function Dashboard() {
                             { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
 
                         {/* Area Chart - VELOCITY VS. IMPACT */}
+                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : <VelocityImpactAreaChart rawData={chartsData?.charts?.area} /> }
                     </div>
                 </div>
             </section>
         </div>
+        {JSON.stringify(chartsData)}
     </>
 }
 
