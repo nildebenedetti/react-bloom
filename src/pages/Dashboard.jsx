@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import CategoriesPieChart from "../components/charts/CategoryPieChart.jsx";
@@ -81,15 +81,10 @@ function Dashboard() {
                 </div> 
             </div>   
             </section>
-        {/* navigation to My Records & Emotion Prism Views */}
-        <section className="cockpit-nav">
-            <p className="cockpit py-4">navigation placeholder</p>
-            <button className="btn-action">My Records</button>
-            <button className="btn-action ms-2">Emotion Prism</button>
-        </section>
             {/* charts */}
             <section className="charts mt-4">
-                <div className="period-select-wrapper">
+                <div className="period-select-wrapper d-flex justify-content-between">
+                        {/* period select */}
                             <div className="select-group d-flex flex-column align-items-start">
                                 <label htmlFor="time_range" className="pb-1">
                                     Select period
@@ -102,6 +97,12 @@ function Dashboard() {
                                     <option value="all_time">All</option>
                                     <option value="last_six_months">Last 6 Months</option>
                                 </select>
+                            </div>
+                            {/* navigation to My Records */}
+                            <div className="btn-to-my-records">
+                                <Link to="/my-records" className="btn-action">
+                                    Got to My Records
+                                </Link>
                             </div>
                     </div>
                 
