@@ -414,21 +414,6 @@
   height: 50px;
 }
 
-/* The frosted bar sits over content, so give the navbar its own text colours
-   instead of relying on Bootstrap's, which assume a solid background.
-   The resting label is the brand blue; "you are here" is deliberately NOT blue.
-   Every blue tried here failed for a different reason:
-     --bloom-accent #85b6ff → 1.97:1  a TINT, unusable as text, and it washed
-                                     out to weaker than resting
-     --bloom-action #2f6fd0 → 4.6:1  readable, but still read as "a blue link"
-                                     rather than as a location
-   So active and hover go neutral, to the theme's strongest text tone — which is
-   also what Bootstrap uses for its own active nav link. Measured on the glass
-   (#f6fafc = white .5 over the #eef4f8 page, #18222f for the dark one):
-     light  --bloom-title #2f599e 6.6:1  →  emphasis #0f172a 17.0:1
-     dark   --bloom-title #93c5fd 8.9:1  →  emphasis #f8fafc 15.3:1
-   Hover and active are the same colour on purpose; the underline and the weight
-   are what say "here". */
 .navbar .nav-link {
   color: var(--bloom-title) !important;
 }
@@ -463,9 +448,39 @@
 }
 
 
+/* ================= * CHARTS =========================== */
+
+/* labels & axis ticks */
+.recharts-pie-label-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-polar-angle-axis-tick-value,
+.recharts-polar-radius-axis-tick-value {
+  fill: var(--bs-body-color);
+}
+
+/* axis rules and tick marks */
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line,
+.recharts-polar-angle-axis-line,
+.recharts-polar-angle-axis-tick-line,
+.recharts-polar-radius-axis-line {
+  stroke: var(--bs-body-color);
+}
+
+/* radar grid — .recharts-polar-grid-angle is a <g> ( = SVG group tag): 
+ * its <line> children carry their own stroke attribute, 
+ * so they must be targeted directly. */
+.recharts-polar-grid-angle line,
+.recharts-polar-grid-concentric-circle,
+.recharts-polar-grid-concentric-polygon {
+  stroke: var(--bs-body-color);
+  opacity: 0.4;
+}
+
+
 /* ============================================================================
  * UTILITIES
- * Token-driven, so they are safe in both themes.
+ * Token-driven, safe in both themes.
  * ========================================================================== */
 
 .title-color {
@@ -484,7 +499,3 @@
   text-align: justify;
 }
 
-/* <main> has no justify-content, so a short child needs this to centre */
-.page-fill {
-  flex-grow: 1;
-}
