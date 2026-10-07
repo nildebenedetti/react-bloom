@@ -2,7 +2,7 @@ import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
 import { CATEGORY_COLORS, CATEGORY_PALETTE, getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
 import useTheme from '../../hooks/useTheme.js';
 
-function CategoriesPieChart( { rawData = [], title = "Categories Distribution" }) {
+function CategoriesPieChart( { rawData = [], title = "Records by Category" }) {
 
     /* The slices are SVG fills, so they cannot read the CSS tokens — this is
      * the reason the palette is exported as JS (PRD §3.1). The set is picked
@@ -35,19 +35,22 @@ function CategoriesPieChart( { rawData = [], title = "Categories Distribution" }
         );
     }
 
-    return <div style={{ width: '100%', height: 240 }}>
-        {title && <h4 className="text-center">{title}</h4>}
-        <ResponsiveContainer className="w-100 h-100">
-            <PieChart>
+    // auto-height wrapper: title + subtitle stay in flow above the chart instead
+    // of being pushed past the box; the chart keeps its own 240px.
+    return <div style={{ width: '100%' }}>
+        {title && <h4 className="text-center mt-3">{title}</h4>}
+        <p className="text-muted small mb-3 text-center">
+            How your Records are split across Categories
+        </p>
+        <ResponsiveContainer className="w-100" height={240}>
+            <PieChart margin={{ top: 0, right: 30, bottom: 60, left: 30}}>
                 <Pie 
                     data={pieData}
                     dataKey="value" // which key contains the number to be represented
                     nameKey="name" // name label
-                    startAngle={180}
-                    endAngle={0}
                     cx="50%" //center x
-                    cy="80%" // center y
-                    outerRadius="110%"
+                    cy="60%" // center y
+                    outerRadius="65%"
                     label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                 />
             </PieChart>

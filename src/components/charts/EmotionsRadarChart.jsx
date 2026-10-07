@@ -10,7 +10,7 @@
     import { EMOTIONS, lightColor, darkColor } from "../utils/emotions.js";
     import useTheme from "../../hooks/useTheme.js";
 
-    function EmotionsRadarChart({ rawData = [], title = "Emotions Distribution" }) {
+    function EmotionsRadarChart({ rawData = [], title = "Emotions Overview" }) {
     const { theme } = useTheme();
     const radarColor = theme === "dark" ? darkColor : lightColor;
 
@@ -35,7 +35,7 @@
         return {
         name: emotion.label,
         // the value corresponding to record count or zero if not present in records
-        value: emotionCounts[emotion.id.toLowerCase()] || 0,
+        value: emotionCounts[key] || 0,
         };
     });
 
@@ -52,19 +52,17 @@
         );
     }
 
+    // wrapper auto-height: title + subtitle stay in normal flow above the chart
+    // (no overflow onto the neighbouring chart) and the chart keeps its full
+    // 350px, declared on ResponsiveContainer instead of a percentage of the box.
     return (
-        <div
-        style={{
-            width: "100%",
-            height: "100%",
-            maxWidth: "500px",
-            maxHeight: "80vh",
-            aspectRatio: 1,
-        }}
-    >
-        <ResponsiveContainer className="w-100 h-100">
-            { title && <h4 className="text-center">{title}</h4> }
-            <RadarChart data={radarData}>
+        <div style={{ width: "100%" }}>
+        {title && <h4 className="text-center mt-3">{title}</h4>}
+        <p className="text-muted small mb-3 text-center">
+            How many times each Emotion shows up in your Records
+        </p>
+        <ResponsiveContainer className="w-100" height={350}>
+            <RadarChart data={radarData} margin={{ top:0, right: 30, bottom: 20, left: 30}}>
             <PolarGrid />
                 <PolarAngleAxis dataKey="name"/>
                 <PolarRadiusAxis allowDecimal="false" />

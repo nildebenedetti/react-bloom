@@ -449,14 +449,38 @@
 
 
 /* ================= * CHARTS =========================== */
-.recharts-pie-label-text {
+
+/* labels & axis ticks */
+.recharts-pie-label-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-polar-angle-axis-tick-value,
+.recharts-polar-radius-axis-tick-value {
   fill: var(--bs-body-color);
+}
+
+/* axis rules and tick marks */
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line,
+.recharts-polar-angle-axis-line,
+.recharts-polar-angle-axis-tick-line,
+.recharts-polar-radius-axis-line {
+  stroke: var(--bs-body-color);
+}
+
+/* radar grid — .recharts-polar-grid-angle is a <g> ( = SVG group tag): 
+ * its <line> children carry their own stroke attribute, 
+ * so they must be targeted directly. */
+.recharts-polar-grid-angle line,
+.recharts-polar-grid-concentric-circle,
+.recharts-polar-grid-concentric-polygon {
+  stroke: var(--bs-body-color);
+  opacity: 0.4;
 }
 
 
 /* ============================================================================
  * UTILITIES
- * Token-driven, so they are safe in both themes.
+ * Token-driven, safe in both themes.
  * ========================================================================== */
 
 .title-color {
@@ -475,7 +499,3 @@
   text-align: justify;
 }
 
-/* <main> has no justify-content, so a short child needs this to centre */
-.page-fill {
-  flex-grow: 1;
-}

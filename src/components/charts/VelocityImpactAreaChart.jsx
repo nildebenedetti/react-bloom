@@ -4,7 +4,7 @@ import { generateMonthsRange } from '../utils/functions.js';
 import useTheme from '../../hooks/useTheme.js';
 
 
-function VelocityImpactAreaChart({ rawData = [], title = "Velocity vs. Impact"}) {
+function VelocityImpactAreaChart({ rawData = [], title = "Monthly Activity by Tier"}) {
     const { theme } = useTheme();
     const tierColors = getTierColors(theme);
     const unknownColor = getUnknownTierColor(theme);
@@ -51,10 +51,15 @@ function VelocityImpactAreaChart({ rawData = [], title = "Velocity vs. Impact"})
     })
 
 
-    return <div style={{ width: '100%', height: 350 }}>
-        {title && <h4 className="text-center">{title}</h4>}
-        <ResponsiveContainer>
-            <AreaChart data={areaData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+    // auto-height wrapper: title + subtitle stay in flow above the chart instead
+    // of being pushed past the box; the chart keeps its own 400px.
+    return <div style={{ width: '100%' }}>
+        {title && <h4 className="text-center mt-3">{title}</h4>}
+        <p className="text-muted small mb-3 text-center">
+            How many records you created each month, split by tier
+        </p>
+        <ResponsiveContainer className="w-100" height={400}>
+            <AreaChart data={areaData} margin={{ top: 10, right: 30, left: -20, bottom: 80 }}>
                 <XAxis dataKey="month"/>
                 <YAxis allowDecimals={false}/>
                 <Tooltip />

@@ -106,20 +106,28 @@ function Dashboard() {
                     </div>
                 
                 <div className="charts-container glass-card p-4 mt-2 mb-4">
-                    <div className="row row-cols row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
+                    <div className="d-flex flex-column">
+
                         {/* Spider Chart - EMOTION DISTRIBUTION ACROSS RECORDS */}
-                        { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <EmotionsRadarChart rawData={chartsData?.charts?.spider} /> ) }
+                            
+
+                            { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <EmotionsRadarChart rawData={chartsData?.charts?.spider} /> ) }
+                        </div>
+                        
                         {/* Pie Chart - RECORDS DISTRIBUTION ACROSS CATEGORIES */}
                             
+                        <div className="top-wrapper d-flex flex-column flex-lg-row mb-5 gap-2 mt-lg-2">
                             { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
-
-                        {/* Area Chart - VELOCITY VS. IMPACT */}
+                        
+                        
+                        <div className="bottom-wrapper mt-sm-5 mt-md-2">
+                            {/* Area Chart - VELOCITY VS. IMPACT */}
                             { isLoading ? ( <div><p>Chart is loading...</p></div> ) : <VelocityImpactAreaChart rawData={chartsData?.charts?.area} /> }
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
-        {JSON.stringify(chartsData)}
     </>
 }
 
