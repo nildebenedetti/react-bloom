@@ -1,5 +1,6 @@
-import { Area, AreaChart, CartesianGrid, createHorizontalChart, Tooltip, XAxis, YAxis, ResponsiveContainer, Legend} from 'recharts';
+import { Area, AreaChart, Tooltip, XAxis, YAxis, ResponsiveContainer, Legend} from 'recharts';
 import { TIER_COLORS, TIER_COLORS_DARK, UNKNOWN_TIER_COLOR, UNKNOWN_TIER_COLOR_DARK, getTierColors, getUnknownTierColor} from "../utils/tier.js";
+import { generateMonthsRange } from '../utils/functions.js';
 import useTheme from '../../hooks/useTheme.js';
 
 
@@ -8,10 +9,37 @@ function VelocityImpactAreaChart({ rawData = [], title = "Velocity vs. Impact"})
     const tierColors = getTierColors(theme);
     const unknownColor = getUnknownTierColor(theme);
 
-    const areaData = rawData.map( (item) => {
+    // if empty
+    if (rawData.length === 0) {
+        return (
+            <div className="text-center py-4">
+                <p className="text-muted small mb-0">No data avaiilable for the selected period.</p>
+            </div>
+        );
+    }
+
+    const sortedData = [...rawData].sort((a,b) => a.month.localeCompare(b.month));
+    
+    const startMonth = sortedData[0].month;
+    const endMonth = sortedData[sortedData.length - 1].month;
+
+    // generate month range
+    const fullMonthRange = generateMonthsRange(startMonth, endMonth);
+
+    // all existing months
+    const sortedDataByMonth = {};
+
+    sortedData.forEach( (item) => {
+        // create a new entry with key === item.month and value item, which is data
+        sortedDataByMonth[item.month] = item;
+    })
+
+    const areaData = fullMonthRange.map( (monthString) => {
+        // create an item for each monthString, adding data if present in sortedDataByMonth
+        const item = sortedDataByMonth[monthString] || {};
         // Rechart required format - iterating each item
         // we assign month as per item
-        const formattedItem = { month: item.month};
+        const formattedItem = { month: monthString};
 
         // we add all tiers IDs and assign either the count or 0
         tierColors.forEach( (tier) => {
@@ -22,14 +50,6 @@ function VelocityImpactAreaChart({ rawData = [], title = "Velocity vs. Impact"})
 
     })
 
-    // if empty
-    if (areaData.length === 0) {
-        return (
-            <div className="text-center py-4">
-                <p className="text-muted small mb-0">No data avaiilable for the selected period.</p>
-            </div>
-        );
-    }
 
     return <div style={{ width: '100%', height: 350 }}>
         {title && <h4 className="text-center">{title}</h4>}
