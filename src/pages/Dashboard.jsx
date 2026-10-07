@@ -4,6 +4,7 @@ import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import CategoriesPieChart from "../components/charts/CategoryPieChart.jsx";
 import VelocityImpactAreaChart from "../components/charts/VelocityImpactAreaChart.jsx";
+import EmotionsRadarChart from "../components/charts/EmotionsRadarChart.jsx";
 
 
 function Dashboard() {
@@ -102,14 +103,12 @@ function Dashboard() {
                                     <option value="last_six_months">Last 6 Months</option>
                                 </select>
                             </div>
-                    
-
-                </div>
+                    </div>
                 
                 <div className="charts-container glass-card p-4 mt-2 mb-4">
                     <div className="row row-cols row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
                         {/* Spider Chart - EMOTION DISTRIBUTION ACROSS RECORDS */}
-
+                        { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <EmotionsRadarChart rawData={chartsData?.charts?.spider} /> ) }
                         {/* Pie Chart - RECORDS DISTRIBUTION ACROSS CATEGORIES */}
                             
                             { isLoading ? ( <div><p>Chart is loading...</p></div> ) : ( <CategoriesPieChart rawData={ chartsData?.charts?.pie } /> )}
