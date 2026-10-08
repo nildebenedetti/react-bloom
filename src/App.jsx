@@ -11,6 +11,7 @@ import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import RecordsPage from "./pages/RecordsPage.jsx";
 import EmotionPrism from "./pages/EmotionPrism.jsx";
+import ShowRecord from "./pages/ShowRecord.jsx";
 
 
 
@@ -32,6 +33,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/my-records" element={<RecordsPage />} />
+                <Route path="/my-records/:id" element={<ShowRecord />} />
               </Route>
               <Route path="/emotion-prism" element={<EmotionPrism />} />
 
