@@ -37,9 +37,7 @@ function RecordModal({ record }) {
 
                     <div className={styles.body}>
                         {/* `key` forces a remount when the selected record
-                            changes, which resets per-record state — chiefly
-                            "this image 404ed" — instead of carrying it over to
-                            a record that never had a broken image. */}
+                            changes, which resets per-record state */}
                         {record && <RecordDetailBody key={record.id} record={record} />}
                     </div>
                 </div>
