@@ -53,6 +53,9 @@ function RecordsPage() {
      * reset in the same handler that changes the filter. */
     const toggleCategory = (id) => {
         setSelectedCategories(prev => {
+            if (prev.length === 0) {
+            return [id];
+            }
             // if included, filter current array. and remove, else, add at the end of curr array values
             const next = prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
 
@@ -68,14 +71,18 @@ function RecordsPage() {
     const toggleTier = (id) => {
         setSelectedTiers(prev => {
             // same shape as toggleCategory: remove if present, else append
-            const next = prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id];
+            if (prev.length === 0) {
+            return [id];
+            }
+
+            const next = prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id]
 
             if (next.length === TIER_CHIPS.length) {
                 return [];
                 }
 
                 return next;
-        })
+        });
         setPage(1);
     };
 
@@ -305,6 +312,8 @@ function RecordsPage() {
         the whole document — a modal nested in a single card would work, but
         only by being duplicated into every other card. */}
         <RecordModal record={openRecord} />
+
+        {/* Create Modal */}
     </>;
 }
 export default RecordsPage;
