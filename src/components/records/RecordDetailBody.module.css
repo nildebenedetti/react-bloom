@@ -1,7 +1,7 @@
 
 
 .detail {
-    max-width: 44rem;
+    margin-top: 1.25rem;
 }
 
 .tier {
@@ -28,6 +28,7 @@
     color: var(--bloom-title);
     font-weight: 700;
     letter-spacing: -0.02em;
+    margin-top: 0.75rem;
 }
 
 /* --- Meta line (author · date · category) ----------------------------------- */
@@ -58,7 +59,7 @@
 }
 
 .image {
-    max-height: 26rem;
+    max-height: 50rem;
     object-fit: cover;
 }
 
