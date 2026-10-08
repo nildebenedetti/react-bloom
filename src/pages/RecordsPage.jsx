@@ -47,7 +47,7 @@ function RecordsPage() {
         name: label,
     }));
 
-    // ========= toggle Cateories & Tiers =================
+    // ========= toggle Categories & Tiers =================
 
     /* A new selection invalidates every page already loaded, so the page is
      * reset in the same handler that changes the filter. */
@@ -58,7 +58,7 @@ function RecordsPage() {
         );
         setPage(1);
     };
-
+    
     const toggleTier = (id) => {
         setSelectedTiers(prev =>
             // same shape as toggleCategory: remove if present, else append
@@ -66,6 +66,7 @@ function RecordsPage() {
         );
         setPage(1);
     };
+
 
     /* ========= sort toggle ======================== */
     const handleSortToggle = () => {
@@ -88,10 +89,10 @@ function RecordsPage() {
                         /* An empty selection is sent as `undefined`, which
                          * fetchData drops entirely — so "nothing selected"
                          * produces a clean unfiltered URL rather than
-                         * `category_ids[]=`, which the server would have to
+                         * `category_id[]=`, which the server would have to
                          * special-case as an empty value. */
-                        category_ids: selectedCategories.length > 0 ? selectedCategories : undefined,
-                        tier_ids: selectedTiers.length > 0 ? selectedTiers : undefined,
+                        category_id: selectedCategories.length > 0 ? selectedCategories : undefined, // singular category_id[] to match backend
+                        tier_id: selectedTiers.length > 0 ? selectedTiers : undefined,  // singular tier_id[] to match backend
                         search: searchTerm.length > 0 ? searchTerm : undefined,
                         /* Unlike the filters this one is always sent: the server
                          * sorts by `date` and falls back to `desc` for anything it
@@ -155,7 +156,7 @@ function RecordsPage() {
     const hasActiveFilters = selectedCategories.length > 0 || selectedTiers.length > 0;
 
     return <>
-        <section className="feed feed-meadow-container flex-grow-1">
+        <section className="feed feed-meadow-container flex-grow-1 w-100">
             <div className=" px-4 pb-5 pt-3">
                 <div className="container-fluid py-3 mb-3">
                     <h2 className="feed-title">Your Records</h2>
@@ -189,14 +190,13 @@ function RecordsPage() {
                 <div className="tiers-chips mb-3 d-flex flex-wrap gap-2">
                     <span className="feed-subtitle text-muted fw-bold w-100">Tiers:</span>
                     {TIER_CHIPS.map( (tier) => {
-                        const isSelected = selectedTiers.includes(tier.id);
-
+                        const isSelected = selectedTiers.includes(tier.id+1); // tiers array is working on index, but we are looking for correspondance with index in db
                         return <button
-                                    key={tier.id}
+                                    key={tier.id} // tiers array is working on index, but we are looking for correspondance with index in db
                                     type="button"
                                     /* Same off/on split as the category chips. */
                                     className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
-                                    onClick={ () => toggleTier(tier.id) }
+                                    onClick={ () => toggleTier(tier.id+1) }
                         >
                             {tier.name}
                         </button>

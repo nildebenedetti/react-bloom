@@ -10,7 +10,7 @@ import { TagFill } from 'react-bootstrap-icons';
 function RecordDetailBody({ record }) {
     const { attributes, relationships } = record;
 
-    const tier = TIERS[attributes.tier?.id];
+    const tier = TIERS[attributes.tier?.id-1]; // as backend returns id and we are moving with array index, we need to sub 1 from received value (!!!)
 
     const date = useMemo(() => formatRecordDate(attributes.date), [attributes.date]);
 

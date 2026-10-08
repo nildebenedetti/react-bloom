@@ -15,8 +15,9 @@ function MeadowCard({ record, onOpen }) {
 
     /* Shared with the detail view, so the icon a card shows and the name the
      * modal spells out cannot drift apart. */
-    const tier = TIERS[record.attributes.tier?.id];
+    const tier = TIERS[record.attributes.tier?.id-1]; // as backend returns id and we are moving with array index, we need to sub 1 from received value (!!!)
 
+    
      /*
      * Memoized: the fallback is random, so without this the placeholder would reshuffle the card on every
      * re-render of the parent grid. It only re-runs when `image_path` changes or
