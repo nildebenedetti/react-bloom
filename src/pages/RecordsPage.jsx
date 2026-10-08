@@ -68,6 +68,18 @@ function RecordsPage() {
     };
 
 
+    // ========= Reset Categories & Tiers =================
+    const resetCategories = () => {
+
+        setSelectedCategories([]);
+        
+    }
+
+    const resetTiers = () => {
+
+    setSelectedTiers([]);
+    
+    }
     /* ========= sort toggle ======================== */
     const handleSortToggle = () => {
         setSortOrder( prev => prev === 'desc' ? 'asc' : 'desc');
@@ -166,6 +178,11 @@ function RecordsPage() {
                 {/* All categories chips */}
                 <div className="categories-chips mb-3 d-flex flex-wrap gap-2">
                     <span className="feed-subtitle text-muted fw-bold w-100">Categories:</span>
+                    <button
+                        type="button"
+                        onClick={resetCategories}
+                        className={`glass-chip ${( selectedCategories.length === 0 ) ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
+                        >All</button>
                     {CATEGORIES.map( (category) => {
                         const isSelected = selectedCategories.includes(category.id);
 
@@ -189,6 +206,11 @@ function RecordsPage() {
                 {/* All tiers chips */}
                 <div className="tiers-chips mb-3 d-flex flex-wrap gap-2">
                     <span className="feed-subtitle text-muted fw-bold w-100">Tiers:</span>
+                        <button
+                            type="button"
+                            onClick={resetTiers}
+                            className={`glass-chip ${( selectedTiers.length === 0 ) ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
+                            >All</button>
                     {TIER_CHIPS.map( (tier) => {
                         const isSelected = selectedTiers.includes(tier.id+1); // tiers array is working on index, but we are looking for correspondance with index in db
                         return <button
