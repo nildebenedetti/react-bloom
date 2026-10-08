@@ -52,18 +52,30 @@ function RecordsPage() {
     /* A new selection invalidates every page already loaded, so the page is
      * reset in the same handler that changes the filter. */
     const toggleCategory = (id) => {
-        setSelectedCategories(prev =>
+        setSelectedCategories(prev => {
             // if included, filter current array. and remove, else, add at the end of curr array values
-            prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
-        );
+            const next = prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
+
+            if (next.length === CATEGORIES.length) {
+                return [];
+            }
+
+            return next;
+    });
         setPage(1);
     };
     
     const toggleTier = (id) => {
-        setSelectedTiers(prev =>
+        setSelectedTiers(prev => {
             // same shape as toggleCategory: remove if present, else append
-            prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id]
-        );
+            const next = prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id];
+
+            if (next.length === TIER_CHIPS.length) {
+                return [];
+                }
+
+                return next;
+        })
         setPage(1);
     };
 
