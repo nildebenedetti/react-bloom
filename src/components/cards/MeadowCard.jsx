@@ -15,7 +15,7 @@ function MeadowCard({ record, onOpen }) {
 
     /* Shared with the detail view, so the icon a card shows and the name the
      * modal spells out cannot drift apart. */
-    const tier = TIERS[record.attributes.tier?.id];
+    const tier = TIERS[record.attributes.tier?.id-1]; // as we are working on index in array
 
     
      /*
