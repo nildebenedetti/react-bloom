@@ -410,9 +410,15 @@
 
 /* --- Navbar / footer ------------------------------------------------------- */
 
+/* style fixed dimensions of Logo to prevent logo crash on modal open*/
 .navbar-logo {
-  height: 50px;
+  height: 50px;      
+  width: auto;
+  max-height: 100%;
+  flex-shrink: 0;    
+  object-fit: contain;
 }
+
 
 .navbar .nav-link {
   color: var(--bloom-title) !important;
@@ -438,7 +444,8 @@
 }
 
 .dropdown-menu .dropdown-item.active,
-.dropdown-menu .dropdown-item:active {
+.dropdown-menu .dropdown-item:a
+ctive {
   background-color: rgba(0, 0, 0, 0.08) !important; /* Oppure 'transparent' */
   color: var(--bs-emphasis-color) !important;
   font-weight: 600;

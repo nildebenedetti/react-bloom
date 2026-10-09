@@ -22,6 +22,11 @@ body {
   padding-top: var(--bloom-header-height);
 }
 
+/* REMOVE BOOTSTRAP PADDING when modal opens to prevent logo crash*/
+body.modal-open {
+  padding-right: 0 !important;
+}
+
 /* LIGHT MODE - background meadow feed */
 html[data-bs-theme="light"] .feed-meadow-container {
   background-image: url('/images/backgrounds/meadow-bg-light.png');
