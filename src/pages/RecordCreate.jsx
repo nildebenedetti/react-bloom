@@ -129,8 +129,27 @@ function RecordCreate() {
             </select>
             
         </div>
+        {/* Image Section */}
+        <p className="fw-medium fs-4">Add Image </p>
+        <p className="fw-medium fs-5">If you wish, add an image to your Record.</p>
+        <label htmlFor="image_path" className="form-label fs-5 fst-italic">Choose Image</label>
+        <input type="file"
+                name="iamge_path"
+                id="image_path"
+                accept="image/*"
+                className="form-control mt-2 mb-3"
+                onChange={(e) => {
+                    const file = e.target.files[0]
+                    if (file) {
+                        setFormData( (prev) => ({
+                            ...prev,
+                            image_path: file,
+                        }));
+                    }
+                }}
+                />
 
-        {/* Image Description */}
+        {/* Image Alt */}
         <div className="mb-3">
             <label htmlFor="image_alt" className="form-label fw-medium fs-5">
             Add a description for your image.
