@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { TIERS } from '../components/utils/tier.js';
 import { EMOTIONS } from "../components/utils/emotions.js";
 import { CATEGORY_DEFS } from '../components/utils/categories.js'
@@ -7,17 +8,19 @@ import { fetchData, ENDPOINTS } from "../utils/api.js";
 
 function RecordCreate() {
     const navigate = useNavigate();
+    const { user } = useAuthContext();
     // construct FormData
     const [formData, setFormData] = useState({
         title: '',
         date: '',
         tier_id: '',
         category_id: '',
-        image_path: '',
+        image: '',
         image_alt: '',
         description: '',
         emotions: [],
         visibility: 'public',
+        user_id: user.id,
 
 
     });
@@ -51,13 +54,14 @@ function RecordCreate() {
         payload.append('tier_id', formData.tier_id);
         payload.append('category_id', formData.category_id);
         payload.append('description', formData.description);
+        payload.append('user_id', formData.user_id);
         // handle laravel array
         formData.emotions.forEach((emotionId) => {
             payload.append('emotions[]', emotionId);
         })
 
-        // image file + alt are optional; the API expects the FILE under `image`
-        if (formData.image_path) {
+        // image file + alt are NULLABLE
+        if (formData.image) {
             payload.append('image', formData.image_path);
         }
 
