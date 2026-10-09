@@ -13,6 +13,7 @@ import RecordsPage from "./pages/RecordsPage.jsx";
 import EmotionPrism from "./pages/EmotionPrism.jsx";
 import ShowRecord from "./pages/ShowRecord.jsx";
 import RecordCreate from "./pages/RecordCreate.jsx";
+import RecordEdit from "./pages/RecordEdit.jsx";
 
 
 
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/my-records" element={<RecordsPage />} />
                 <Route path="/my-records/:id" element={<ShowRecord />} />
                 <Route path="/my-records/add-new" element={<RecordCreate />} />
+                <Route path="/my-records/:id/edit" element={<RecordEdit />} />
                 <Route path="/emotion-prism" element={<EmotionPrism />} />
               </Route>
              

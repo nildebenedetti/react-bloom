@@ -1,35 +1,79 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useAuthContext } from "../contexts/AuthContext.jsx";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router";
 import { TIERS } from '../components/utils/tier.js';
 import { EMOTIONS } from "../components/utils/emotions.js";
 import { CATEGORY_DEFS } from '../components/utils/categories.js'
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 
-function RecordCreate() {
+
+function RecordEdit() {
+    const { id } = useParams();
     const navigate = useNavigate();
-    const { user } = useAuthContext();
-    const [ isLoading, setIsLoading] = useState(false);
     const [ errorMsg, setErrorMsg ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
     const [ fieldErrors, setFieldErrors ] = useState({});
-    // construct FormData
+
     const [formData, setFormData] = useState({
         title: '',
         date: '',
         tier_id: '',
         category_id: '',
-        image: '',
         image_alt: '',
         description: '',
         emotions: [],
         visibility: 'public',
-        user_id: user.id,
+        image: null,
     });
     
 
+    // Load data of record corresponding to ID at mount
+    // and assign to formData
+    useEffect( () => {
+
+        const loadRecord = async () => {
+
+            try {
+
+                setIsLoading(true);
+
+                const response = await fetchData(`${ENDPOINTS.private.records}/${id}`);
+
+                const { attributes } = response.data;
+
+                // The resource exposes the category NAME, not its id, so we map it
+                // back through the same CATEGORY_DEFS used to render the <select>.
+                const categoryDef = CATEGORY_DEFS.find((c) => c.name === attributes.category);
+
+                setFormData({
+                    title: attributes.title || '',
+                    date: attributes.date || '',
+                    tier_id: attributes.tier ? String(attributes.tier.id) : '',
+                    category_id: categoryDef ? String(categoryDef.id) : '',
+                    image_alt: attributes.image_alt || '',
+                    description: attributes.description || '',
+                    emotions: attributes.emotions ? attributes.emotions.map((e) => e.id) : [],
+                    visibility: attributes.visibility || 'public',
+                    image: null,
+                });
+
+            } catch (error) {
+
+                setErrorMsg(error.message);
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+
+        }
+
+        loadRecord();
+
+    }, [id]);
+
+    // change handler
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-        // for file inputs the value is a fake path string: we need the File object and will set it later on submit
+        // for file inputs the value is a fake path string: we need the File object and set it later on submit
         const nextValue = type === 'file' ? (files?.[0] || '') : value;
         setFormData((prev) => ({
             ...prev,
@@ -37,18 +81,23 @@ function RecordCreate() {
         }));
     }
 
+    // submit handler con append paylod, method PUT
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // build payload
+
         const payload = new FormData();
+
+        payload.append('_method', 'PUT');
 
         payload.append('title', formData.title);
         payload.append('date', formData.date);
         payload.append('tier_id', formData.tier_id);
         payload.append('category_id', formData.category_id);
         payload.append('description', formData.description);
-        payload.append('user_id', formData.user_id);
+
         // handle laravel array
         formData.emotions.forEach((emotionId) => {
             payload.append('emotions[]', emotionId);
@@ -72,14 +121,14 @@ function RecordCreate() {
         setErrorMsg('');
         setFieldErrors({});
 
-            try {
-                const response = await fetchData(ENDPOINTS.private.records, {
+        try {
+                const response = await fetchData(`${ENDPOINTS.private.records}/${id}`, {
                     method: 'POST',
                     body: payload,
                 })
 
-                console.log('Record created:', response);
-                navigate('/my-records');
+                console.log('Record updated:', response);
+                navigate(`/my-records/${id}`);
 
             } catch(error) {
 
@@ -94,14 +143,11 @@ function RecordCreate() {
                 setIsLoading(false);
             }
 
-
-        }
-        
-    
+    }
 
     return <>
         <section className="header px-2 pt-3 ">
-            <h2 className="title my-4 fs-1">Add Record Details</h2>
+            <h2 className="title my-4 fs-1">Edit Record Details</h2>
         </section>
         <form onSubmit={handleSubmit} className="pt-3 pb-5">
         {/* Title */}
@@ -293,4 +339,4 @@ function RecordCreate() {
         </form>
     </>
 }
-export default RecordCreate
+export default RecordEdit;

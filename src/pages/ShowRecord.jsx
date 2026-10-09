@@ -38,7 +38,7 @@ function ShowRecord() {
         loadRecord();
 
 
-    }, [ id ]);
+    }, [ id ]); // in this app is not blocking yet better put it for future implementations
 
     return <>
         <div className="container pt-3 px-1 d-flex flex-column">
@@ -54,7 +54,7 @@ function ShowRecord() {
                         <Link to="/my-records" className="btn-action">Back To All Records</Link>
                     </div>
                     <div className="right-btn-section">
-                        <Link to="/my-records/add-new" className="btn-action">Edit</Link>
+                        <Link to={`/my-records/${record.id}/edit`} className="btn-action">Edit</Link>
                         <Link to="/delete" className="btn-action ms-2">Delete</Link>
                     </div>
                 </div>
