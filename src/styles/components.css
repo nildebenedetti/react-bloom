@@ -444,8 +444,7 @@
 }
 
 .dropdown-menu .dropdown-item.active,
-.dropdown-menu .dropdown-item:a
-ctive {
+.dropdown-menu .dropdown-item:active {
   background-color: rgba(0, 0, 0, 0.08) !important; /* Oppure 'transparent' */
   color: var(--bs-emphasis-color) !important;
   font-weight: 600;
