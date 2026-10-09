@@ -30,16 +30,11 @@ function RecordCreate() {
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-        if (type === 'file') {
-            setFormData((prev) => ({
-                ...prev,
-                [name === 'image' ? 'image_path' : name]: files?.[0] || '',
-            }));
-            return;
-        }
+        // for file inputs the value is a fake path string: we need the File object
+        const nextValue = type === 'file' ? (files?.[0] || '') : value;
         setFormData((prev) => ({
             ...prev,
-            [name === 'tier' ? 'tier_id' : name]: value,
+            [name]: nextValue,
         }));
     }
 
@@ -62,7 +57,7 @@ function RecordCreate() {
 
         // image file + alt are NULLABLE
         if (formData.image) {
-            payload.append('image', formData.image_path);
+            payload.append('image', formData.image);
         }
 
         if (formData.image_alt) {
@@ -150,7 +145,7 @@ function RecordCreate() {
                 return <div key={tier.id} className="form-check form-check-inline m-0">
                 <input className="form-check-input"
                     type="radio"
-                    name="tier" 
+                    name="tier_id" 
                     id={`tier-${tier.id}`}
                     value={tier.id}
                     checked={formData.tier_id === String(tier.id)}
@@ -190,7 +185,7 @@ function RecordCreate() {
         {/* Image Section */}
         <p className="fw-medium fs-4">Add Image </p>
         <p className="fw-medium fs-5">If you wish, add an image to your Record.</p>
-        <label htmlFor="image_path" className="form-label fs-5 fst-italic">Choose Image</label>
+        <label htmlFor="image" className="form-label fs-5 fst-italic">Choose Image</label>
         <input type="file"
                 name="image"
                 id="image"
