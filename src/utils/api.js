@@ -212,9 +212,11 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
 
         // Set default Content-Type if a body exists and header isn't already defined (case-insensitive check)
         if (hasBody && !Object.keys(headers).some(key => key.toLowerCase() === 'content-type')) {
-                // Fallback to application/json format
-        headers['Content-Type'] = 'application/json';
-}
+                // Don't set JSON content-type for FormData; browser must set boundary
+                if (!(fetchOptions.body instanceof FormData)) {
+                        headers['Content-Type'] = 'application/json';
+                }
+        }
 
         // if token, we need to add a section with auth token
         if (token) {

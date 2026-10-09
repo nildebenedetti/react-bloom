@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import { Search, SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
@@ -53,6 +54,9 @@ function RecordsPage() {
      * reset in the same handler that changes the filter. */
     const toggleCategory = (id) => {
         setSelectedCategories(prev => {
+            if (prev.length === 0) {
+            return [id];
+            }
             // if included, filter current array. and remove, else, add at the end of curr array values
             const next = prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
 
@@ -68,14 +72,18 @@ function RecordsPage() {
     const toggleTier = (id) => {
         setSelectedTiers(prev => {
             // same shape as toggleCategory: remove if present, else append
-            const next = prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id];
+            if (prev.length === 0) {
+            return [id];
+            }
+
+            const next = prev.includes(id) ? prev.filter(tId => tId !== id) : [...prev, id]
 
             if (next.length === TIER_CHIPS.length) {
                 return [];
                 }
 
                 return next;
-        })
+        });
         setPage(1);
     };
 
@@ -182,10 +190,15 @@ function RecordsPage() {
     return <>
         <section className="feed feed-meadow-container flex-grow-1 w-100">
             <div className=" px-4 pb-5 pt-3">
-                <div className="container-fluid py-3 mb-3">
+                <section className="page-header-container d-flex justify-content-between mb-3">
+                <div className="container-fluid py-3">
                     <h2 className="feed-title">Your Records</h2>
                     <p className="feed-subtitle">Here are your happy memories. <br/> Enjoy your stay!</p>
                 </div>
+                <div className="btn-wrapper flex-shrink-0 align-self-end">
+                    <Link  to="/my-records/add-new" className="btn-action">Add New</Link>
+                </div>
+                </section>
                 <div className="search-wrapper">
                 {/* All categories chips */}
                 <div className="categories-chips mb-3 d-flex flex-wrap gap-2">
@@ -305,6 +318,8 @@ function RecordsPage() {
         the whole document — a modal nested in a single card would work, but
         only by being duplicated into every other card. */}
         <RecordModal record={openRecord} />
+
+        {/* Create Modal */}
     </>;
 }
 export default RecordsPage;

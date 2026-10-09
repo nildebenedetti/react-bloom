@@ -8,9 +8,12 @@ import { TagFill } from 'react-bootstrap-icons';
 
 
 function RecordDetailBody({ record }) {
-    const { attributes, relationships } = record;
+    // default to an empty object: this component is fed straight from a fetch
+    const { attributes = {}, relationships = {} } = record ?? {};
 
-    const tier = TIERS[attributes.tier?.id-1]; // as backend returns id and we are moving with array index, we need to sub 1 from received value (!!!)
+    // as backend returns id and we are moving with array index, we need to sub 1 from received value (!!!)
+    const tierId = Number(attributes.tier?.id);
+    const tier = Number.isInteger(tierId) ? TIERS[tierId -1] : undefined; // if tier is not ok, conditional rendering instead of crash
 
     const date = useMemo(() => formatRecordDate(attributes.date), [attributes.date]);
 
@@ -20,7 +23,7 @@ function RecordDetailBody({ record }) {
 
     const emotions = Array.isArray(attributes.emotions) ? attributes.emotions : [];
 
-        /*   no image_path  => NO placeholder
+    /*   no image_path      => NO placeholder
      *   image_path, loads  =>  the record's picture
      *   image_path, 404s   => placeholder. The path EXISTS but the file is not here
      */

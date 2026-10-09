@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import styles from './RecordModal.module.css';
 import RecordDetailBody from './RecordDetailBody.jsx';
 
@@ -11,7 +12,37 @@ import RecordDetailBody from './RecordDetailBody.jsx';
 
 const MODAL_ID = 'record-modal';
 
+
 function RecordModal({ record }) {
+    const navigate = useNavigate();
+
+    const recordId = record?.id;
+
+    // btn => go to detail page
+    const handleGoToDetailPage = () => {
+    
+    if (!recordId) {
+        console.error('record not found');
+        return;
+    }
+        // identify modal in DOM
+        const modalElement = document.getElementById(MODAL_ID);
+        // close modal via BootstrapJS
+        if (modalElement && window.bootstrap) {
+            const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
+            modalInstance?.hide();
+        }
+
+        // clean backdrop
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        document.querySelector('.modal-backdrop')?.remove();
+
+        navigate(`/my-records/${recordId}`);
+    };
+    
+
     return (
         <div
             className="modal fade"
@@ -26,7 +57,9 @@ function RecordModal({ record }) {
                         <h2 className="visually-hidden" id={`${MODAL_ID}-title`}>
                             {record?.attributes.title}
                         </h2>
-
+                        <div className="btn-wrapper py-4 pe-3s">
+                        <button type="button" onClick={handleGoToDetailPage} className='btn-action' data-bs-dismiss="modal">See Detail Page</button>
+                        </div>
                         <button
                             type="button"
                             className="btn-close"
@@ -37,9 +70,7 @@ function RecordModal({ record }) {
 
                     <div className={styles.body}>
                         {/* `key` forces a remount when the selected record
-                            changes, which resets per-record state — chiefly
-                            "this image 404ed" — instead of carrying it over to
-                            a record that never had a broken image. */}
+                            changes, which resets per-record state */}
                         {record && <RecordDetailBody key={record.id} record={record} />}
                     </div>
                 </div>
