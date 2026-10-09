@@ -121,6 +121,8 @@ function RecordCreate() {
             value={formData.title}
             onChange={handleChange}
             className="form-control"
+            required
+            maxLength={200}
             />
         </div>
 
@@ -136,6 +138,7 @@ function RecordCreate() {
             value={formData.date}
             onChange={handleChange}
             className="form-control"
+            required
             />
         </div>
 
@@ -152,6 +155,7 @@ function RecordCreate() {
                     value={tier.id}
                     checked={formData.tier_id === String(tier.id)}
                     onChange={handleChange}
+                    required
                 />
                 <label className="form-check-label ms-1" htmlFor={`tier-${tier.id}`}>{tier.label}</label>
                 </div>}
@@ -172,6 +176,7 @@ function RecordCreate() {
                 value={formData.category_id}
                 onChange={handleChange}
                 className={`form-select mt-2`}
+                required
             >
                 <option value="">Select a Category</option>
                 {CATEGORY_DEFS.map((cat) => (
@@ -206,6 +211,7 @@ function RecordCreate() {
             value={formData.image_alt}
             onChange={handleChange}
             className="form-control"
+            maxLength={255}
             />
         </div>
 
@@ -221,6 +227,7 @@ function RecordCreate() {
             onChange={handleChange}
             className="form-control"
             rows={6}
+            required
             ></textarea>
         </div>
 
@@ -262,7 +269,7 @@ function RecordCreate() {
         <p className="fw-medium fs-4">Visibility</p>
         <p className="fw-medium fst-italic fs-6">Select desired visibility.<br/> You can always update it later. <br/> Public Records will be added to Blooming Meadow feed!</p>
         <div className="mb-3">
-            <select id="visibility" name="visibility" value={formData.visibility} onChange={handleChange} className="form-select">
+            <select id="visibility" name="visibility" value={formData.visibility} onChange={handleChange} className="form-select" required>
             <option value="public">Public</option>
             <option value="private">Private</option>
             </select>
