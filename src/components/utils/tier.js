@@ -1,11 +1,10 @@
 import { LeafFill, AwardFill, TrophyFill, Stars } from 'react-bootstrap-icons';
 
-
 const TIERS = [
-    { id: "tier_1", label: 'Small win', Icon: LeafFill, light: "#10469E", dark: "#478AF5" },
-    { id: "tier_2", label: 'Solid step', Icon: AwardFill, light: "#0C4F79", dark: "#0C91E4" },
-    { id: "tier_3", label: 'Major milestone', Icon: TrophyFill, light: "#0A5361", dark: "#0A99B6" },
-    { id: "tier_4", label: 'Epic breakthrough', Icon: Stars, light: "#08544F", dark: "#089D94" },
+    { id: "1", label: 'Small win', Icon: LeafFill, light: "#10469E", dark: "#478AF5" },
+    { id: "2", label: 'Solid step', Icon: AwardFill, light: "#0C4F79", dark: "#0C91E4" },
+    { id: "3", label: 'Major milestone', Icon: TrophyFill, light: "#0A5361", dark: "#0A99B6" },
+    { id: "4", label: 'Epic breakthrough', Icon: Stars, light: "#08544F", dark: "#089D94" },
 ];
 
 // unknown color

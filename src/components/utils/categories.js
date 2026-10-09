@@ -43,6 +43,7 @@ export {
     ALL_CATEGORIES,
     UNKNOWN_CATEGORY_COLOR,
     UNKNOWN_CATEGORY_COLOR_DARK,
+    CATEGORY_DEFS,
     getCategoryColors,
     getUnknownCategoryColor
 };

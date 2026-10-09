@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import { Search, SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
@@ -189,10 +190,15 @@ function RecordsPage() {
     return <>
         <section className="feed feed-meadow-container flex-grow-1 w-100">
             <div className=" px-4 pb-5 pt-3">
-                <div className="container-fluid py-3 mb-3">
+                <section className="page-header-container d-flex justify-content-between mb-3">
+                <div className="container-fluid py-3">
                     <h2 className="feed-title">Your Records</h2>
                     <p className="feed-subtitle">Here are your happy memories. <br/> Enjoy your stay!</p>
                 </div>
+                <div className="btn-wrapper flex-shrink-0 align-self-end">
+                    <Link  to="/my-records/add-new" className="btn-action">Add New</Link>
+                </div>
+                </section>
                 <div className="search-wrapper">
                 {/* All categories chips */}
                 <div className="categories-chips mb-3 d-flex flex-wrap gap-2">

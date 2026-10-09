@@ -54,7 +54,7 @@ function ShowRecord() {
                         <Link to="/my-records" className="btn-action">Back To All Records</Link>
                     </div>
                     <div className="right-btn-section">
-                        <Link to="/new-record" className="btn-action">Edit</Link>
+                        <Link to="/my-records/add-new" className="btn-action">Edit</Link>
                         <Link to="/delete" className="btn-action ms-2">Delete</Link>
                     </div>
                 </div>

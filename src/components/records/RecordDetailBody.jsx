@@ -13,7 +13,7 @@ function RecordDetailBody({ record }) {
 
     // as backend returns id and we are moving with array index, we need to sub 1 from received value (!!!)
     const tierId = Number(attributes.tier?.id);
-    const tier = Number.isInteger(tierId) ? TIERS[tierId - 1] : undefined; // if tier is not ok, conditional rendering instead of crash
+    const tier = Number.isInteger(tierId) ? TIERS[tierId -1] : undefined; // if tier is not ok, conditional rendering instead of crash
 
     const date = useMemo(() => formatRecordDate(attributes.date), [attributes.date]);
 

@@ -31,7 +31,7 @@ export default function Header() {
                 <div className="container-fluid px-3">
                     {/* Brand / Logo */}
                     <NavLink className="navbar-brand fw-semibold d-flex align-items-center gap-2" to="/">
-                        <img className="navbar-logo" src="logos/bloom-logo.svg" alt="Bloom logo" />
+                        <img className="navbar-logo" src="/logos/bloom-logo.svg" alt="Bloom logo" />
                         <span>Bloom</span>
                     </NavLink>
 
