@@ -52,6 +52,7 @@ export const ENDPOINTS = {
                 logout: '/logout',
                 records: '/records',
                 dashboardStats: '/dashboard/stats',
+                prism: '/prism',
         },
 };
 /* ------------------------------------------------------------------ *
