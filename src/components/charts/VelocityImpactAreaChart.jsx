@@ -50,13 +50,12 @@ function VelocityImpactAreaChart({ rawData = [], title = "Monthly Activity by Ti
 
     })
 
-
     // auto-height wrapper: title + subtitle stay in flow above the chart instead
     // of being pushed past the box; the chart keeps its own 400px.
     return <div style={{ width: '100%' }}>
         {title && <h4 className="text-center mt-3">{title}</h4>}
         <p className="text-muted small mb-3 text-center">
-            How many records you created each month, split by tier
+            How many records you created each month, split by Tier
         </p>
         <ResponsiveContainer className="w-100" height={400}>
             <AreaChart data={areaData} margin={{ top: 10, right: 30, left: -20, bottom: 80 }}>
@@ -70,6 +69,7 @@ function VelocityImpactAreaChart({ rawData = [], title = "Monthly Activity by Ti
                                 type="monotone"
                                 dataKey={tier.id}
                                 stackId="1"
+                                stroke={tier.color}
                                 fill={tier.color}
                                 name={tier.label}                               
                             />
