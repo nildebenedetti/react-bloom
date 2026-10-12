@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import CategoriesPieChart from "../components/charts/CategoryPieChart.jsx";
 import VelocityImpactAreaChart from "../components/charts/VelocityImpactAreaChart.jsx";
 import EmotionsRadarChart from "../components/charts/EmotionsRadarChart.jsx";
+import PersonalNav from "../components/PersonalNav.jsx";
 
 
 function Dashboard() {
@@ -61,14 +62,15 @@ function Dashboard() {
     <div className=" flex-grow-1 w-100  px-4 feed-meadow-container">
             {/* Welcome section with cockpit
      */}
-        <section className="welcome-section d-flex justify-content-between align-items-start">
-            <div className="welcome-par">
+        <section className="page-header-container d-flex mb-3">
+            <div className="container-fluid py-3">
                 <h2 className="feed-title">Hi, {user.name}</h2>
-                <h5 className="feed-subtitle">
+                <p className="feed-subtitle">
                     May your bloom cherish your Soul. <br /> Enjoy your stay!
-                </h5>
+                </p>
             </div>
-            <div className="profile-overview text-end d-flex   flex-column glass-card p-3">
+            {/* ===  PROFILE INFO - left aside for future implementation
+            <div className="profile-overview text-end d-flex flex-column glass-card p-3 flex-shrink-0 align-self-start">
                 <div className="title">
                     <h5>{user.name}</h5>
                 </div>
@@ -79,7 +81,7 @@ function Dashboard() {
                 <div className="navlink">
                 <NavLink className="small fst-italic" to="/profile">My Profile</NavLink>
                 </div> 
-            </div>   
+            </div>    */}
             </section>
             {/* charts */}
             <section className="charts mt-4">
@@ -98,21 +100,7 @@ function Dashboard() {
                                     <option value="last_six_months">Last 6 Months</option>
                                 </select>
                             </div>
-                            <div className="d-flex gap-3">
-                                {/* navigation to My Records */}
-                            <div className="btn-to-my-records">
-                                <Link to="/my-records" className="btn-action">
-                                    Go to My Records
-                                </Link>
-                            </div>
-                            {/* navigation to My Records */}
-                            <div className="btn-to-my-records">
-                                <Link to="/emotion-prism" className="btn-action">
-                                    Go to Emotion Prism
-                                </Link>
-                            </div>
-
-                            </div>
+                            <PersonalNav current="/dashboard" />
                             
                     </div>
                 
