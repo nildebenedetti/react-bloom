@@ -102,7 +102,7 @@ function HomePage() {
                 <div className="cta-register-card glass-card text-center w-100 mx-3 mx-md-auto p-3 p-md-4">
                     <h2 className="mb-2">Join <span className="fst-italic fs-1">Bloom</span></h2>
                     <p className="fs-5 mb-2">Start your journal <span className="fst-italic">now</span>.</p>
-                    <button type="button" className="btn-action mt-3">Register</button>
+                    <Link to="/register" className="btn-action mt-3">Register</Link>
                 </div>
               </div>
             </section>

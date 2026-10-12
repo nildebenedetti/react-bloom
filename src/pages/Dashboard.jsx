@@ -98,12 +98,22 @@ function Dashboard() {
                                     <option value="last_six_months">Last 6 Months</option>
                                 </select>
                             </div>
-                            {/* navigation to My Records */}
+                            <div className="d-flex gap-3">
+                                {/* navigation to My Records */}
                             <div className="btn-to-my-records">
                                 <Link to="/my-records" className="btn-action">
-                                    Got to My Records
+                                    Go to My Records
                                 </Link>
                             </div>
+                            {/* navigation to My Records */}
+                            <div className="btn-to-my-records">
+                                <Link to="/emotion-prism" className="btn-action">
+                                    Go to Emotion Prism
+                                </Link>
+                            </div>
+
+                            </div>
+                            
                     </div>
                 
                 <div className="charts-container glass-card p-4 mt-2 mb-4">

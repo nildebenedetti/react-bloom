@@ -5,6 +5,7 @@ import { Search, SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
 import RecordModal from "../components/records/RecordModal.jsx";
 import { TIERS } from "../components/utils/tier.js";
+import { CATEGORY_DEFS } from "../components/utils/categories.js";
 
 function RecordsPage() {
     const  [ records, setRecords ] = useState([]);
@@ -26,20 +27,7 @@ function RecordsPage() {
 
     /* ==== categories & tiers ======================= */
    
-    const CATEGORIES = [
-        { id: 1, name: 'Career' },
-        { id: 2, name: 'Studies' },
-        { id: 3, name: 'Bonds' },
-        { id: 4, name: 'Sports' },
-        { id: 5, name: 'Cooking' },
-        { id: 6, name: 'Crafting' },
-        { id: 7, name: 'Wellness' },
-        { id: 8, name: 'Travel' },
-        { id: 9, name: 'Finance' },
-        { id: 10, name: 'Languages' },
-        { id: 11, name: 'Culture' },
-        { id: 12, name: 'Promises' },
-    ];
+    const CATEGORIES = CATEGORY_DEFS;
 
     /* Tiers are NOT duplicated here: they are derived from the shared map that
      * MeadowCard renders its icons from. */
