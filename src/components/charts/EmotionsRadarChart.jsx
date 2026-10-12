@@ -19,27 +19,32 @@
 
     // map emotions with count slot
     const emotionCounts = {};
+
     records.forEach((record) => {
         // if the record icludes emotion key, we create same key in emotionCounts with value count num
         if (record?.emotion) {
-        const key = String(record.emotion).toLowerCase();
+        const key = String(record?.emotion).toLowerCase();
         // same emotion can appear more than once: accumulate instead of overwrite
         emotionCounts[key] =
             (emotionCounts[key] || 0) + (Number(record.count) || 0);
         }
     });
 
+
     const radarData = EMOTIONS.map((emotion) => {
-        const key = emotion.id.toLowerCase();
+        const key = String(emotion.value);
+
+        // the value corresponding to record count or zero if not present in records
+        const count = emotionCounts[key] || 0;
+
         // format each emotion row
         return {
         name: emotion.label,
         // the value corresponding to record count or zero if not present in records
-        value: emotionCounts[key] || 0,
+        value: count
+        
         };
     });
-
-    console.log(radarData);
 
   // if empty
     if (radarData.length === 0) {

@@ -50,7 +50,6 @@ function VelocityImpactAreaChart({ rawData = [], title = "Monthly Activity by Ti
 
     })
 
-
     // auto-height wrapper: title + subtitle stay in flow above the chart instead
     // of being pushed past the box; the chart keeps its own 400px.
     return <div style={{ width: '100%' }}>
