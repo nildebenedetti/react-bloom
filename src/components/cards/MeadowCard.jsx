@@ -6,9 +6,11 @@ import { TIERS } from '../utils/tier.js';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
 
 function MeadowCard({ record, onOpen }) {
-    const [ love, setLove ] = useState(false);
 
     // KEPT FOR FUTURE IMPLEMENTATION
+
+    // const [ love, setLove ] = useState(false);
+
     // const heartClickHandler = () => {
     //     love === true ? setLove(false) : setLove(true);
     // }
