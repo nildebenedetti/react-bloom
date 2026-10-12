@@ -1,9 +1,14 @@
 .cardContainer {
     position: relative;
     overflow: hidden;
-    min-height: 280px;
+    min-height: 500px;
     border: none;
     border-radius: 0.5rem;
+}
+
+.cardContainer:hover {
+    box-shadow: var(--bloom-shadow-accent);
+    transform: translateY(-2px);
 }
 
 .bgImage {
@@ -22,4 +27,26 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    color: rgba(226, 232, 240, 0.68);
+    font-family: var(--bs-font-monospace);
+    padding-right: 4px;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+}
+
+/* The global reduced-motion block in index.css only names the unhashed classes,
+so it cannot reach a module class. Without this the lift still fires for
+   users who asked for it to stop. */
+@media (prefers-reduced-motion: reduce) {
+    .glassCard {
+        transition: none;
+    }
+
+    .glassCard:hover {
+        transform: none;
+    }
 }

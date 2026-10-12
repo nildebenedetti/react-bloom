@@ -8,12 +8,13 @@ import PrismCard from "../components/cards/PrismCard.jsx";
 function EmotionPrism() {
 
     const [ records, setRecords ] = useState([]);
+    const [ openRecord, setOpenRecord ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ errorMsg, setErrorMsg ] = useState(''); 
     const [ page, setPage ] = useState(1);
     const [ hasMore, setHasMore ] = useState(true);
 
-    const { token } = useAuthContext();
+    const { token, user } = useAuthContext();
 
     const loadPagedRecords = async (pageToFetch) => {
         setIsLoading(true);
@@ -57,12 +58,48 @@ function EmotionPrism() {
     }
 
     return <>
-        {records?.map( (record) => <div key={record.id} className="card-container">
-    <PrismCard record={record} />
-    </div> )}
+    <div className="flex-grow-1 w-100  px-4 feed-meadow-container">
+            {/* Welcome section with cockpit
+     */}
+        <section className="welcome-section d-flex justify-content-start align-items-start">
+            <div className="welcome-par">
+                <h2 className="feed-title">Emotion Prism</h2>
+                <h5 className="feed-subtitle">
+                    Wander through the moments that made you who you are. <br /> Let a feeling lead the way.
+                </h5>
+            </div>
+        </section>
+
+        <div className="filters d-flex justify-content-between">
+            {/* filters */}
+            <div className="emotion-chips">
+
+            </div>
+            {/* filters */}
+            <div className="order-toggle">
+
+            </div>
+        </div>
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gap-1">
+        {records?.map( (record) => <div key={record.id} className="card-container col">
+                <PrismCard record={record} />
+            </div> )}
+        </div>
+
+    {/* show more cards */}
+        { hasMore &&  
+        <div className="d-flex justify-content-center btn-wrapper py-3">
+            <button type="button"
+                className="btn-action"
+                onClick={handleShowMore}
+                disabled={isLoading}
+            >{isLoading ? 'Loading...' : 'Show More'} </button>
+        </div>}
+    </div>
     </>
 
 
 
 }
+
 export default EmotionPrism;
