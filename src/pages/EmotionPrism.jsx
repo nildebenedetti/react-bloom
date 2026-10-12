@@ -5,6 +5,7 @@ import { useAuthContext } from "../contexts/AuthContext.jsx";
 import { EMOTIONS } from "../components/utils/emotions.js";
 import { SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import PrismCard from "../components/cards/PrismCard.jsx";
+import PersonalNav from "../components/PersonalNav.jsx";
 
 function EmotionPrism() {
     const [records, setRecords] = useState([]);
@@ -99,13 +100,16 @@ function EmotionPrism() {
     return (
         <>
         <div className="flex-grow-1 w-100  px-4 feed-meadow-container">
-            <section className="welcome-section d-flex justify-content-start align-items-start">
-            <div className="welcome-par">
+            <section className="page-header-container d-flex justify-content-between mb-3">
+            <div className="container-fluid py-3">
                 <h2 className="feed-title">Emotion Prism</h2>
-                <h5 className="feed-subtitle">
+                <p className="feed-subtitle">
                 Wander through the moments that made you who you are. <br /> Let a
                 feeling lead the way.
-                </h5>
+                </p>
+            </div>
+            <div className="btn-wrapper flex-shrink-0 align-self-end">
+                <PersonalNav current="/emotion-prism" />
             </div>
             </section>
 

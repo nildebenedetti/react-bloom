@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { fetchData, ENDPOINTS } from "../utils/api.js";
 import { Search, SortNumericDown, SortNumericUp } from "react-bootstrap-icons";
 import MeadowCard from "../components/cards/MeadowCard.jsx";
+import PersonalNav from "../components/PersonalNav.jsx";
 import RecordModal from "../components/records/RecordModal.jsx";
 import { TIERS } from "../components/utils/tier.js";
 import { CATEGORY_DEFS } from "../components/utils/categories.js";
@@ -183,7 +184,8 @@ function RecordsPage() {
                     <h2 className="feed-title">Your Records</h2>
                     <p className="feed-subtitle">Here are your happy memories. <br/> Enjoy your stay!</p>
                 </div>
-                <div className="btn-wrapper flex-shrink-0 align-self-end">
+                <div className="btn-wrapper flex-shrink-0 align-self-end d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+                    <PersonalNav current="/my-records" />
                     <Link  to="/my-records/add-new" className="btn-action">Add New</Link>
                 </div>
                 </section>
