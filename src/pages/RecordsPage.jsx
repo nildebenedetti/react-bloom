@@ -186,7 +186,7 @@ function RecordsPage() {
                 </div>
                 <div className="btn-wrapper flex-shrink-0 align-self-end d-flex flex-column flex-sm-row align-items-sm-center gap-2">
                     <PersonalNav current="/my-records" />
-                    <Link  to="/my-records/add-new" className="btn-action">Add New</Link>
+                    <Link  to="/my-records/add-new" className="btn-action ms-2">Add New</Link>
                 </div>
                 </section>
                 <div className="search-wrapper">
