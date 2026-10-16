@@ -1,5 +1,5 @@
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
-import { CATEGORY_COLORS, CATEGORY_PALETTE, getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
+import { getCategoryColors, getUnknownCategoryColor } from '../utils/categories.js';
 import useTheme from '../../hooks/useTheme.js';
 
 function CategoriesPieChart( { rawData = [], title = "Records by Category" }) {
@@ -35,6 +35,16 @@ function CategoriesPieChart( { rawData = [], title = "Records by Category" }) {
         );
     }
 
+    // Calculate the sum of all values in the dataset
+    const total = pieData.reduce( (sum, item) => sum + item.value, 0);
+
+    // Create a new array with all original properties plus the calculated percentage
+    const legendItems = pieData.map( item => ({
+        ...item,
+        // Avoid division by zero: compute percentage if total > 0, otherwise default to 0
+        percent: total > 0 ? (item.value / total) * 100 : 0
+    }));
+
     // auto-height wrapper: title + subtitle stay in flow above the chart instead
     // of being pushed past the box; the chart keeps its own 240px.
     return <div style={{ width: '100%' }}>
@@ -43,20 +53,37 @@ function CategoriesPieChart( { rawData = [], title = "Records by Category" }) {
             How your Records are split across Categories
         </p>
         <ResponsiveContainer className="w-100" height={240}>
-            <PieChart margin={{ top: 0, right: 30, bottom: 60, left: 30}}>
-                <Pie 
+            <PieChart margin={{ top: 0, right: 30, bottom: 10, left: 30}}>
+                <Pie
                     data={pieData}
                     dataKey="value" // which key contains the number to be represented
                     nameKey="name" // name label
                     cx="50%" //center x
-                    cy="60%" // center y
-                    outerRadius="65%"
-                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    cy="50%" // center y
+                    outerRadius="70%"
+                    labelLine={false} // no leader lines: names live in the legend below
+                    label={false}
+                />
+                <Tooltip
+                    formatter={ (value, name) => [
+                        `${value} (${ total > 0 ? ((value / total) * 100).toFixed(0) : 0 }%)`,
+                        name
+                    ]}
                 />
             </PieChart>
         </ResponsiveContainer>
-    
-    
+
+        {/* HTML legend: flex-wrap + gap means it can never overlap, whatever
+            the number of categories. */}
+        <ul className="pie-legend mt-2 mb-0">
+            {legendItems.map( item => (
+                <li key={item.name} className="pie-legend-item">
+                    <span className="pie-legend-dot" style={{ backgroundColor: item.fill }}></span>
+                    <span className="pie-legend-name">{item.name}</span>
+                    <span className="pie-legend-percent">{item.percent.toFixed(0)}%</span>
+                </li>
+            ))}
+        </ul>
     </div>
 }
 export default CategoriesPieChart;
