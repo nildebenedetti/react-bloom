@@ -13,14 +13,9 @@ import { useAuthContext } from '../../contexts/AuthContext.jsx';
 
 const MODAL_ID = 'record-modal';
 
-
-
-
 function RecordModal({ record }) {
     const navigate = useNavigate();
     const { user } = useAuthContext();
-
-    console.log(user);
 
 
     const recordId = record?.id;

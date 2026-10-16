@@ -40,7 +40,10 @@ function MeadowCard({ record, onOpen }) {
                 <div className="d-flex justify-content-between align-items-start pb-2">
                     <div>
                         <h3 className={styles.cardTitle}>{record.attributes.title}</h3>
+                        <small className="text-muted">{record.attributes.date}</small>
+                        <br/>
                         <small className="author text-muted">by {record.relationships.user?.user_name}</small>
+
                     </div>
 
                     <div className="tier-icon">

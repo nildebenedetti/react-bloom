@@ -326,6 +326,7 @@
 .feed-subtitle {
   color: var(--bloom-on-artwork-muted);
   text-shadow: 0 0 0.6rem var(--bloom-on-artwork-halo);
+  font-size: 1.5rem;
 }
 
 /* --- Register CTA ----------------------------------------------------------
@@ -483,6 +484,43 @@
   opacity: 0.4;
 }
 
+/* pie legend — plain HTML list under the chart: flex-wrap + gap guarantees
+ * readable spacing with any number of categories (SVG slice labels overlap). */
+.pie-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1rem;
+  padding: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.pie-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  color: var(--bs-body-color);
+}
+
+.pie-legend-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pie-legend-name {
+  white-space: nowrap;
+}
+
+.pie-legend-percent {
+  color: var(--bloom-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
 
 /* ============================================================================
  * UTILITIES
@@ -491,17 +529,5 @@
 
 .title-color {
   color: var(--bloom-title);
-}
-
-.bg-light-blue {
-  background-color: var(--bloom-accent-soft);
-}
-
-.text-muted-bloom {
-  color: var(--bloom-text-muted);
-}
-
-.text-justify {
-  text-align: justify;
 }
 

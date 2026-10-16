@@ -27,17 +27,10 @@ body.modal-open {
   padding-right: 0 !important;
 }
 
-/* LIGHT MODE - background meadow feed */
-html[data-bs-theme="light"] .feed-meadow-container {
-  background-image: url('/images/backgrounds/meadow-bg-light.png');
-}
-
-/* DARK MODE - background meadow feed */
-html[data-bs-theme="dark"] .feed-meadow-container {
-  background-image: url('/images/backgrounds/meadow-bg-dark.png');
-}
-
+/* Feed meadow backdrop. The artwork is a THEME decision and lives in the token
+   block, so this rule stays theme-agnostic */
 .feed-meadow-container {
+  background-image: var(--bloom-meadow-image);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
