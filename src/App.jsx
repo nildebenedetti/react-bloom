@@ -4,6 +4,7 @@ import { AuthProvider } from "./contexts/AuthContext.jsx";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage.jsx";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Login from "./pages/Login.jsx";
@@ -28,6 +29,7 @@ function App() {
             <Route element={<MainLayout />}>
               {/* public routes */}
               <Route index element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />             
               

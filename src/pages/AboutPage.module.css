@@ -1,0 +1,127 @@
+
+
+.about {
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+  color: var(--bs-body-color);
+}
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.hero {
+  text-align: center;
+}
+
+.logo {
+  height: 64px;
+  width: auto;
+  margin-bottom: 1.75rem;
+}
+
+.tagline {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--bloom-title);
+}
+
+.abstract {
+  max-width: 34rem;
+  margin: 0 auto;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--bloom-text-muted);
+}
+
+/* --- The three invitations ------------------------------------------------ */
+
+.principles {
+  margin: 4.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+/* flex child: min-width:0 lets a long word wrap instead of forcing the row
+   wider than its container. */
+.principle {
+  min-width: 0;
+}
+
+.principleTerm {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--bloom-title);
+}
+
+.principleBody {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--bloom-text-muted);
+}
+
+/* A quiet marker so the three read as a set without boxing them in. */
+.principleTerm::after {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  margin: 0.6rem auto 0;
+  border-radius: 2px;
+  background-color: var(--bloom-accent);
+}
+
+.note {
+  margin: 4.5rem 0 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--bloom-text-muted);
+}
+
+/* --- Behind Bloom --------------------------------------------------------- */
+
+.idea {
+  margin-top: 6rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--bloom-border);
+}
+
+.sectionTitle {
+  margin: 0 0 2.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--bloom-title);
+}
+
+.body {
+  margin: 0 0 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.85;
+  color: var(--bs-body-color);
+}
+
+.body:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Closing line --------------------------------------------------------- */
+
+.closing {
+  margin: 5rem 0 0;
+  padding-top: 3rem;
+  border-top: 1px solid var(--bloom-border);
+  text-align: center;
+  font-size: clamp(1.25rem, 3vw, 1.625rem);
+  font-style: italic;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--bloom-title);
+}
