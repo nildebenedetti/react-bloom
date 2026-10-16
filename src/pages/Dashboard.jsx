@@ -66,7 +66,7 @@ function Dashboard() {
             <div className="container-fluid py-3">
                 <h2 className="feed-title">Hi, {user.name}</h2>
                 <p className="feed-subtitle">
-                    May your bloom cherish your Soul. <br /> Enjoy your stay!
+                    May your Bloom cherish your Soul. <br /> Enjoy your stay!
                 </p>
             </div>
             {/* ===  PROFILE INFO - left aside for future implementation

@@ -104,8 +104,7 @@ function EmotionPrism() {
             <div className="container-fluid py-3">
                 <h2 className="feed-title">Emotion Prism</h2>
                 <p className="feed-subtitle">
-                Wander through the moments that made you who you are. <br /> Let a
-                feeling lead the way.
+                Wander through the moments that made you who you are. <br /> Let your feelings lead the way.
                 </p>
             </div>
             <div className="btn-wrapper flex-shrink-0 align-self-end">
