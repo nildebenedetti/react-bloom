@@ -57,6 +57,9 @@ export default function Header() {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/about">About</NavLink>
                             </li>
+                            { token && <li className="nav-item">
+                                <NavLink className="nav-link" to="/dashboard">Dashboard</NavLink>
+                            </li>}
                         </ul>
 
                         {/* Auth & them toggle - RIGHT  */}
@@ -90,7 +93,7 @@ export default function Header() {
                                     { user && <>
                                     <NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink>
                                     <NavLink className="dropdown-item" to="/my-records">My Records</NavLink>
-                                    <NavLink className="dropdown-item" to="/profile">Profile</NavLink>
+                                    <NavLink className="dropdown-item" to="/emotion-prism">Emotion Prism</NavLink>
                                     
                                     
                                     <hr className="dropdown-divider" />
