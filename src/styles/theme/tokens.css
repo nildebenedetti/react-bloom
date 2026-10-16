@@ -75,11 +75,11 @@ html[data-bs-theme="light"] {
   --bs-emphasis-color: #0f172a;
   --bs-emphasis-color-rgb: 15, 23, 42;
 
-  /* muted / de-emphasised text */
+  /* muted / de-emphasised text.
+     No `-rgb` twin for these two: Bootstrap declares them but never expands
+     them, so defining one would be a token nothing can ever read. */
   --bs-secondary-color: rgba(30, 41, 59, 0.72);
-  --bs-secondary-color-rgb: 30, 41, 59;
   --bs-tertiary-color: rgba(30, 41, 59, 0.55);
-  --bs-tertiary-color-rgb: 30, 41, 59;
 
   /* surfaces & borders */
   --bs-secondary-bg: #dde7f0;
@@ -99,14 +99,12 @@ html[data-bs-theme="light"] {
 
   /* --- semantic tokens --- */
 
-  /* --bloom-on-accent is the label colour sitting ON the accent. It is navy, not
-     white: navy on #85b6ff = 8.6:1 (AAA), white on #85b6ff = 2.2:1 (fails AA). */
+  /* The accent is a TINT, never a fill: it carries links, focus rings, icons,
+     the navbar and the small underlines below, and nothing ever sits ON it as a
+     label. That is why there is no `-hover` / `-active` / `-on-accent` triplet
+     here — a control that carries text is the ACTION ramp's job (see below). */
   --bloom-accent: #85b6ff;
-  --bloom-accent-hover: #72a5f3;
-  --bloom-accent-active: #729fe8;
-  --bloom-accent-soft: #93c5fd;  /* PRD "soft sky": tints, chips, patterns */
   --bloom-accent-rgb: 133, 182, 255;
-  --bloom-on-accent: #0f172a;
 
   /* --- ACTION RAMP --------------------------------------------------------
    * Why a second ramp, when --bloom-accent already exists? Because a tint and a
@@ -222,11 +220,9 @@ html[data-bs-theme="dark"] {
   --bs-emphasis-color: #f8fafc;
   --bs-emphasis-color-rgb: 248, 250, 252;
 
-  /* muted / de-emphasised text */
+  /* muted / de-emphasised text (see the light block: no unused `-rgb` twins) */
   --bs-secondary-color: rgba(226, 232, 240, 0.75);
-  --bs-secondary-color-rgb: 226, 232, 240;
   --bs-tertiary-color: rgba(226, 232, 240, 0.5);
-  --bs-tertiary-color-rgb: 226, 232, 240;
 
   /* surfaces & borders */
   --bs-secondary-bg: #334155;
@@ -246,14 +242,10 @@ html[data-bs-theme="dark"] {
 
   /* --- semantic tokens --- */
 
-  /* Same ice blue now carries a navy label, so the button pops against cobalt
-     instead of sinking into it. */
+  /* Same ice blue, used exactly as in light mode: a tint, never a label's
+     background. Filled controls live on the ACTION ramp below. */
   --bloom-accent: #93c5fd;
-  --bloom-accent-hover: #a9d2fe;
-  --bloom-accent-active: #7fb4f7;
-  --bloom-accent-soft: #476a9e;
   --bloom-accent-rgb: 147, 197, 253;
-  --bloom-on-accent: #0f172a;
 
   /* --- ACTION RAMP --------------------------------------------------------
    * The light theme's deep-blue fill is impossible here: on cobalt, #2f6fd0
