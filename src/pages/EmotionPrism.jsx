@@ -104,8 +104,7 @@ function EmotionPrism() {
             <div className="container-fluid py-3">
                 <h2 className="feed-title">Emotion Prism</h2>
                 <p className="feed-subtitle">
-                Wander through the moments that made you who you are. <br /> Let a
-                feeling lead the way.
+                Wander through the moments that made you who you are. <br /> Let your feelings lead the way.
                 </p>
             </div>
             <div className="btn-wrapper flex-shrink-0 align-self-end">
@@ -160,15 +159,13 @@ function EmotionPrism() {
                 </button>
             </div>
             </div>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gap-1">
-            {/* fetch error */}
+
             {errorMsg && (
                 <h5>
                 Something went wrong while fetching data from the database. <br />{" "}
                 Apologies for the inconvenience. <br /> {errorMsg}
                 </h5>
             )}
-            {/* Empty state */}
             {!errorMsg && !isLoading && records.length === 0 && (
                 <h5 className="feed-subtitle">
                 {hasActiveFilters
@@ -176,6 +173,7 @@ function EmotionPrism() {
                     : "No records yet."}
                 </h5>
             )}
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center flex-grow-1">
             {/* cards */}
             {records?.map((record) => (
                 <div key={record.id} className="card-container col">
