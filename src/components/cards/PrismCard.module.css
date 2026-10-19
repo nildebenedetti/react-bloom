@@ -3,7 +3,11 @@
     overflow: hidden;
     min-height: 500px;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: var(--bloom-radius);
+    transition:
+        background-color var(--bloom-dur) var(--bloom-ease),
+        box-shadow var(--bloom-dur) var(--bloom-ease),
+        transform var(--bloom-dur-fast) var(--bloom-ease);
 }
 
 .cardContainer:hover {
@@ -18,6 +22,19 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(var(--bs-body-bg-rgb), 0.97) 0%,
+        rgba(var(--bs-body-bg-rgb), 0.78) 10%,
+        rgba(var(--bs-body-bg-rgb), 0.35) 30%,
+        rgba(var(--bs-body-bg-rgb), 0) 50%
+    );
 }
 
 .cardContent{
@@ -27,26 +44,29 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    color: rgba(226, 232, 240, 0.68);
+    color: var(--bloom-on-artwork-muted);
     font-family: var(--bs-font-monospace);
     padding-right: 4px;
+    text-shadow: 0 0 0.6rem var(--bloom-on-artwork-halo);
 }
 
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+.cardTitle {
+    color: var(--bloom-on-artwork);
+    letter-spacing: -0.02em;
+    text-shadow:
+        0 0 0.4rem var(--bloom-on-artwork-halo),
+        0 0 1rem var(--bloom-on-artwork-halo);
 }
 
 /* The global reduced-motion block in index.css only names the unhashed classes,
-so it cannot reach a module class. Without this the lift still fires for
+   so it cannot reach a module class. Without this the lift still fires for
    users who asked for it to stop. */
 @media (prefers-reduced-motion: reduce) {
-    .glassCard {
+    .cardContainer {
         transition: none;
     }
 
-    .glassCard:hover {
+    .cardContainer:hover {
         transform: none;
     }
 }

@@ -159,15 +159,13 @@ function EmotionPrism() {
                 </button>
             </div>
             </div>
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 gap-1">
-            {/* fetch error */}
+
             {errorMsg && (
                 <h5>
                 Something went wrong while fetching data from the database. <br />{" "}
                 Apologies for the inconvenience. <br /> {errorMsg}
                 </h5>
             )}
-            {/* Empty state */}
             {!errorMsg && !isLoading && records.length === 0 && (
                 <h5 className="feed-subtitle">
                 {hasActiveFilters
@@ -175,6 +173,7 @@ function EmotionPrism() {
                     : "No records yet."}
                 </h5>
             )}
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center flex-grow-1">
             {/* cards */}
             {records?.map((record) => (
                 <div key={record.id} className="card-container col">
