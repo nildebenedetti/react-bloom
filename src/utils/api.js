@@ -28,10 +28,8 @@ const API_ORIGIN = (() => {
 /* Absolute URL for a stored image, or `null` when there is nothing to show: no
  * `image_path` from the API, or no origin to build against. `null` is the
  * caller's cue to fall back to a placeholder — a broken <img> is never the
- * answer. Trimmed because the API is documented to be loose with trailing
- * whitespace on its attributes, and a blank string is an absent image, not a
- * request for the site root; leading slashes are dropped so the join below can
- * never emit a `//`. */
+ * answer, leading slashes are dropped so the join below can
+ * never emit a `//` */
 export const mediaUrl = (imagePath) => {
         const path = typeof imagePath === 'string' ? imagePath.trim().replace(/^\/+/, '') : '';
 
@@ -101,7 +99,8 @@ export const clearStoredToken = () => localStorage.removeItem(TOKEN_KEY);
  * response shapes
  * ------------------------------------------------------------------ */
 
-/* `fetch` accepts a plain object, a `Headers` instance or an array of pairs, but
+/* HEADER NORMALIZATION
+* `fetch` accepts a plain object, a `Headers` instance or an array of pairs, but
  * object spread only understands the first one. Spreading a `Headers` yields
  * nothing, which would silently drop the caller's headers. */
 const normalizeHeaders = (input) => {
@@ -118,7 +117,8 @@ const normalizeHeaders = (input) => {
         return input;
 };
 
-/* Most single-object responses arrive inside an envelope:
+/* UNWRAP ENVELOPE
+ * Most single-object responses arrive inside an envelope:
  *
  *   { "status": "Request was successful", "message": "", "data": { … } }
  *
@@ -157,7 +157,7 @@ const unwrapEnvelope = (payload) => {
  * token it is trying to replace. */
 export const fetchData = async (endpoint, options = {}) => { //options as default empty
 
-        if (!API_URL && !/^https?:\/\//i.test(String(endpoint))) {
+        if (!API_URL && !/^https?:\/\//i.test(String(endpoint))) { //   i => CASE INSENSITIVE
 
                 throw new Error('VITE_API_URL not set in .env');
         }
@@ -180,12 +180,12 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
         if (params && typeof params === 'object') {
                 const query = new URLSearchParams();
 
-                // Iterate through key-value pairs in params
+                // Iterate through key-value pairs in params and append to headings
                 for (const [key, raw] of Object.entries(params)) {
                         // Normalize single values into an array for uniform processing
                         const values = Array.isArray(raw) ? raw : [raw];
                         
-                        // Ensure array keys have '[]' suffix for multi-value params (e.g., PHP/Laravel style)
+                        // Ensure array keys have '[]' suffix for multi-value params (Laravel))
                         const name = Array.isArray(raw) && !key.endsWith('[]') ? `${key}[]` : key;
 
                         for (const value of values) {
@@ -199,7 +199,11 @@ export const fetchData = async (endpoint, options = {}) => { //options as defaul
 
                 const queryString = query.toString();
 
-                if (queryString) url += `?${queryString}`;
+                // ADD QUERY STRING TO URL
+                if (queryString)  {
+                        url += `?${queryString}`; 
+                        
+                }
         }
 
         const headers = {
