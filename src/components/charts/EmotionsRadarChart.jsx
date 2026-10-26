@@ -69,14 +69,16 @@
         <ResponsiveContainer className="w-100" height={350}>
             <RadarChart data={radarData} margin={{ top:0, right: 30, bottom: 20, left: 30}}>
             <PolarGrid />
-                <PolarAngleAxis dataKey="name"/>
+                <PolarAngleAxis dataKey="name" />
                 <PolarRadiusAxis allowDecimal="false" />
                     <Radar 
                             dataKey="value" 
                             stroke={radarColor}
                             fill={radarColor}
                             fillOpacity={0.5} />
-            <Tooltip />
+            <Tooltip
+                labelStyle={{ color: radarColor, fontWeight: 'bold', fontSize: '14px' }}
+            />
             </RadarChart>
         </ResponsiveContainer>
         </div>
