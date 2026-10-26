@@ -20,7 +20,7 @@ function MeadowCard({ record, onOpen }) {
     const tier = TIERS[record.attributes.tier?.id-1]; // as we are working on index in array
 
     
-     /*
+    /*
      * Memoized: the fallback is random, so without this the placeholder would reshuffle the card on every
      * re-render of the parent grid. It only re-runs when `image_path` changes or
      * the card mounts. */
@@ -78,11 +78,7 @@ function MeadowCard({ record, onOpen }) {
                     <button type="button" className="btn-action-outline" onClick={heartClickHandler}>
                         { love ? < HeartFill size={20}/> : <Heart size={20} />}
                     </button> */}
-                    {/* Opens the single feed-level modal, not a dialog owned by
-                        this card. Bootstrap needs `record` in state before the
-                        dialog opens, and the click is the only moment that
-                        record is identified — so `onOpen` and the data-bs
-                        attributes travel together. */}
+                    {/* INVERSION OF CONTROL - onOpen sets the open record state opening the modal in Home*/}
                     <button
                         type="button"
                         className="btn-action-outline-sm"

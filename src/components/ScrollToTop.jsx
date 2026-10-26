@@ -1,5 +1,3 @@
-// useLayoutEffect: like useEffect, but runs synchronously before 
-// browser repaint (for DOM measurements & avoiding flicker)
 import { useLayoutEffect } from "react";
 // useLocation: React Router hook that returns the current 
 // route/URL object (pathname, search, hash, state)

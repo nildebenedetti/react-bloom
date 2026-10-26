@@ -2,7 +2,7 @@ import styles from "./AboutPage.module.css";
 
 function AboutPage() {
     return (
-        <article className={styles.about}>
+        <div className={styles.about}>
             {/* Hero */}
             <header className={styles.hero}>
                 <img
@@ -11,7 +11,7 @@ function AboutPage() {
                     alt="Bloom logo"
                 />
                 <h1 className={styles.tagline}>
-                    A place to remember how far you&rsquo;ve bloomed.
+                    A place to remember how far you've bloomed.
                 </h1>
                 <p className={`${styles.abstract} fs-5 fst-italic`}>
                     Bloom is your safe space to slow the pace, take a seat on
@@ -96,7 +96,7 @@ function AboutPage() {
             </section>
 
             <p className={styles.closing}>May your Bloom cherish your Soul.</p>
-        </article>
+        </div>
     );
 }
 
