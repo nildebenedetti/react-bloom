@@ -4,14 +4,14 @@ import { Link } from "react-router";
  * out, so the same component can sit on each of them: from the Dashboard it
  * offers the two feeds, from a feed it offers the Dashboard and the other one. */
 const PERSONAL_PAGES = [
-    { to: "/dashboard", label: "Go to Dashboard" },
-    { to: "/my-records", label: "Go to My Records" },
-    { to: "/emotion-prism", label: "Go to Emotion Prism" },
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/my-records", label: "My Records" },
+    { to: "/emotion-prism", label: "Emotion Prism" },
 ];
 
 function PersonalNav({ current }) {
     return (
-        <div className="personal-nav d-flex flex-wrap align-items-center gap-3">
+        <div className="personal-nav d-flex flex-wrap align-items-center justify-content-end gap-3 mb-2">
             {PERSONAL_PAGES.filter((page) => page.to !== current).map((page) => (
                 <Link key={page.to} to={page.to} className="btn-action">
                     {page.label}
