@@ -42,7 +42,6 @@ function App() {
                 <Route path="/my-records/:id/edit" element={<RecordEdit />} />
                 <Route path="/emotion-prism" element={<EmotionPrism />} />
               </Route>
-             
 
               {/* fallback */}
               <Route path="*" element={<NotFound />} />

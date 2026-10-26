@@ -5,8 +5,7 @@ const AuthContext = createContext(null);
 
 function AuthProvider( { children } ) {
     const [ user, setUser ] = useState(null);
-    // read through the api helper: a stored "undefined" is no token, not a session
-    const [ token, setToken ] = useState( () => getStoredToken() );
+    const [ token, setToken ] = useState( () => getStoredToken() ); // checks in local storage
     const [ isLoading, setIsLoading ] = useState(true);
 
     // execute anytime the token changes
@@ -17,14 +16,17 @@ function AuthProvider( { children } ) {
             if (token) {
 
                 try {
-                    // fetch user endpoint sending current token as header
-                    const userData = await fetchData(ENDPOINTS.private.user); // the token is fetched inside fetchData
+                    // current token as header in fetchData
+                    const userData = await fetchData(ENDPOINTS.private.user); 
+
                     setUser(userData);
                 } catch (error) {
                     console.error('invalid session:', error );
+
                     setToken(null);
                     setUser(null);
-                    clearStoredToken(); // clean
+
+                    clearStoredToken(); // cleanup
                 } 
 
             }
@@ -43,7 +45,6 @@ function AuthProvider( { children } ) {
 
         window.addEventListener("auth:unauthorized", handleUnauthorized);
 
-        // cleanup
         return () => window.removeEventListener("auth:unauthorized", handleUnauthorized);
 
 

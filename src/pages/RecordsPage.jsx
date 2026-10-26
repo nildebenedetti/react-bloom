@@ -107,18 +107,9 @@ function RecordsPage() {
                 const response = await fetchData(ENDPOINTS.private.records, {
                     params: {
                         page,
-                        /* An empty selection is sent as `undefined`, which
-                         * fetchData drops entirely — so "nothing selected"
-                         * produces a clean unfiltered URL rather than
-                         * `category_id[]=`, which the server would have to
-                         * special-case as an empty value. */
-                        category_id: selectedCategories.length > 0 ? selectedCategories : undefined, // singular category_id[] to match backend
-                        tier_id: selectedTiers.length > 0 ? selectedTiers : undefined,  // singular tier_id[] to match backend
+                        category_id: selectedCategories.length > 0 ? selectedCategories : undefined, 
+                        tier_id: selectedTiers.length > 0 ? selectedTiers : undefined, 
                         search: searchTerm.length > 0 ? searchTerm : undefined,
-                        /* Unlike the filters this one is always sent: the server
-                         * sorts by `date` and falls back to `desc` for anything it
-                         * does not recognise, so sending it explicitly is what
-                         * actually makes the toggle do anything. */
                         order: sortOrder,
                     },
                 });
@@ -156,18 +147,13 @@ function RecordsPage() {
 
     // show more btn clickHandler
     const handleShowMore = () => {
-        // Advancing the page is the whole handler: the effect above sees the new
-        // value and fetches, appending because page !== 1.
+        
         setPage(prevPage => prevPage + 1);
     }
 
-    /* Search is committed, not live
-     * `preventDefault` is what stops the form doing a full page reload */
     const handleSearchSubmit = (event) => {
-        event.preventDefault();
-
-        // Trimmed, so a stray space is not searched for literally. 
-        // Submitting an empty box clears the search.
+        event.preventDefault(); 
+        
         setSearchTerm(searchInput.trim());
 
         // A new query invalidates the pages already loaded.
@@ -186,7 +172,7 @@ function RecordsPage() {
                 </div>
                 <div className="btn-wrapper flex-shrink-0 align-self-end d-flex flex-column flex-sm-row align-items-sm-center gap-2">
                     <PersonalNav current="/my-records" />
-                    <Link  to="/my-records/add-new" className="btn-action ms-2">Add New</Link>
+                    <Link  to="/my-records/add-new" className="btn-action ms-2 mb-2">Add New</Link>
                 </div>
                 </section>
                 <div className="search-wrapper">
@@ -204,12 +190,6 @@ function RecordsPage() {
                         return <button
                                     key={category.id}
                                     type="button"
-                                    /* Off = the frosted surface, on = the filled
-                                     * action button. `glass-bg` instead of
-                                     * `glass-bar`: glass-bar pins its background
-                                     * with !important to beat .navbar, which on a
-                                     * button also outranked :hover — so the label
-                                     * went white while the fill stayed glass. */
                                     className={`glass-chip ${isSelected ? 'btn-action-sm' : 'btn-action-outline-sm glass-bg'}`}
                                     onClick={ () => toggleCategory(category.id) }
                         >
@@ -284,7 +264,7 @@ function RecordsPage() {
                             ? 'No records match this search and these filters.'
                             : 'No records yet.' }</h5>
                     }
-                    {/* cards */}
+                    {/* INVERSION OF CONTROL - OnOpen is passedto card, which EXECUTES IT ON CLICK! */}
                     {records.map( (record) => {
                         return <div key={record.id} className="col">
                             <MeadowCard record={record} onOpen={ () => setOpenRecord(record) } />
@@ -303,10 +283,7 @@ function RecordsPage() {
             </div>
         </section>
 
-        {/* One modal for every card. It has to sit above the feed rather than
-        inside a card, because Bootstrap resolves `data-bs-target` against
-        the whole document — a modal nested in a single card would work, but
-        only by being duplicated into every other card. */}
+        {/* One modal for every card. Better above the feed rather than inside a card, to avoid duplication. NO conditional rendering as we need it to be present in DOM although 'sleepy'. */}
         <RecordModal record={openRecord} />
 
         {/* Create Modal */}

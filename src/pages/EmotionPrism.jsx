@@ -100,7 +100,7 @@ function EmotionPrism() {
     return (
         <>
         <div className="flex-grow-1 w-100  px-4 feed-meadow-container">
-            <section className="page-header-container d-flex justify-content-between mb-3">
+            <section className="page-header-container d-flex  flex-column flex-md-row justify-content-between mb-3">
             <div className="container-fluid py-3">
                 <h2 className="feed-title">Emotion Prism</h2>
                 <p className="feed-subtitle">
